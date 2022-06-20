@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- 移动端适配 -->
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>hello_react</title>
+	</head>
+	<body>
+		
+		<!-- 准备好一个容器 -->
+		<div id="test">
+			
+		</div>
+		<!-- 引入react核心库（注意顺序，核心库react要在dom库之前） -->
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 引入react-dom，用于支持react操作dom -->
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 引入babel，用于将jsx转为js -->
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<!-- 此处将JavaScript改成babel，含义为将jsx通过babel文件转换为JavaScript -->
+		<script type="text/babel">
+			
+			// 1、创建虚拟DOM
+			const VDOM = <h1>Hello , React</h1>;			/* 此处不写引号，因为不是字符串 */
+			// const为常量，无法（通过重新赋值）改变的，也不能被重新声明，非常类似用 let 语句定义的变量；常量在声明的时候可以使用大小写，但通常情况下全部用大写字母
+			// 2、渲染虚拟DOM到页面
+			// ReactDOM.render(虚拟DOM,容器)
+			ReactDOM.render(VDOM,document.getElementById("test"));
+			
+			// You are using the in-browser Babel transformer. Be sure to precompile your scripts for production
+			// 此警告会在安装好脚手架消失，此时为节约空间所以直接引用babel
+			
+		</script>
+		
+	</body>
+</html>

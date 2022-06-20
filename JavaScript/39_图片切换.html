@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!-- 设置样式 -->
+		<style type="text/css">
+		
+			*{
+				/* 取除默认样式 */
+				margin: 0;
+				padding: 0;
+			}
+			/* 设置div样式 */
+			#outer{
+				/* 宽度 */
+				width:400px;
+				/* 距离上边50px，居中 */
+				margin: 50px auto;
+				/* 背景色 */
+				background-color:cornflowerblue ;
+				/* 边框 */
+				padding: 10px;
+				/* 设置文本居中 */
+				text-align: center;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="outer">
+			<!-- 显示图片 -->
+			<img id="cat_image" src="img/cat02.jpg" alt="猫猫" width="400px"/>
+			<br />
+			<button id="prev">上一张</button>
+			<button id="next">下一张</button>
+			<br />
+			<p id="infor"></p>
+		</div>
+		<script type="text/javascript">
+			
+						// 点击按钮切换图片
+			//获取按钮和图片
+			var btn_next = document.getElementById("next");
+			var btn_prev = document.getElementById("prev");
+			var img = document.getElementById("cat_image");
+			//创建数组保存图片路径
+			var img_array = ["img/cat01.jpg","img/cat02.jpg",
+				"img/cat03.jpg","img/cat04.jpg"];
+			//创建一个变量保存正在显示图片的索引
+			var index = 0;
+			img.src = img_array[index];
+			//设置提示文字
+			var infor = document.getElementById("infor");
+			inforShow();
+			//绑定事件
+			btn_prev.onclick = function(){
+				//修改img的src属性
+				index--;
+				if(index<0)
+				{
+					index = img_array.length-1;
+				}
+				img.src = img_array[index];
+				inforShow();
+			};
+			btn_next.onclick = function(){
+				index++;
+				if(index>=img_array.length)
+				{
+					index=0;
+				}
+				img.src = img_array[index];
+				inforShow();
+			};
+			function inforShow()
+			{
+				infor.innerHTML = "共"+img_array.length+"张图片,"+"当前位于第0"+(index+1)+"张";
+			}
+			
+			
+			
+		</script>
+	</body>
+</html>

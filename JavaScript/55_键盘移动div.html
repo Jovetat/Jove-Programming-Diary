@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id="box1"></div>
+		
+	</body>
+	<script type="text/javascript">
+		
+		/* 
+		 * 使div根据方向键向不同的方向移动
+		 * 左上右下分别为 37 38 39 40
+		 */
+		var box1 = document.getElementById("box1");
+		document.onkeydown = function(){
+			console.log(event.keyCode);
+			var speed = 10;
+			if(event.shiftKey)
+			{
+				// 按下shift加速
+				speed += 10;
+			}
+			switch(event.keyCode)
+			{
+				case 37:
+					console.log("左");
+					box1.style.left = box1.offsetLeft - speed + "px";
+					break;
+				case 38:
+					console.log("上");
+					box1.style.top = box1.offsetTop - speed + "px";
+					break;
+				case 39:
+					console.log("右");
+					box1.style.left = box1.offsetLeft + speed + "px";
+					break;
+				case 40:
+					console.log("下");
+					box1.style.top = box1.offsetTop + speed + "px";
+					break;
+				default:
+					break;
+			}
+		};
+		
+	</script>
+	<style type="text/css">
+		#box1{
+			width: 100px;
+			height: 100px;
+			background-color: #5F9EA0;
+			position: absolute;
+		}
+	</style>
+</html>

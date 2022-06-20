@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div class="box-view">
+			呀呀呀，我好粉呀呀呀呀，我好粉呀呀呀呀，我好粉呀呀呀呀，我好粉呀呀呀呀，我好粉呀
+		</div>
+	</body>
+	<script type="text/javascript">
+				/* 参考http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html */
+		/* 
+		 * flex(flex box)	弹性布局
+		 * 任何一个容器都可以指定为flex布局			display: flex;
+		 * 行内元素也可以使用flex布局				display: inline-flex;
+		 * Webkit 内核的浏览器，需加上-webkit的前缀	display: -webkit-flex;
+		 */
+		
+		// 设计 Flex 布局以后，子元素的float(浮动)、clear和vertical-align(垂直对齐)属性将失效
+		
+		/* 
+		 * 采用 Flex 布局的元素，称为 Flex 容器（flex container），简称"容器"
+		 * 它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称"项目"
+		 * 
+		 * 容器默认存在两根轴：
+		 * - 水平的主轴（main axis）
+		 * - - 主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end
+		 * - 垂直的交叉轴（cross axis）
+		 * - - 交叉轴的开始位置叫做cross start，结束位置叫做cross end
+		 * - 项目默认沿主轴排列
+		 * - 单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size
+		 */
+		
+		/* flex-direction:		决定主轴的方向（即项目的排列方向），用来设置flax item的排布方向
+						row;				//默认 按照行排列		主轴为水平方向，起点在左端
+						row-reverse;		//反向行排列				主轴为水平方向，起点在右端
+						column;				//按照列排列				轴为垂直方向，起点在上沿
+						column-reverse;		//反向列排列				主轴为垂直方向，起点在下沿
+		
+			flex-wrap:			设置flax-item在宽度超过屏幕最大宽度(一条轴线排不下)时如何换行
+						nowrap;				//默认值，不换行
+						wrap;				//换行，第一行在上方
+						wrap-reverse;		//换行，第一行在下方
+			
+			flex-flow:			flex-flow属性是flex-direction属性和flex-wrap属性的简写形式
+						row nowrap;			//默认值
+			
+			justify-content:	项目在主轴上的对齐方式
+						flex-start;			//默认值，左对齐
+						flex-end;			//右对齐
+						center;				//居中对齐
+						space-between;		//两端对齐，项目之间的间隔都相等
+						space-around;		//所有元素在排布方向上的边距相同(每个项目两侧的间隔相等，所以，项目之间的间隔比项目与边框的间隔大一倍)
+		
+			align-items:		项目在交叉轴上如何对齐
+						stretch;			//默认值，如果项目未设置高度或设为auto，将占满整个容器的高度
+						center;				//交叉轴的中点对齐
+						flex-start;			//交叉轴的起点对齐(垂直方向置顶)
+						flex-end;			//交叉轴的终点对齐(垂直方向置底)
+						baseline;			//项目的第一行文字的基线对齐(第一行文字底部位于一条线)
+			
+			align-content:		多根轴线(多条水平线)的对齐方式，如果项目只有一根轴线，该属性不起作用
+						stretch;			//默认值，轴线占满整个交叉轴
+						flex-start;			//与交叉轴的起点对齐
+						flex-end;			//与交叉轴的终点对齐
+						center;				//与交叉轴的中点对齐
+						space-between;		//与交叉轴两端对齐，轴线之间的间隔平均分布
+						space-around;		//每根轴线两侧的间隔都相等,所以，轴线之间的间隔比轴线与边框的间隔大一倍
+		
+		*/
+		
+		/* 
+										项目的属性
+			
+			order: <integer>;			定义项目的排列顺序,数值越小，排列越靠前，默认为0
+			flex-grow: <number>;		定义项目的放大比例，默认为0，即如果存在剩余空间也不放大
+										- 如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）
+										- 如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍
+			flex-shrink: <number>;		定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小
+										如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小
+										如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小
+			flex-basis: <length>;		定义了在分配多余空间之前，项目占据的主轴空间（main size）
+										- 浏览器根据这个属性，计算主轴是否有多余空间
+										- 它的默认值为auto，即项目的本来大小
+			flex: none;					flex属性是flex-grow, flex-shrink 和 flex-basis的简写
+										- 默认值为 0 1 auto
+			align-self: auto;			align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性
+										- 默认值为 auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch
+			
+		 */	   
+	   
+	</script>
+	<style type="text/css">
+		.box-view{
+			width: 200px;
+			height: 400px;
+			background-color: #FF69B4;
+			
+			display: flex;
+			justify-content: center;				/* 主轴(水平)居中 */
+			align-items: center;					/* 交叉轴(垂直)居中 */
+			flex-wrap: wrap;						/* 到达最大宽度自动换行 */
+			
+			margin: 100px 100px;					/* 对应上左外边距 */
+			/* 只有一个 值时，这个值会被指定给全部的 四个边
+			两个 值时，第一个值被匹配给 上和下, 第二个值被匹配给 左和右
+			三个 值时，第一个值被匹配给 上, 第二个值被匹配给 左和右, 第三个值被匹配给 下
+			四个 值时，会依次按 上、右、下、左 的顺序匹配 (即顺时针顺序) */
+			padding: 0px 50px;						/* 内边距(属性值与外边框规定相同) */
+			/* margin-top: 10px;	……
+			padding-bottom: 10px;	…… */
+			
+			border-radius: 40px 10px 20px 30px;		/* 分别是左上 右上 右下 左下的圆角边框的属性值 */
+			/* border-radius: 10px;					（四个角属性值都为10px） */
+			
+			border-width: 20px;						/* 边框宽度 */
+			border-style: dashed;					/* 边框样式 */
+			border-color: #6495ED;					/* 边框颜色 */
+		}
+	</style>
+</html>

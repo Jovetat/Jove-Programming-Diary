@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>props限制</title>
+		
+		<style type="text/css">
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="test"></div>
+		<div id="test2"></div>
+		<div id="test3"></div>
+		
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 多了全局对象React -->
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 多了全局对象ReactDOM -->
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script src="../js/prop-types.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 引入prop-types，用于对组件标签属性进行限制，多了PropTypes -->
+		
+		<script type="text/babel">
+			
+			// 函数式创建组件
+			
+			/* 
+				函数式组件可以使用props但不可使用state
+				可以使用props是因为本身是函数，可以接受参数
+				函数式组件会将所有属性收集好装入props，然后传递到函数式组件
+			 */
+			function PersonT (props){
+				console.log(props);
+				return (
+					<ul>
+						<li>姓名：{props.name}</li>
+						<li>性别：{props.age+1}</li>
+						<li>年龄：{props.sex}</li>
+					</ul>
+				)
+			}
+			PersonT.propTypes = {
+				name:PropTypes.string.isRequired,
+				sex:PropTypes.string,
+				age:PropTypes.number,
+			}
+				// 指定默认标签属性值
+			PersonT.defaultProps = {
+				sex:'公公',
+				age:19
+			}
+			
+			// 渲染组件到页面
+			ReactDOM.render(<PersonT name="tom"/>,document.getElementById("test"));
+			
+			const peo = {name:'尼古拉斯赵四',age:62,sex:'男'}
+			ReactDOM.render(<PersonT {...peo}/>,document.getElementById("test2"));
+			
+			
+		</script>
+		
+	</body>
+</html>

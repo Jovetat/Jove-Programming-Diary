@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			
+								//事件
+			/* 文档或浏览器窗口中发生的一些特定的交互瞬间
+			 * JavaScript与HTML之间的交互使用过事件实现的		eg:点击、按下某个键、鼠标移动至某个元素上方
+			 * 事件就是用户和浏览器之间的交互行为
+			 */
+			
+		</script>
+	</head>
+	<body>
+		<button id="btn" onclick="alert('别点了臭宝');" onmousemove="alert('摸也不可以哦');">我是一个按钮^-^</button>
+		<!-- 这种事件方法称为结构和行为耦合，可以用但是不推荐，不方便维护 -->
+		
+		<!-- 处理事件
+				在事件对应的属性中设置JS代码
+				当事件被触发时，这些代码将会执行-->
+				
+		<!-- 事件
+			 onabort:		图像的加载被中断
+			 onblur:		元素失去焦点
+			 onchange:		域的内容被改变
+			 onclick:		当用户点击某个对象时调用的事件
+			 ondblclick:	当用户双击某个对象时调用的事件
+			 onerror:		加载文档或图像时发生错误
+			 onfocus:		元素获得焦点
+			 onkevdown:		某一个键盘按键被按下
+			 onkevpress:	某个键盘按键被按下并松开
+			 onkeyup:		某个键盘按键被送开
+			 onload:		一个页面或一幅图像完成加载
+			 onmousemove:	鼠标被移动到元素
+			 onmouseout:	鼠标从某元素移开
+			 onmouseover:	鼠标移到某元素上
+			 onmouseup:		鼠标按键被松开
+			 onreset:		重置按钮被点击
+			 onresize:		窗口或框架被重新调整大小
+			 onselect:		文本被选中
+			 onsubmit:		确定按钮被点击
+			 onunlode:		用户退出页面
+			 -->
+		<br /><br />
+		<button id="btn01">巧了我也是</button>
+		<script type="text/javascript">
+					
+			//获取按钮对象
+			var btn01 = document.getElementById("btn01");
+			
+			//为按钮的对应事件绑定处理函数的形式来响应事件(添加事件)
+			btn01.onclick = function(){
+				alert("用js绑定的事件");
+			};
+			//当事件被触发时，对应的函数将会被调用
+			
+			
+		</script>
+	</body>
+</html>

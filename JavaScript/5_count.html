@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var numm=true;
+			//ture在算术中默认为1，false和null为0
+			//任何值与NaN运算都得NaN
+			//字符串的相加等于字符串的连接
+			//任何的值和字符串做加法运算都会被先转换为字符串
+			//利用这样特点为任意数据+ “” 即可转换为string（隐式转换） 
+			
+			//减法将值转换为数值，eg：100-"1"=99; 2 * "8"=16 ; 2 * undefined = NaN ; 2 * null = 0
+			//-*/运算都会转换为number
+			//可以利用这一特点做隐式的类型转换，eg："123"
+			
+			//1+"2"+3="123"而1++"2"+3=6
+			var a=1;
+			//自增
+			a += 1;
+			a++;
+			console.log(a);
+			
+			var d=20;
+			var result=d++ + ++d +d;					//20 + 22 + 22
+			
+		</script>
+	</body>
+</html>

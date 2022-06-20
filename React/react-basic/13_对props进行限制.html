@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>props限制</title>
+		
+		<style type="text/css">
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="test"></div>
+		<div id="test2"></div>
+		<div id="test3"></div>
+		
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 多了全局对象React -->
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 多了全局对象ReactDOM -->
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script src="../js/prop-types.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 引入prop-types，用于对组件标签属性进行限制，多了PropTypes -->
+		
+		<script type="text/babel">
+			
+			// 创建组件
+			class Person extends React.Component{
+				
+				render(){
+					const {name,age,sex} = this.props
+					return (
+						<ul>
+							<li>姓名：{name}</li>
+							<li>性别：{age+1}</li>
+							<li>年龄：{this.props.sex}</li>
+						</ul>
+					)
+					// 年龄全部+1
+				}
+			}
+			
+			// props属性类型和必要性限制
+			/* 
+				propTypes react底层在每次构造实例对象时都会自动寻找它，帮助用户限制属性
+				react自带一个props属性限制，react会帮助你限制属性非空、类型、默认值……
+				React.ProoTypes为react15版本前内置属性
+				isRequired表示为必传(非空)
+				function为定义函数的关键字，所以限制传一个函数需要用到 func
+			 */
+			// react16不再将ProoTypes放在React上，需引入额外的prop-types.js库就有了PropTypes
+			Person.propTypes = {
+				name:PropTypes.string.isRequired,			// 限制必传且为字符串
+				sex:PropTypes.string,						// 限制为字符串
+				age:PropTypes.number,						// 限制为数值
+				speak:PropTypes.func,						// 限制为函数
+			}
+			/* 如果传入数据不符合限制会在页面控制台警告⚠ */
+			
+			/* Person.propTypes = {
+				name:React.ProoTypes.string		这种形式在react 16后被弃用
+				限制为字符串形式
+			} */
+			
+			// props指定默认的标签属性值
+			Person.defaultProps = {
+				sex:'公公',									// 默认性别为公公
+				age:19										// 默认年龄为19
+			}
+			/* 
+				defaultProps 如果没有传入数据则会按照默认值显示
+			 */
+			
+			
+			// 渲染组件到页面
+			ReactDOM.render(<Person name="tom" speak={speak}/>,document.getElementById("test"));
+			/* 传递一个函数 */
+			ReactDOM.render(<Person name="Na" age={16} sex="女"/>,document.getElementById("test3"));
+			
+			const peo = {name:'尼古拉斯赵四',age:62,sex:'男'}
+			ReactDOM.render(<Person {...peo}/>,document.getElementById("test2"));
+			
+			function speak()
+			{
+				document.write('阿巴阿巴');
+			}
+			
+		</script>
+		
+	</body>
+</html>

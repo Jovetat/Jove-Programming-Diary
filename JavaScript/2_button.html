@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<!--点你按钮触发弹窗事件，弹窗事件为js语言-->
+		<button onclick="alert('你好啊')">按钮</button>
+		
+		<!--可以将js代码写在超链接的href属性中，这样当点击超链接时，会执行js代码-->
+		<a href="javascript:alert('又来啦');">超链接</a>
+		
+		<!--可以将js代码编写到外部js文件中，然后通过script标签引入，从而达到方法的目的
+			可以在不同的页面中同时引用，也可以利用到浏览器的缓存机制
+		    script标签一旦用于引入外部文件，就不能再编写代码了，即使编写了浏览器也会忽略-->
+		
+		<!--src指向外部文件-->
+		<script src="button_external.js"></script>
+		
+		<script type="text/javascript">
+		    console.log("向控制台输出一个日志");
+		</script>
+		
+		            <!--1、JS中严格区分大小写，而html中不区分
+		                2、JS中每一条语句以分号结尾  ;  
+		                3、JS中会忽略多个空格和换行-->
+	</body>
+</html>

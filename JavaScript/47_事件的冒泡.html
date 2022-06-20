@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#box1{
+				width: 200px;
+				height: 200px;
+				background-color: #6495ED;
+			}
+			#s1{
+				background-color: #FF69B4;
+			}
+			#s2{
+				background-color: #FFD700;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id="box1">
+			这里是box1
+			<br />
+			<br />
+			<span id="s1">这里是span</span>
+			<br />
+			<br />
+			<span id="s2">这里是不冒泡泡的span</span>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		
+		/* 
+		 * 事件的冒泡(Bubble)
+		 * 冒泡就是指事件的向上传导，当后代元素上的事件被触发时，其祖先元素的相同事件也会被触发
+		 * 子元素出生自带父元素的事件
+		 */
+		
+		var s1 = document.getElementById("s1");
+		s1.onclick = function(){
+			console.log("span的响应函数");
+		};															// span的响应函数
+																	// div的响应函数
+																	// body的响应函数
+		
+		var box1 = document.getElementById("box1");
+		box1.onclick = function(){
+			console.log("div的响应函数");
+		};															// div的响应函数
+																	// body的响应函数
+		// 为body绑定单机响应函数
+		document.body.onclick = function(){
+			console.log("body的响应函数");
+		};															// body的响应函数
+		
+		/* 
+		 * 不希望发生事件的冒泡可以通过事件对象来取消冒泡(也可理解为独立)
+		 * 父元素的相同事件函数(包括我原本没有这个事件函数)在我身上都不在触发!!!
+		 * 将事件对象的cancelBubble设置为true即可取消冒泡
+		 */
+		var s2 = document.getElementById("s2");
+		s2.onclick = function(event){
+			event = event || window.event;
+			console.log("这里是不冒泡泡的span的响应函数");
+			
+							//取消冒泡(无兼容性问题)
+			event.cancelBubble = true;								// 只解决自身冒泡
+			
+		};
+		
+		
+	</script>
+</html>

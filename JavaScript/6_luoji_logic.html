@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//		&&与		||或		！非
+			//对非布尔值进行计算，会将其转换为布尔值
+			/*与运算：
+			 *第一个为true则返回第二个值
+			 *第一个为false则返回第一个值
+			 */
+			/*或运算：
+			 *第一个为true则返回第一个值
+			 *第一个为false则返回第二个值
+			 */
+			
+						// >  <  ==  >=  <=
+			//关系运算符比较中true=1,null=0，false=0
+			//任何值与NaN比较都是false(NaN==NaN结果也是false)
+			//符号两侧都是字符串不会转换为数值,一位一位进行比较
+			//比较两个字符串型的数字是，一定要转型
+			var result = 1==true;		//true
+			console.log(result);
+			
+						//    ===  全等
+			//相等会做自动的类型转换而全等不会
+			//eg:"123"==123-->true;"123"===123-->false
+			
+						//		!==	不全等
+			//和不等类似但不会做自动的类型转换
+			
+						//条件运算符
+			//条件表达式？语句1：语句2
+			var a=50,b=80,c=30;
+			var max=a>b?(a>c?a:c):(b>c?b:c);
+			alert(max);
+			//求三者中最大值
+			
+		</script>
+	</body>
+</html>

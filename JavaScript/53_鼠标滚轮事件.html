@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body style="height: 2000px;">
+		
+		<div id="box1"></div>
+		
+	</body>
+	<script type="text/javascript">
+		
+							// 根据滚轮改变方块高度
+		var box1 = document.getElementById("box1");
+		// 在box内部滚动时改变大小(为box1绑定一个鼠标滚轮事件)
+		/* 
+		 * onmousewheel鼠标滚轮滚动的事件，会在滚轮滚动时触发(火狐不兼容)
+		 * 火狐中使用DOMMouseScroll 来绑定滚动事件，该事件需要通过addEventListener(多事件绑定，可以用写好的兼容bind)
+		 */
+		/* box1.onmousewheel = function(){
+			console.log("滚了");
+		};
+		box1.addEventListener("DOMMouseScroll",function(){
+			console.log("滚了");
+		},false); */
+		
+		/* 
+		 * 兼容火狐的写法
+		 * 实现方法的复用
+		 */
+		box1.onmousewheel = function(event){
+			
+			// 判断鼠标滚轮滚动的方向
+			event = event || window.event;
+			// console.log(event.wheelDelta);								//向上+120 ； 向下-120(不看大小，只看正负)
+			/* 
+			 * event.wheelDelta 可以获取鼠标滚动的方向
+			 * 不兼容火狐，会输出undefined
+			 * 火狐中使用 event.detail 来获取滚动的方向						  向上-3 ；向下3
+			 */			
+			// console.log(event.detail);
+			if(event.wheelDelta > 0 || event.detail < 0)
+			{
+				// 向上滚box1变短
+				box1.style.height = box1.clientHeight - 10 + "px";			//clientHeight为可见高度
+			}
+			else
+			{
+				// 向下滚box1变长
+				box1.style.height = box1.clientHeight + 10 + "px";
+			}
+			/* 
+			 * 当滚轮滚动时，如果浏览器有滚动条，滚动条会随之移动
+			 * 这是浏览器的默认行为，如果不希望发生，可以   return false   取消默认行为
+			 * 但是，使用addEventListener()方法绑定响应函数，取消默认行为时不能使用return false
+			 * 需要使用event来取消默认行为(IE+不支持preventDefault)
+			 */
+			event.preventDefault && event.preventDefault();					//此语句为：有就此方法就用
+			return false;
+		};
+		bind(box1,"DOMMouseScroll",box1.onmousewheel);						//如果是火绒则用addEventListener的方式将onmousewhell添加到事件中
+		
+		
+		function bind(obj,event_str,callback)
+		{
+			if(obj.addEventListener)										//有此对象会返回true
+			{
+				obj.addEventListener(event_str,callback,false);
+			}
+			else															//IE8中无此对象返回false
+			{
+				//将this统一为调用对象
+				obj.attachEvent("on"+event_str,function(){
+					//在匿名函数中调用回调函数,不是浏览器在调用了,属于自己调用
+					callback.call(obj);										//设置回调函数this为obj
+				});
+			}
+		}
+	</script>
+	<style type="text/css">
+		#box1{
+			width: 100px;
+			height: 100px;
+			background-color: #5F9EA0;
+		}
+	</style>
+</html>

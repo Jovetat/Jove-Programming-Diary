@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>计算机</title>
+		<link rel="stylesheet" href="./index.css" />
+	</head>
+	<body>
+		<div id="navigation">
+			<h1 style="opacity: 0.07;">一只计算鸡</h1>
+		</div>
+		
+		<div id="computer_entirety">
+			<div id="display_frame">
+				<span id="computer_history01" class="computer_history">
+					
+				</span>
+				<span id="computer_history02" class="computer_history">
+					
+				</span>
+				<span id="computer_messege">
+					0
+				</span>
+			</div>
+			
+			<div id="computer_div">
+				<button type="button" class="basics-button btn-animation" onclick="onclickClear()">
+					<span style="font-size: 18px;" class="arithmetic-button">AC</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickDelet()">
+					<img src="img/delete.png" style="width: 20px;">
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickArithmetic('%')">
+					<span style="font-size: 18px; font-weight: 700;" class="arithmetic-button">％</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickArithmetic('÷')">
+					<span class="arithmetic-button">÷</span>
+				</button>
+				<br>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum(7)">
+					<span class="text-button">7</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum(8)">
+					<span class="text-button">8</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum(9)">
+					<span class="text-button">9</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickArithmetic('×')">
+					<span class="arithmetic-button">×</span>
+				</button>
+				<br>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum(4)">
+					<span class="text-button">4</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum(5)">
+					<span class="text-button">5</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum(6)">
+					<span class="text-button">6</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickArithmetic('-')">
+					<span class="arithmetic-button">-</span>
+				</button>
+				<br>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum(1)">
+					<span class="text-button">1</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum(2)">
+					<span class="text-button">2</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum(3)">
+					<span class="text-button">3</span>
+				</button>
+				<button type="button" class="basics-button btn-animation"  onclick="onclickArithmetic('+')">
+					<span class="arithmetic-button">+</span>
+				</button>
+				<br>
+				<button type="button" class="basics-button btn-animation" onclick="console.log('被你找到了^-^')">
+					<span>Jove</span>
+				</button>
+				<button type="button" class="basics-button btn-animation"  onclick="onclickNum(0)">
+					<span class="text-button">0</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickNum('.')">
+					<span class="text-button">.</span>
+				</button>
+				<button type="button" class="basics-button btn-animation" onclick="onclickGetResult()">
+					<span class="arithmetic-button">=</span>
+				</button>
+			</div>
+		</div>
+		
+		
+		<script src="./index.js"></script>
+		
+		
+	</body>
+</html>

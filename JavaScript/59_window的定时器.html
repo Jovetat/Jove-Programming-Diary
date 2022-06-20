@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h1 id="count">1</h1>
+		<button type="button" id="btn01">请除周期计时器</button>
+	</body>
+	<script type="text/javascript">
+		
+		/* 
+		 * 					window对象的方法
+		 * alert()					显示带有一段消息和一个确认按钮的警告框
+		 * blur()					把键盘焦点从项层窗口移开
+		 * close()					关闭利览器窗口
+		 * confirm()				显示带有一段消意以及确认接钮和取消接钮的对话框
+		 * createPopup()			创建-个pop-up窗口
+		 * focus()					把键盘焦点给予一个窗口
+		 * moveBy()					可相对窗口的当前坐标把它移动指定的像素
+		 * moveTo()					把窗口的左上角移动到一个指定的坐标
+		 * open()					打开-个新的浏览器窗口或查找一个已命名的窗口
+		 * print()					打印当前窗口的内容
+		 * prompt()					显示可提示用户输入的对话框
+		 * resizeBy()				按照指定的像素调整窗口的大小
+		 * resizeTo()				把窗口的大小调整到指定的宽度和高度
+		 * scrollBy()				按照指定的像索值来滚动内容
+		 * scrollTo()				把内容流动到指定的坐标
+		 */
+		
+		/* 
+		 * 					定时调用(也是window对象的方法)
+		 * 相隔指定时间后调用函数，执行多次
+		 * setInterval()			按照指定的周期(以毫秒计)来调用函数或计算表达式
+		 * clearInterval()			取消由setInterval() 设置的timeout
+		 * 相隔指定时间后执行函数，只执行一次
+		 * setTimeout()				在指定的毫秒数后调用函数或计算表达式
+		 * clearTimeout()			取消由setTimeout()方法设置的timeout
+		 */
+		var count = document.getElementById("count");
+		var btn01 = document.getElementById("btn01");
+		// 使count中的内容，自动切换(JS的程序的执行速度非常快)
+		
+		/* setInterval(1,2)
+		 * 将程序每间隔一段时间执行一次(周期定时器)
+		 * - - 参数：
+		 * 			1、回调函数，该函数会每隔一段时间被调用一次
+		 * 			2、每次调用间隔的时间（单位毫秒ms）
+		 * - - 返回值：
+		 * 			返回一个Number类型的数据
+		 * 			这个数字用来作为定时器的唯一标识!!!
+		 */
+		var num = 1;
+		var timer = setInterval(function(){
+			count.innerHTML = num++;
+			if(num == 15)
+			{
+				clearInterval(timer);			// 数字到14停止，不会到15，本次函数前面的语句也失效了
+			}
+		},1000);								// 每秒执行一次函数
+		console.log("定时标识："+timer);						// 1
+		/* clearInterval(周期定时器的标识)
+		 * 关闭一个指定的周期定时器
+		 * - - 参数：
+		 * 			定时器的标识：这样将关闭标识对应的定时器
+		 * 			可以接受任意参数，如果参数是一个有效的定时器标识，则停止对应的定时器
+		 * 			如果参数不是一个有效的标识，则什么也不会发生
+		 */
+		btn01.onclick = function(){
+			clearInterval(timer);				// 关闭指定的定时器
+		};
+		
+	</script>
+</html>

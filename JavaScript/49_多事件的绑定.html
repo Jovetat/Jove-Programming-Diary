@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<button id="btn01">按钮</button>
+	</body>
+	<script type="text/javascript">
+		var btn01 = document.getElementById("btn01");
+		/* 
+		 * 使用 对象.事件 = 函数的形式绑定响应函数
+		 * 只能同时为一个元素的一个事件绑定一个响应函数，不能绑定多个，后边的会覆盖掉前边的
+		 */
+		
+		/* 
+		 * 为btn01绑定多个事件
+		 * addEventListener(1,2,3)					添加事件监听器(IE9+)
+		 * - - 参数：1、事件名的字符串(不要on)		eg:onclick -->  click
+		 * 			 2、回调函数，当事件被触发时该函数会被调用(函数中的this为调用对象)
+		 * 			 3、是否在捕获阶段触发事件，需要一个bool值(一般都是false)
+		 * - 通过这个方法可以为元素的某一事件绑定多个响应函数
+		 * - 事件被触发时，响应函数按绑定顺序执行
+		 */
+		btn01.addEventListener("click",fun,false);
+		btn01.addEventListener("click",fun2,false);
+		bind(btn01,"click",fun);
+		function fun(){
+			alert("1");
+		}
+		function fun2(){
+			alert(2);
+		}
+		
+		/* 
+		 * 支持IE8的多绑定事件方式(但不支持其他浏览器)
+		 * attachEvent(1,2)
+		 * - - 参数: 1、事件名的字符串(要on)
+		 * 			 2、回调函数，当事件被触发时该函数会被调用(函数中的this为window)
+		 * - 事件被触发时，后绑定的先执行(栈)
+		 */
+		
+		// 兼容所有浏览器，为指定元素绑定响应函数
+		/*
+		 * - - 参数: obj、要绑定事件的对象
+		 * 			 event_str、事件字符串
+		 * 			 callback、回调函数
+		 */
+		function bind(obj,event_str,callback)
+		{
+			if(obj.addEventListener)						//有此对象会返回true
+			{
+				obj.addEventListener(event_str,callback,false);
+			}
+			else											//IE8中无此对象返回false
+			{
+				//将this统一为调用对象
+				obj.attachEvent("on"+event_str,function(){
+					//在匿名函数中调用回调函数,不是浏览器在调用了,属于自己调用
+					callback.call(obj);						//设置回调函数this为obj
+				});
+			}
+		}
+		
+	</script>
+</html>

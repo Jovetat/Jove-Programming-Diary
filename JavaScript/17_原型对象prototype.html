@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//原型prototype
+			/* 创建的每一个函数（包括构造函数），解析器都会向函数添加一个属性prototype
+			 * 每个函数的prototype不相同
+		     * 这个属性对应一个对象，这个对象就是所谓的原型对象
+			 * 如果函数作为普通函数调用prototype没有任何作用
+			 * 当函数以构造函数的形式new调用时，所创建的对象都会有一个隐含的属性指向构造函数的原型对象
+			 * 对象可以通过	__proto__	来访问 prototype 属性
+			*/
+		   function MyClass(){
+			   
+		   }
+		   var mc = new MyClass();
+		   var mc2 = new MyClass();
+		   console.log(mc.__proto__);							//可以指出对应构造函数 MyClass()和对应全部信息
+		   console.log(mc.__proto__ == MyClass.prototype);		//true
+		   //原型对象相当于公共区域，所有同一个类的实例都可以访问到这个原型对象
+		   
+		   //根据这个特性，我们可以将对象中共有的内容统一(属性或方法)设置到原型对象中
+		   //既不会影响到全局作用域，也实现了方法和属性的复用
+		   
+		   //向构造函数的原型prototype中添加属性
+		   MyClass.prototype.publicFun = 123;					//此时所有由该类构造的对象都被添加了publicFun的属性!!!
+		   document.write(mc.publicFun.toString()+mc2.publicFun.toString());
+		   
+		   //当访问对象的属性或方法时，先在对象自身找，没有则去原型对象中寻找!!!，仍没有则去原型的原型中找
+		   mc.publicFun="<br /> 我变了，我现在自身添加了publicFun的属性，优先读取自己的";
+		   document.write(mc.publicFun.toString()+mc2.publicFun.toString());
+		   
+		   //方法同理
+		   MyClass.prototype.sayHello = function(){
+			   alert("┭┮﹏┭┮");
+		   }
+		   mc.sayHello();
+		   
+		  document.write("sayHello" in mc);						//检测mc中是否有方法sayHello，true
+		  //说明原型中的方法也属于对象
+		  
+		  //如果要检测对象自身（不包括原型的属性或方法），使用方法	hasOwnProperty();		  
+		  document.write(mc.hasOwnProperty("sayHello"));		//false
+		  //hasOwnProperty不是mc的方法，在其原型对象的原型对象中
+		  document.write("<br />");
+		  document.write(mc.__proto__.hasOwnProperty("hasOwnProperty"));				//false
+		  document.write(mc.__proto__.__proto__.hasOwnProperty("hasOwnProperty"));		//true,在原型的原型中
+		  
+		  console.log(mc.__proto__.__proto__);											//object，mc.__proto__.__proto__它的原型为null
+																						//mc.__proto__.__proto__.__proto__ == null
+		  //对象的原型，的原型是object，object没有原型
+		   
+		</script>
+	</body>
+</html>

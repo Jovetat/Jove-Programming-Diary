@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//声明变量，在js中用var关键之来声明一个变量
+			var a;
+			a = 123
+			var age = 80;
+			console.log(a);
+			document.write(age) ;
+			/*标识符可含字母、数字、_、$
+			 * 标识符不能以数字开头
+			 * 标识符不能是JS中的关键字或保留字
+			 * 驼峰命名法
+			 * JS底层保存标识符实际上是采用unicode编码，所有utf-8中含有的内容都可以作为标识符
+			 * /
+			/*          String
+						Number      数值(JS中所有数值都是Number类型,包括整数和浮点数)
+						Boolean     布尔值
+						Null        空值（null为object类型）
+						Undefined   未定义（当声明一个变量但未赋值，类型则未undefined）
+						Object      对象（引用数据类型）
+			*/
+			var str = "hello";                  //双引号和单引号都可以
+			//     \作为转义字符，表示一些特殊符号使用\进行转义为符号原本的样子
+			/*      \"   -->   "
+			 *      \'   -->   '
+			 *      \n   换行
+			 *      \t   制表符
+			 *      \\   -->   \
+			 */
+			//检查变量类型typeof变量
+			var num = Number.MAX_VALUE;          //表示数值中的最大值,超过为Infinity（无穷）
+			num = Number.MIN_VALUE;             //极小值，接近于0
+			num = Infinity;                     //typeof=number
+			//NaN是一个特殊的数字(typeof=number)，表示not a number
+			//JS中整数的运算基本可以保证准确，小数会有误差，精确度高的无法运算
+			console.log(typeof a);
+
+		</script>
+	</body>
+</html>

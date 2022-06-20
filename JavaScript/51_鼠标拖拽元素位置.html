@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div>当ctrl+A全选再拖拽方块时，功能则变为浏览器自带的搜索</div>
+		<div id="box1"></div>
+		<div id="box2"></div>
+		<div style="height: 5000px;"></div>
+	</body>
+	<script type="text/javascript">
+		var box1 = document.getElementById("box1");
+					/* 拖拽box1元素 */
+		/* 
+		 * 拖拽的流程
+		 * - 1、当鼠标在被拖拽元素上按下时，元素开始拖拽		onmousedown
+		 * - 2、元素跟随鼠标移动								onmousemove
+		 * - 3、鼠标松开时，被拖拽元素固定在当前位置			onmouseup
+		 */
+		// document属性作为window对象的一个子对象被创建，是用于访问页面中所有元素的对象
+		box1.onmousedown = function(event){
+			//按下鼠标(如果为box1绑定则只能在box1内移动，范围不是全局)
+			
+			// 调整鼠标与元素相对位置不变(鼠标偏移量-元素偏移量)(顺便也把滚动条问题也解决了)
+			event = event || window.event;					//兼容性
+			// 整个拖拽过程中相对距离不变，所以只求一次
+			var offsetX = event.clientX - box1.offsetLeft;	// offsetLeft：就是这个元素左边框外，到自己的offsetParent对象的左边框内的距离
+			var offsetY = event.clientY - box1.offsetTop;	// 得到了鼠标在元素中的相对位置
+			document.onmousemove = function(event){
+				event = event || window.event;
+				//修改box1位置(减去鼠标在元素中的位置，使相对位置不变)
+				box1.style.left = (event.clientX - offsetX) + "px";
+				box1.style.top = (event.clientY - offsetY) + "px";
+			};
+			document.onmouseup = function(){
+				//为防止在其他元素上松开不起效果，所以为document绑定事件
+				//鼠标松开时被拖拽元素固定在当前位置(取消document.onmousemove事件)
+				document.onmousemove = null;				//事件置空
+				console.log("鼠标被松开");					//绑定了全局事件，此后在空白处松鼠标也会触发
+				//取消document.onmouseup事件
+				document.onmouseup = null;
+			};
+			return false;
+			/* 
+			 * 当拖拽网页中的内容时，浏览去默认去搜索引擎搜索内容，导致拖拽功能异常
+			 * 如果不希望发生这个行为，可以通过 return false 取消浏览器的默认行为(IE8+)
+			 * 兼容IE在52节可以得到解决(SB IE)
+			 */			
+		};
+		
+	</script>
+	<style type="text/css">
+		#box1{
+			width: 100px;
+			height: 100px;
+			background-color: cadetblue;
+			position: absolute;					/* 开启绝对定位 */
+		}
+		#box2{
+			width: 100px;
+			height: 100px;
+			background-color: #FF69B4;
+			position: absolute;					/* 开启绝对定位 */
+			margin-left: 200px;					/* 一直处于窗口左上角200px的位置 */
+			margin-top: 200px;
+		}
+	</style>
+</html>

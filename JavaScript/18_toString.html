@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			
+			function Person(name,age){
+				this.name=name;
+				this.age=age;
+			}
+			var per = new Person("兜里",21);
+						
+			console.log(per);								//输出Person:name="兜里",age=21,__proto__ = object;(Edge nb)
+			console.log(per.toString());
+			
+			//当在页面上直接打印一个对象时，实际上输出的对象toString()方法的返回值
+			document.write(per);
+			document.write(per.toString());					//二者都输出[object Object]
+			
+			//自己定义自身(或整个类)toString的方法
+			//重载整个类的方法可以 	per.__proto__.toString = function(){}
+			per.toString = function(){
+				return "对象优先调用自身的属性和方法，根据这一性质可以重载系统方法";
+			}
+			document.write("<br />"+per.toString());
+			
+		</script>
+	</body>
+</html>

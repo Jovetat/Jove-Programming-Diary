@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var obj = new Object();						//栈内存存储变量名和对应堆内存开辟空间的地址，堆内存存储对象信息
+			obj = null;									//存储的地址指向空，原堆内存开辟的空间存放的对象信息成垃圾了（会被垃圾回收机制回收）
+			//当对象无任何变量对它引用，我们无法操作该对象，但此对象仍占用堆内存（垃圾）
+			//JS拥有自动的垃圾回收机制，将垃圾对象从内存中销毁
+			//用户不需要也不能进行垃圾回收
+			//我们需要将不再使用的对象设置为null
+		</script>
+	</body>
+</html>

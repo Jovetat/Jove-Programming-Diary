@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			
+							/* call和apply都是函数对象的方法，需要通过函数对象来调用
+							 * 对函数调用call和apply都会调用函数执行
+							 * call与apply中的第一个参数会成为函数中的this  !!!
+							 */
+			function fun(form1,form2){
+				console.log(this.toString());
+				console.log(form1,form2);
+			}
+			fun("芜湖","起飞");								//以函数调用this为window
+			
+							//call
+			//第一个参数为函数this，后面的参数为函数形参
+			fun.call("会成为函数中的this","形参","直接");
+			
+							//apply
+			//函数的形参需要封装到数组中统一传递
+			fun.apply("二者区别在于",["封装","数组"]);
+			
+			/* 				this
+			 * 1、函数形式调用，this是window
+			 * 2、以方法的形式调用，this是调用方法的对象
+			 * 3、以构造函数的形式调用，this是新创建的那个对象
+			 * 4、使用call和apply调用，this是指定的那个对象
+			 */
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		
+		<style type="text/css">
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="test"></div>
+		
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			
+		</script>
+		
+		<script type="text/babel">
+			
+					/* 状态state */
+			// 1、创建组件（继承react组件）
+			class Weather extends React.Component{
+				constructor(props){
+					super(props)
+					// 初始化状态
+					this.state = {
+						isHot:false,
+						wind:'大风'
+					}
+					// 解决changeWeather中this指向问题
+					this.changeWeather = this.changeWeather.bind(this);
+					// 这个方法直接添加到了实例对象上，而之前的方法都是通过原型链找到方法调用的
+					// (通过原型上的生成新的挂在实例自身)
+					// 实例自身含有这个方法，优先调用自身而不去找原型
+					/* bind(需将this改变为的变量)：改变函数中的this
+						构造器中的this就是实例对象
+						
+						bind() 方法创建一个新的函数，在 bind() 被调用时，
+						这个新函数的 this 被指定为 bind() 的第一个参数，
+						而其余参数将作为新函数的参数，供调用时使用。						
+					 */
+				}
+				render(){
+					console.log(this);
+					// return <h1 id="title" onClick={changeWeather}>今天天气很{this.state.isHot?'炎热':'凉爽'}</h1>
+					// 第三种react事件绑定方式需加this（都属于实例的函数，无法获取到对方，需通过实例本身获取）
+					return <h1 id="title" onClick={this.changeWeather}>今天天气很{this.state.isHot?'炎热':'凉爽'}</h1>
+					// 事件以赋值语句的形式书写【按 {changeWeather()} 写会将changeWeather的返回值赋值给事件】
+					// 当事件触发时react帮调用该函数
+				}
+				// changeWeather放在了Weather的原型上，供实例使用
+				// 通过Weather实例调用changeWeather时，changeWeather中的this就是Weather实例
+				/* 
+					render中的this为实例对象而changeWeather中this输出undefined
+					因为render方法是在new出实例后，通过 实例 调用原型对象上的render方法的
+					构造器中的this固定为实例对象
+					而changeWeather的方法是被赋值(将哦那click指向改为该方法)给onClick（详情原理请看3附!!!）
+					在执行onclick()时已无法获取到实例对象，根本已不是通过实例调用，属于直接调用
+					类中的方法默认开启局部的严格模式，所以changeWeather中的this为undefined
+				 */
+				changeWeather(){
+					this.state.isHot = !this.state.isHot;
+					console.log(this);						// undefined(在不加bind前)
+				}
+			}
+			// 2、渲染组件到页面
+			ReactDOM.render(<Weather/>,document.getElementById("test"));
+			
+			// 第一种事件绑定方式(不建议用)
+			/* const title = document.getElementById("title");
+			title.addEventListener('click',()=>{
+				console.log("标题被点击");
+			}) */
+			// 第二种事件绑定方式(不建议用)
+			/* const title = document.getElementById("title");
+			title.onclick = ()=>{
+				console.log("标题被点击");
+			} */
+			// 前两种方法中均需要在render中写<h1>onClick={changeWeather}
+			
+			// 第三种！ react事件绑定(在创建组件中编辑函数)
+			/*	所有事件被重命名
+				onclick ==> onClick
+				onblue ==> onBlur
+			 */
+			/* function changeWeather(){
+				console.log(this);							// undefined(禁止自定义的函数指向window)
+				// this.state.isHot = false;
+			} */
+			
+		</script>
+		
+	</body>
+</html>

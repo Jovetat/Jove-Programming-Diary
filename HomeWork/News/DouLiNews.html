@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>DouLi的新闻小站</title>
+		
+		<style type="text/css">
+			
+			*{
+				margin: 0;
+				padding: 0;
+				/* 取消所有默认外边距和内边距 */
+			}
+			body{
+				background-color: rgb(174,186,214,0.2);
+			}
+			#authorTitle{
+				width: 400px;
+				height: 60px;
+				/* background-color: #2E2E2E; */
+				margin-left: 20%;
+				margin-top: 35px;
+			}
+			.logo-img{
+				float: left;
+				margin-left: 20px;
+				width: 50px;
+				padding: 5px;
+				border-radius: 10px;									/* 圆角 */
+				box-shadow: 0px 3px 5px 1.5px rgb(0,0,0,0.35);			/* 阴影 */
+			}
+			.logo-text{
+				font-size: 24px;
+				margin-left: 20px;
+				padding: 5px 10px 5px 10px;
+				line-height: 65px;
+				font-weight: 600;										/* 加粗 */
+				color:rgba(0,0,0,0.6);									/* 设置文字透明度 */
+			}
+			#navigationBarDiv{
+				margin-top: 80px;
+				margin-left: 12%;
+			}
+			.menu-button{
+				font-size: 22px;
+				height: 50px;
+				width: 170px;
+				margin-left: 25px;
+				padding: 2px 6px;
+				background-color: rgb(0,0,0,0.0);
+				cursor: pointer;										/* 光标改为小手 */
+				border-radius: 20px;									/* 圆角 */
+				color:rgba(0,0,0,0.6);									/* 设置文字透明度 */
+				font-weight: 600;										/* 加粗 */
+				border-style: none;										/* 取消默认边框 */
+				box-shadow: -2px -2px 8px rgba(255, 255, 255, 1),		/* 拟态 */
+							-2px -2px 12px rgba(255, 255, 255, 0.5),
+							inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+							2px 2px 8px rgba(0, 0, 0, 0.15);
+			}
+			/* 半拟态动效 */
+			.menu-button:hover {
+				box-shadow: inset -2px -2px 8px rgba(255, 255, 255, 1),
+							inset -2px -2px 12px rgba(255, 255, 255, 0.5),
+							inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+							inset 2px 2px 8px rgba(0, 0, 0, 0.15);
+			}
+			/* 按下后添加该样式 */
+			.menuClicking-button{
+				box-shadow: inset -2px -2px 8px rgba(255, 255, 255, 1),
+							inset -2px -2px 12px rgba(255, 255, 255, 0.5),
+							inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+							inset 2px 2px 8px rgba(0, 0, 0, 0.15);
+			}
+			.icon-button{
+				float: left;
+				padding: 4px 0 0 5px;
+				margin-left: 10px;
+				width: 25px;
+			}
+			.menu-text{
+				
+			}
+			.news_post-div{
+				position: absolute;
+				margin-top: 80px;
+				margin-left: 10%;
+			}
+			.posts-div{
+				width: 70%;
+				min-width: 980px;
+				max-width: 1100px;
+				margin: 30px;
+				height: 190px;
+				background-color: rgba(255, 255, 255, 0.2);
+				position: relative;										/* 相对定位,与post内按钮位置有关 */
+				border-radius: 10px;									/* 圆角 */
+				box-shadow: -2px -2px 8px rgba(255, 255, 255, 1),		/* 拟态 */
+							-2px -2px 12px rgba(255, 255, 255, 0.5),
+							inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+							2px 2px 8px rgba(0, 0, 0, 0.15);
+			}
+			.posts-title{
+				width: 450px;
+				float: left;
+				margin-top: 25px;
+				margin-left: 10px;
+				font-size: 18px;
+				/* line-height: 65px; */
+				font-weight: 600;										/* 加粗 */
+				color: #435c83;
+			}
+			.posts-img{
+				float: left;
+				height: 150px;
+				margin: 20px;
+				box-shadow: 0px 1px 3px 1px rgb(73,114,197,0.4);		/* 阴影 */
+				border-radius: 8px;										/* 圆角 */
+			}
+			.posts-time{
+				float: left;
+				display: inline-block;
+				width: 400px;
+				padding-left: 10px;
+				margin-top: 10px;
+				color:rgba(0,0,0,0.5);									/* 设置文字透明度 */
+			}
+			.posts-button{
+				height: 40px;
+				width: 100px;
+				background-color: rgb(0,0,0,0.0);
+				margin-left: 20px;
+				position: absolute;										/* 绝对定位 */
+				left: 270px;
+				bottom: 0px;
+				cursor: pointer;										/* 光标改为小手 */
+				border-radius: 15px;									/* 圆角 */
+				border-style: none;										/* 取消默认边框 */
+				box-shadow: -2px -2px 8px rgba(255, 255, 255, 1),		/* 拟态 */
+							-2px -2px 12px rgba(255, 255, 255, 0.5),
+							inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+							2px 2px 8px rgba(0, 0, 0, 0.15);
+			}
+			.posts-button:hover {
+				box-shadow: inset -2px -2px 8px rgba(255, 255, 255, 1),
+							inset -2px -2px 12px rgba(255, 255, 255, 0.5),
+							inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+							inset 2px 2px 8px rgba(0, 0, 0, 0.15);
+			}
+			/* 按下后添加该样式 */
+			.postsClicking-button{
+				box-shadow: inset -2px -2px 8px rgba(255, 255, 255, 1),
+							inset -2px -2px 12px rgba(255, 255, 255, 0.5),
+							inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+							inset 2px 2px 8px rgba(0, 0, 0, 0.15);
+			}
+			.posts-text{
+				font-size: 16px;
+				color:rgba(0,0,0,0.5);									/* 设置文字透明度 */
+				font-weight: 600;										/* 加粗 */
+			}
+			.posts-img-btn{
+				float: left;
+				margin-left: 15px;
+				height: 22px;
+			}
+			.posts-btn-div{
+				position: relative;										/* 相对定位,与post内按钮位置有关 */
+				width: 300px;
+				height: 170px;
+			}
+			.post-cat{
+				position: absolute;										/* 绝对定位 */
+				width: 25px;
+				right: 20px;
+				bottom: 0px;
+			}
+			.post-iframe-div{
+				position: relative;										/* 定位封闭 */
+				border: 10px solid rgba(255, 255, 255, 0.2);
+				padding: 15px;
+				margin-top: 35px;
+				margin-left: 5%;
+				height: 650px;
+				width: 80%;
+				min-width: 840px;
+				max-width: 1050px;
+				overflow: hidden;
+				box-shadow: 3px 3px 10px 1px rgb(0,0,0,0.1);			/* 阴影 */
+				border-radius: 10px;									/* 圆角 */
+			}
+			.post-iframe{
+				width: 120%;
+				height: 130%;
+				min-width: 840px;
+				max-width: 1050px;
+				position: absolute;
+				top: -120px;
+				/* transform:scale(0.55); 								/* 等比缩放 */ */
+				border-radius: 10px;									/* 圆角 */
+			}
+			.top-btn{
+				position: relative;										/* 便于数组漂浮 */
+				margin-bottom: 20px;
+				cursor: pointer;										/* 光标改为小手 */
+				border-style: none;										/* 取消默认边框 */
+				box-shadow: -2px -2px 8px rgba(255, 255, 255, 1),		/* 拟态 */
+							-2px -2px 12px rgba(255, 255, 255, 0.5),
+							inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+							2px 2px 8px rgba(0, 0, 0, 0.15);
+			}
+			.float-div{
+				right: 2%;
+				bottom: 5%;
+				width: 60px;
+				position: fixed;										/* 固定位置 */
+				/* background-color: #2E2E2E; */
+			}
+			.float-num{
+				width: 30px;
+				position: absolute;										/* 绝对定位 */
+				left: 15px;
+				top: 24px;
+				font-size: 15px;
+				color: #486084;
+				font-weight: 600;										/* 加粗 */
+			}
+			
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		
+		<div id="authorTitle">
+			<img src="img/logo.png" class="logo-img" onclick="alert('by 贾伟的新闻小站，点击详情查看具体新闻，收藏将新闻存储在浏览器本地，右侧按钮分别为阅读量、收藏量与返回顶部的特色功能；网站采用半拟态设计，响应式布局，希望各位喜欢')">
+			<span class="logo-text">DouLi的新闻小站</span>
+		</div>
+		<div id="navigationBarDiv">
+			<button id="allPostButton" type="button" class="menu-button" onclick="allPostOnclick()">
+				<img src="img/newsLogo.png" class="icon-button">
+				<span class="menu-text">全部新闻</span>
+			</button>
+			<button id="collectPostButton" type="button" class="menu-button" onclick="colPostOnclilck()">
+				<img src="img/collectLogo.png" class="icon-button">
+				<span class="menu-text">我的收藏</span>
+			</button>
+		</div>
+		
+		<div id="allNewsShowDiv" class="news_post-div"></div>
+		
+		<div id="collectNewsShowDiv" class="news_post-div"></div>
+		
+		<div class="float-div">
+			<button type="button" class="top-btn" onclick="backTop()">
+				<img src="./img/readed_num.png" style="width: 60px;"/>
+				<span id="readed_num" class="float-num">99+</span>
+			</button>
+			<button type="button" class="top-btn" onclick="colPostOnclilck()">
+				<img src="./img/col_num.png" style="width: 60px;"/>
+				<span id="col_num" class="float-num">99+</span>
+			</button>
+			<button type="button" class="top-btn" onclick="backTop()">
+				<img src="./img/back_top.png" style="width: 60px;"/>
+			</button>
+		</div>
+		
+		
+		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script> -->
+		
+		<script type="text/javascript">
+			
+			window.onload = function(){
+				requestNews("1","10");
+				var allNewsShowDiv = document.getElementById("allNewsShowDiv");
+				var collectNewsShowDiv = document.getElementById("collectNewsShowDiv");
+				var allPostButton = document.getElementById("allPostButton");
+				var collectPostButton = document.getElementById("collectPostButton");
+				var readed_num = document.getElementById("readed_num");
+				var col_num = document.getElementById("col_num");
+				allPostButton.classList.add("menuClicking-button");
+				colInit();
+				readInit();
+			}
+			
+			var page_flag = 1;												// 标识数据加载次数
+			
+			
+			// 在全部新闻的情况下页面滑动到底部时添加数据
+			window.onscroll = function(){
+				// 判断在全部新闻页面下
+				if(allPostButton.classList.contains("menuClicking-button")){
+					// 变量scrollTop是滚动条滚动时，滚动条上端距离顶部的距离
+					let scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+					// 变量windowHeight是可视区的高度
+					let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+					// 变量scrollHeight是滚动条的总高度（当前可滚动的页面的总高度）
+					let scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
+					//滚动条到底部
+					if(scrollTop + windowHeight >= scrollHeight){
+						// console.log("页面达到底部");
+						page_flag++;
+						requestNews(page_flag.toString(),"10");
+					}
+				}
+			}
+			
+			
+			// 阅读数据初始化
+			function readInit()
+			{
+				// 如果没有cookie则添加一个cookie，如果有则获取
+				if(document.cookie){
+					let rnum = parseInt(getCookie("readnum"));
+					if(rnum>99){
+						readed_num.innerText = "99+";
+					}
+					else{
+						readed_num.innerText = rnum;
+					}
+				}
+				else{
+					console.log("添加cookie");
+					let date = new Date(Date.now() + 86400e3);				// 当前时间+1天
+					date = date.toUTCString();
+					document.cookie = "readnum=0; expires=" + date;
+					readed_num.innerText = "0";
+				}
+			}
+			
+			// 阅读数量增加
+			function addReaded()
+			{
+				let date = new Date(Date.now() + 86400e3);				// 当前时间+1天
+				date = date.toUTCString();
+				let num = parseInt(getCookie("readnum")) + 1;
+				document.cookie = "readnum=" + encodeURIComponent(num) + "; expires=" + date;
+				readInit();
+			}
+			
+			// 获取cookie
+			function getCookie(name)
+			{
+			  let matches = document.cookie.match(new RegExp(
+			    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+			  ));
+			  return matches ? decodeURIComponent(matches[1]) : undefined;
+			}
+			
+			
+			// 收藏数据初始化
+			function colInit()
+			{
+				console.log("change");
+				let locArray = getCollect();
+				if(locArray.length > 99){
+					col_num.innerText = "99+";
+				}
+				else{
+					col_num.innerText = locArray.length;
+				}
+			}
+					
+			
+			// 请求数据
+			function requestNews(page,count)
+			{
+				// 1.创建对象
+				const xhr = new XMLHttpRequest();
+				// 2.初始化	设置请求方法和url
+				xhr.open('GET','https://api.apiopen.top/getWangYiNews?page='
+							+ page + '&count=' + count);
+				// 3.发送
+				xhr.send();
+				// 4.事件绑定，处理服务器返回端的结果
+				/* 
+					on当……的时候
+					readystate是xhr对象中的属性，表示状态
+						状态含有五个值 0 1 2 3 4
+							0：未初始化
+							1：open方法调用完毕
+							2：send方法调用完毕
+							3：服务端返回了部分结果
+							4：服务端返回了所有结果
+					change	改变，这个事件会触发四次，改变一次状态触发一次
+				 */
+				xhr.onreadystatechange = function(){
+					// 判断服务端返回了所有结果时
+					if(xhr.readyState === 4)
+					{
+						// 判断响应状态码 200 404 403(2开头的都是表示成果)
+						if(xhr.status >= 200 && xhr.status <300)
+						{
+							// 处理服务端响应的结果
+							/* 
+								行 头 空行 体
+								status是响应行里的状态码)
+								statusText是响应行里的状态字符串)
+								getAllResponseHeaders是所有响应头
+							 */
+							// 2.响应体
+							var newsObj = JSON.parse(xhr.response);
+							/* newsObj
+									code: 200
+									message: "成功!"
+									result数组:包含所有数据对象
+										path:新闻网址
+										image:图片网址
+										title:标题
+										passtime:发布时间
+							 */
+							// 回调
+							requestCallback(newsObj.result);
+						}
+						else
+						{
+							console.log('获取数据失败');
+							console.log(xhr.status);
+						}
+					}
+				};
+			}
+			
+			
+			// 请求数据完成时的回调函数(参数为新闻对象数组)
+			function requestCallback(news)
+			{
+				for(dic of news)
+				{
+					creatNewsPost(dic,allNewsShowDiv);
+				}
+			}
+			
+			
+			// 创建一篇新闻并添加到父对象
+			function creatNewsPost(dic,parent_obj)
+			{
+				/* dic
+					path:新闻网址
+					image:图片网址
+					title:标题
+					passtime:发布时间
+					parent_obj:将内容添加到该父对象
+				 */
+				let post_div = document.createElement("div");				// 帖子div
+				post_div.className = "posts-div";
+				
+				let post_title = document.createElement("span");			// 标题
+				post_title.className = "posts-title";
+				post_title.innerText = dic.title;
+				
+				let post_time = document.createElement("h5");				// 时间
+				post_time.className = "posts-time";
+				post_time.innerText = dic.passtime;
+				
+				let post_img = document.createElement("img");				// 图像
+				post_img.className = "posts-img";
+				post_img.src = dic.image;
+				
+				let btn_div = document.createElement("div");				// 用于放btn的div
+				btn_div.className = "posts-btn-div";
+				let pts_div = document.createElement("div");				// 用于存放iframe
+				// iframe必须有div包裹，pts_div的class由点击事件动态添加
+				createparticularsBtn(btn_div,pts_div,dic.path);				// 添加详情按钮
+				createCollectBtn(btn_div,dic);								// 添加收藏按钮
+				
+				let cat = document.createElement("img");
+				cat.src = "./img/cat_right.png";
+				cat.className = "post-cat";
+				
+				post_div.appendChild(post_img);
+				post_div.appendChild(post_title);
+				post_div.appendChild(post_time);
+				post_div.appendChild(btn_div);
+				post_div.appendChild(cat);
+				post_div.appendChild(pts_div);
+				
+				parent_obj.appendChild(post_div);
+			}
+			
+			
+			// 创建收藏按钮
+			function createCollectBtn(btn_div,post_dic)
+			{
+				/*
+					btn_div		将内容添加到该父对象(预置div)
+					post_dic			数据对象(用于被收藏)
+				 */
+				let post_collect = document.createElement("button");
+				post_collect.className = "posts-button";
+				post_collect.style.left = "410px"
+				
+				post_collect.be_cld = isBeCollected(post_dic);					// 添加属性
+				
+				// 根据是否被收藏显示不同
+				let cimg = document.createElement("img");
+				if(post_collect.be_cld)
+				{
+					cimg.src = "./img/becollect_btn.png";
+					post_collect.classList.add("postsClicking-button");
+				}
+				else
+				{
+					cimg.src = "./img/collect_btn.png";
+				}
+				cimg.className = "posts-img-btn";
+				post_collect.appendChild(cimg);
+				
+				let ctext = document.createElement("span");
+				ctext.innerText = "收藏";
+				ctext.className = "posts-text";
+				post_collect.appendChild(ctext);
+				
+				post_collect.onclick = changeCollect.bind(post_collect,post_dic);
+				// 更改this指向并且传递父对象,绑定单击事件
+				
+				btn_div.appendChild(post_collect);
+				/* !!!需判断是否被收藏从而改变class和imgsrc
+					添加onclick
+					添加判断是否被收藏的属性
+				 */
+			}
+			
+			
+			// 改变收藏状态
+			function changeCollect(post_dic)
+			{
+				/*
+					this		button自身
+					post_dic	数据对象
+					be_cld		判断是否被收藏(默认为false)
+				 */
+				this.be_cld = !this.be_cld;
+				// 收藏ing
+				if(this.be_cld)
+				{
+					this.classList.add("postsClicking-button");
+					this.firstChild.src = "./img/becollect_btn.png";
+					addCollect(post_dic);										// 添加收藏
+				}
+				else
+				{
+					this.classList.remove("postsClicking-button");
+					this.firstChild.src = "./img/collect_btn.png";
+					delCollect(post_dic);										// 删除本地收藏内容
+					// 判断是否在收藏页面
+					if(collectPostButton.classList.contains("menuClicking-button"))
+					{
+						// 当场删除该节点,button父结点的父结点
+						collectNewsShowDiv.removeChild(this.parentNode.parentNode);
+						// 被删除空时添加一个提示
+						nodataTips();
+					}
+				}
+				colInit();														// 更新收藏显示
+			}
+						
+			// 当收藏无数据时的提示
+			function nodataTips()
+			{
+				if(document.getElementById("collectNewsShowDiv").childNodes.length == 0)
+				{
+					console.log(document.getElementById("collectNewsShowDiv").childNodes.length);
+					let tips = document.createElement("span");
+					tips.innerText = "暂时还没有收藏哦，快去添加一个吧^-^";
+					tips.className = "posts-title";
+					tips.style.marginLeft = "250px";
+					let cat = document.createElement("img");
+					cat.src = "./img/cat_right.png";
+					cat.style.width = "30px"
+					collectNewsShowDiv.appendChild(tips);
+					collectNewsShowDiv.appendChild(cat);
+				}
+			}
+						
+			// 获取本地收藏数组
+			function getCollect()
+			{
+				// 获取本地数组，用于存放收藏内容唯一标识
+				var locArray = localStorage["locArray"];
+				// 没有则创建，否则转换为对象数组
+				if(!locArray)
+				{
+					locArray = [];
+					localStorage.setItem("locArray",JSON.stringify(locArray));
+				}
+				else
+				{
+					locArray = JSON.parse(locArray);
+				}
+				return locArray;
+			}
+						
+			// 添加本地收藏
+			function addCollect(post_dic)
+			{
+				/*
+					post_dic	数据对象
+				 */
+				let locArray = getCollect();
+				let key = "post" + randomNum();
+				localStorage.setItem(key,JSON.stringify(post_dic));						// 对象添加到本地
+				locArray.push(key);														// 将唯一标识添加到数组
+				localStorage.setItem("locArray",JSON.stringify(locArray));				// 将数组添加到本地
+			}
+			
+			// 删除本地收藏
+			function delCollect(post_dic)
+			{
+				/*
+					post_dic	数据对象
+				 */
+				let locArray = getCollect();
+				let del = "";															// 用于存放需被删除数据的键
+				for (let i = 0; i<locArray.length; i++){
+					if(localStorage[locArray[i]] == JSON.stringify(post_dic)){
+						del = locArray[i];
+						locArray.splice(i,1);												// 将数组中标识删除
+						break;
+					}
+				}
+				if(del == ""){
+					console.log("本地删除出错");
+				}
+				else{
+					localStorage.removeItem(del);										// 本地删除该元素
+					localStorage.setItem("locArray",JSON.stringify(locArray));			// 重新存储数组
+				}
+			}
+			
+			// 判断是否被收藏
+			function isBeCollected(post_dic)
+			{
+				/* 
+					post_dic			数据对象
+				 */
+				// 遍历数组中所有对象
+				let locArray = getCollect();
+				for (let i = 0; i<locArray.length; i++){
+					if(localStorage[locArray[i]] == JSON.stringify(post_dic)){
+						return true;
+					}
+				}
+				
+				return false;
+			}
+			
+			// 返回随机数
+			function randomNum()
+			{
+				let data = new Date();
+				return data.getTime();
+			}
+			
+			
+			// 创建详情按钮
+			function createparticularsBtn(btn_div,pts_div,path)
+			{
+				/*
+					btn_div		将内容添加到该父对象(预置div)
+					pts_div		用于显示详情iframe的div
+					path		需显示的页面
+				 */
+				let post_show = document.createElement("button");
+				post_show.className = "posts-button";
+				
+				let simg = document.createElement("img");
+				simg.src = "./img/particulars_logo.png";
+				simg.className = "posts-img-btn";
+				post_show.appendChild(simg);
+				
+				let stext = document.createElement("span");
+				stext.innerText = "详情";
+				stext.className = "posts-text";
+				post_show.appendChild(stext);
+				
+				post_show.news_path = path;										// 添加属性
+				post_show.click_flag = false;									// 判断是否被按下
+				
+				post_show.onclick = particularsOnclick.bind(post_show,pts_div);
+				// 更改this指向并且传递父对象,绑定单击事件
+				
+				btn_div.appendChild(post_show);
+			}
+			
+			// 点击详情的click事件
+			function particularsOnclick(parent_obj)
+			{
+				/* 
+					this		button自身
+					news_path	指向新闻地址
+					click_flag	判断是否被按下(默认为false)
+					parent_obj	将内容添加到该父对象(预置div)
+				 */
+				console.log(this.news_path);
+				this.click_flag = !this.click_flag;
+				if(this.click_flag)
+				{
+					addReaded();
+					this.classList.add("postsClicking-button");
+					this.firstChild.src = "./img/beparticulars_logo.png";
+					parent_obj.parentNode.style.height = "950px";
+					
+					// iframe
+					let pts = document.createElement("iframe");
+					pts.src = this.news_path;
+					pts.name = "pts_" + randomNum();
+					pts.className = "post-iframe";
+					pts.frameBorder = 0;										// 取消边框
+					parent_obj.appendChild(pts);
+					
+					parent_obj.className = "post-iframe-div";
+				}
+				else
+				{
+					this.classList.remove("postsClicking-button");
+					this.firstChild.src = "./img/particulars_logo.png";
+					parent_obj.parentNode.style.height = "190px";
+					parent_obj.classList.remove("post-iframe-div");
+					parent_obj.innerHTML = "";									// 清空父对象
+				}
+			}
+			
+			// 显示全部收藏的点击事件
+			function colPostOnclilck()
+			{
+				allPostButton.classList.remove("menuClicking-button");
+				collectPostButton.classList.add("menuClicking-button");
+				opacityAnimation(allNewsShowDiv,false);							//逐渐消失
+				move_animation(allNewsShowDiv,"left",-160,3,function(){
+					allNewsShowDiv.style.left = "0px";
+					allNewsShowDiv.innerHTML = "";								// 清空
+					let locArray = getCollect();
+					for (let i = 0; i<locArray.length; i++){
+						let pobj = JSON.parse(localStorage[locArray[i]]);
+						creatNewsPost(JSON.parse(localStorage[locArray[i]]),collectNewsShowDiv);					// 将收藏内容添加到父对象
+					}
+					nodataTips();
+					// 全部消息逐渐出现
+					opacityAnimation(collectNewsShowDiv,true);
+				});
+				
+			}
+			
+			// 显示全部消息的点击事件
+			function allPostOnclick()
+			{
+				allPostButton.classList.add("menuClicking-button");
+				collectPostButton.classList.remove("menuClicking-button");
+				opacityAnimation(collectNewsShowDiv,false);
+				move_animation(collectNewsShowDiv,"left",150,3,function(){
+					requestNews("1","10");										// 重新请求数据并填入
+					opacityAnimation(allNewsShowDiv,true);
+					collectNewsShowDiv.innerHTML = "";							// 清空
+					collectNewsShowDiv.style.left = "0px";					
+				});				
+			}
+			
+			// 回到页面顶部
+			function backTop()
+			{
+				// document.body.scrollTop = document.documentElement.scrollTop = 0;
+				let timer = setInterval(() => {
+					// 获取滚动条高度
+					let wTop = document.documentElement.scrollTop || document.body.scrollTop;
+					// 上升速度，20的步幅
+					let speed = Math.floor(-wTop / 20);
+					// 上升过程中逐步获取滚动条高度
+					document.documentElement.scrollTop = document.body.scrollTop = wTop + speed;
+					// 到顶部时.停止
+					if (wTop === 0) {
+						clearInterval(timer)
+				    }
+				}, 10);
+			}
+			
+			// 移动动画
+			function move_animation(obj,attr,target,speed,callback)
+			{
+				/* 参数:
+				 * - - obj			要执行动画对象
+				 * - - attr			要执行动画的样式，eg:left top width height
+				 * - - target		执行动画的目标位置
+				 * - - speed		速度(正值)
+				 * - - callback		回调函数，这个函数将会再动画执行完毕以后执行(传不传都可以)
+				 */
+				// 点击按钮以后，使box1向右移动(left增大)
+				// 在开启定时器之前，将当前元素上的其他定时器关闭
+				clearInterval(obj.timer);
+				var old_value = parseInt(compatibilityGetStyle(obj,attr));				// 获取当前元素相对于其定位父元素的水平偏移位置
+				// 判断速度的正负值(目标在目前为止左侧，速度取负值)
+				if(target < old_value)
+				{
+					speed -= 2*speed;
+				}
+				// 开启定时器，执行动画效果
+				// 重新设计定时器存储，想执行动画的对象中添加一个timer属性，存放定时器
+				obj.timer = setInterval(function(){	
+					old_value = parseInt(compatibilityGetStyle(obj,attr));				// 获取当前元素相对于其定位父元素的水平偏移位置
+					var new_value = old_value + speed ;
+					if( (speed < 0 && new_value < target) || (speed > 0 && new_value > target) )
+					{
+						new_value = target;
+					}
+					// 对象[属性]中才能使用为变量的属性，而不是  对象.属性
+					obj.style[attr] = new_value + "px" ;
+					if(new_value == target)
+					{
+						clearInterval(obj.timer);
+						// 动画执行完毕，调用回调函数（有回调函数的时候执行）
+						callback && callback();
+					}
+				},10);
+			}
+			
+			// 获取元素样式
+			function compatibilityGetStyle(obj,style_name)
+			{				
+				if(window.getComputedStyle)
+				{
+					return getComputedStyle(obj,null)[style_name];
+				}
+				else
+				{
+					return obj.currentStyle[style_name];
+				}
+			}
+			
+			// 更改透明度逐渐出现的动画
+			function opacityAnimation(obj,appear,callback)
+			{
+				/* 参数:
+				 * - - obj			要执行动画对象
+				 * - - appear		判断是出现还是消失
+				 * - - callback		回调函数，这个函数将会再动画执行完毕以后执行(传不传都可以)
+				 */
+				clearInterval(obj.timer_opac);
+				if(appear)
+				{
+					obj.style.opacity = 0;
+					var cur = 0;
+					//乘100 是为了适当放大，便于操作 最后设置属性值的时候 还要除回来
+					obj.timer_opac = setInterval(function() {
+						var step = (1 * 100 - cur) / 30;
+						//处理步长
+						step = step > 0 ? Math.ceil(step) : Math.floor(step);
+						cur += step;
+						//判断终点
+						if ((step > 0 && cur >= 100) || (step < 0 && cur <= 100)) {
+							clearInterval(obj.timer_opac);
+							cur = 100;
+							callback && callback();
+						}
+						obj.style.opacity = cur/100;
+					}, 20)
+				}
+				else
+				{
+					var cur = compatibilityGetStyle(obj, 'opacity') * 100;;
+					obj.timer_opac = setInterval(function() {
+						var step = cur / 15;
+						//处理步长
+						step = step > 0 ? Math.ceil(step) : Math.floor(step);
+						cur -= step;
+						//判断终点
+						if ((step > 0 && cur >= 100) || (step < 0 && cur <= 100)) {
+							clearInterval(obj.timer_opac);
+							cur = 0;
+							callback && callback();
+						}
+						obj.style.opacity = cur/100;
+					}, 20)
+				}
+			}
+			
+			
+		</script>
+		
+	</body>
+</html>

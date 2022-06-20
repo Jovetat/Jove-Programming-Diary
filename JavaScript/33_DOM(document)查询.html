@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			
+			
+							//获取元素节点
+			/* 通过document对象调用
+			 * getElementById()				通过id属性获取一个 元素节点对象
+			 * getElementsByTagName()		通过标签名获取一组元素节点对象
+			 * getElementsByClassName()		返回包含带有指定类名的所有元素的节点列表
+			 * getElementsByName()			通过name属性获取一组元素节点对象			 
+			*/
+			
+		</script>
+	</head>
+	<body>
+		<button id="btn">普普通通小按钮</button>
+		<br /><br />
+		<button id="btn2">凑数的按钮</button>
+		<br /><br />
+		<button id="btn3">凑数的按钮2</button>
+		<br /><br />
+		<input type="radio" name="gender" value="点点" />
+		<input type="radio" name="gender" value="滴滴" />
+		<!-- 对于自结束标签，innerHTML没有意义 -->
+		<script type="text/javascript">
+								
+								//根据id寻找节点对象
+			var btn = document.getElementById("btn");
+			// var btn = $("btn");			//$函数内部封装了document.getElementById的方法
+			btn.onclick = function(){
+				alert(btn.innerHTML);
+				//通过innerHTML属性可以获取到元素内部的HTML代码
+			};
+			
+								//根据标签名获取一组元素节点对象
+			// 返回类数组对象，所有查询到的元素都会封装到对象中
+			var btns = document.getElementsByTagName("button");
+			//即使查询到的元素只有一个，也会封装到数组中返回
+			console.log(btns);
+			console.log("根据标签名获取到的元素个数："+btns.length);
+			for(var i=0;i<btns.length;i++)
+			{
+				console.log(btns[i].innerHTML);
+			}
+			
+								//通过name获取一组元素节点对象
+			var inputs = document.getElementsByName("gender");
+			console.log(inputs);
+			console.log("根据name获取到的元素个数："+inputs.length);
+			for(var i=0;i<inputs.length;i++)
+			{
+				//读取元素节点的属性：	元素.属性名
+				// class属性不能采用这种方式，需使用（class为保留字）			元素.className
+				console.log(inputs[i].value);
+			}
+			
+			
+		</script>
+	</body>
+</html>

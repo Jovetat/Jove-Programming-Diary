@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			
+			//JS中提供了三个包装类，用于将基本数据类型的数据转换为对象
+			/* String()		可以将基本数据类型字符串转换为String对象
+			 * Number()		可以将基本数据类型字符串转换为Number对象
+			 * Boolean()	可以将基本数据类型字符串转换为Boolean对象
+			 * 实际应用中不会使用基本数据类型的对象，可能会带来不可预期的错误 !!!
+			 * 之所以提供包装类是为了系统用：因为
+			 * 方法和属性只能添加给对象，不能添加给基本数据类型，当我们对基本数据类型的值去调用属性和方法时，
+			 * 浏览器会临时使用包装类将其转换为对象，然后调用对象的属性和方法，再将其转换回来
+			 */
+			var bool = new Boolean(false);			
+			if(bool)										//对象转布尔值都是true
+			{
+				document.write("我运行了<br />");			//运行
+			}
+			
+			var num0 = 77;
+			//创建一个Number类型的对象
+			var num = new Number(77);
+			var num2 = new Number(77);
+			console.log("num0 类型: "+typeof num0);			//number数字
+			console.log("num 类型: "+typeof num);			//object对象
+			//String 与 Boolean 同理
+			
+			//向num中添加一个属性,number对象无法添加
+			num.str = "数字转换为对象的字符串属性";
+			document.write(num.str);
+			console.log(num == num0);						//true(num被自动挡类型转换了)
+			console.log(num === num0);						//false(无类型转换)
+			console.log(num == num2);						//false对象在堆内存的地址不同
+			
+			var s = 123;
+			s = s.toString();								//将 s 临时转换为对象然后调用方法
+			s.hello = "你好";								//临时转换为对象，添加属性，然后转换为回去，而基本数据类型不能有属性(相当于没添加)
+			console.log(s.hello);							//undefined，添加和读取时的 s 已不是同一个对象
+			console.log(typeof s);
+			
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

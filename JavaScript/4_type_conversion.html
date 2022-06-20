@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+				<!--强制类型转换-->
+		            <script type="text/javascript">
+		                //将其他数据类型转换为string
+		                var num = 123;						//数字可以用 _ 下划线分割数字
+		                /* 1、调用被转换数据类型的tosting()方法,不会影响原变量，它会将转换的结果返回
+		                 * var num = num.toString();也可以，转换了num的类型
+		                 * null和undefin无tostring方法
+		                 */
+		                var b = String(a);
+		                /* 2、调用String（）函数，并将被转换的数据作为参数传递给函数
+		                 * 可以转换null和undefined
+		                 */
+		                b = num.toString();
+		
+		                /* 3、将其他的数据类型转换为Number
+		                 * Number（）函数,纯数字的字符串，直接转换为数字
+		                 * 无法转换的将会转换为NaN类型，非数值类型
+		                 * 空字符串和全是空格转换为0
+		                 * true转换为1，false转换为0
+		                 * null转换为0，undefined转换为NaN
+		                 */
+		                b = Number(b);
+		            </script>
+		
+		            <!--转换方式
+		                parseInt()把一个字符串转换为一个整数,允许字符串中含字母单位，eg：123px --》123
+		                从开始到第一个（不论是不是数字）到第一个不是数字的字符结束，eg：a123px --》 NaN；123a456b --》 123
+		                parseFloat()把一个字符串转换为一个浮点数，  rg：123.456px --》123.456
+		                唯一不同为：获得有效的小数
+		                这二者对于非string类型，先转为string然后再操作
+		                -->
+		            <script type="text/javascript">
+		                var a = parseInt(b);
+		                var aa = parseFloat(b);
+		            </script>
+		
+		            <!--其他进制-->
+		            <script type="text/javascript">
+		                var x = 0xff;                       //0x开头表示16进制
+		                var y = 070;                        //0开头表示8进制
+		                var z = 0b10;                       //0b开头表示2进制（不是所有浏览器都支持）
+		                //“070”这种字符串，有些浏览器会当成8进制解析，有些会当成10进制解析
+		                //稳定转换为10（或其他）进制，parseInt(a,10)，第二位表示进制
+		            </script>
+		
+		            <!--将其他数据类型转换为Boolean-->
+		            <script type="text/javascript">
+		                var wu = 123;
+		                a = Boolean(a);                     //0和NaN是false，非零为true
+		                var hu = "hello";
+		                hu = Boolean(hu);                   //空字符串、undefined和null为false，其他（包括空格和名为“false”的字符串）都为true
+		                //对象也会转换为true
+						
+						var result = typeof a;				//typeof返回一个字符串型
+		            </script>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//使用工厂创建对象
+			//虽然与类不同，但使用起来似乎差不多
+			function creatPerson(name1,age1)
+			{
+				var obj = new Object();
+				obj.name=name1;
+				obj.age=age1;
+				obj.sayName=function(){
+					document.write(this.name);
+				}
+				return obj;
+			}
+			var ren = creatPerson("张三",18);
+			ren.sayName();
+			//缺点在于使用方法创建的对象，彼此无法区分
+			//对象都是object类
+		</script>
+	</body>
+</html>

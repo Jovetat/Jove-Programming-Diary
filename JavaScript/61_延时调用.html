@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<button type="button" id="btn01" style="margin-left: 70px;">演示1s调用</button>
+		<button type="button" id="btn02" style="margin-left: 70px;">打断施法</button>
+	</body>
+	<script type="text/javascript">
+		
+		/*
+		 * 					延时调用(也是window对象的方法)
+		 * 相隔指定时间后执行函数
+		 * 只执行一次
+		 * setTimeout()				在指定的毫秒数后调用函数或计算表达式
+		 * clearTimeout()			取消由setTimeout()方法设置的timeout
+		 */
+		var btn01 = document.getElementById("btn01");
+		var btn02 = document.getElementById("btn02");
+		var set_time;
+		
+		btn01.onclick = function(){
+			set_time = setTimeout(function(){
+				alert("反射弧长的不谈");
+			},1000);
+		}
+		btn02.onclick = function(){
+			console.log("我怎么样，啊？这波，打断他放大");
+			clearTimeout(set_time);
+		}
+		
+		
+	</script>
+</html>

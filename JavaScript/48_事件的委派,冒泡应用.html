@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+								<!-- 创建的新元素享受老元素绑定的事件 -->
+		<ul id="u1" style="background-color: aquamarine;">
+			<li>
+				<a href="javascript:;" class="link">超链接一</a><br>
+				<a href="javascript:;" class="link">超链接二</a><br>
+				<a href="javascript:;" class="link">超链接三</a><br>
+			</li>
+		</ul>
+		<button id="btn01" type="button">添加超链接</button>
+		
+	</body>
+	<script type="text/javascript">
+		
+		/* 
+		 * 为每一个超链接都绑定一个单击响应函数
+		 * 较为麻烦且占用内存多，只能为已有的超链接设置事件，而新添加的超链接需重新绑定
+		 */
+		var all_hyperlink = document.getElementsByTagName("a");
+		var u1 = document.getElementById("u1");
+		/* for(var i=0;i<all_hyperlink.length;i++)
+		{
+			all_hyperlink[i].onclick = function(){
+				alert("a的响应函数");
+			};
+		} */
+		
+		var btn01 = document.getElementById("btn01");
+		btn01.onclick = function(){
+			// 创建一个超链接
+			var li = document.createElement("li");
+			li.innerHTML = "<a href='javascript:;' class='link'>新建的超链接</a>";
+			u1.appendChild(li);								//将li添加u1中
+			//新增的超链接没有之前创建超链接的点击事件
+		};
+		
+		/*							事件的委派
+		 * - 只绑定一次事件，即可应用到多个元素上，即使元素是后添加的
+		 * - 将事件统一绑定给元素共同的祖先元素
+		 * - 2当后代元素上的事件触发时，会一直冒泡到祖先元素!!!
+		 * 事件委派是利用了冒泡!减少事件绑定的次数，提高程序的性能
+		 */
+							// 为ul(所有超链接的父元素)绑定一个单击响应函数
+							
+		u1.onclick = function(event){
+								//ul区域点击都会执行此事件
+								//添加判断，在ul区域不执行，ul内元素执行
+			/* 
+			 * event.target()		返回触发此事件的元素
+			 */
+			event = event || window.event;
+			console.log(event.target);							//点击ul区域仍会输出
+			if(event.target.className == "link")				//类型不是link不执行alert(元素多class无法识别)
+			{
+				alert("我是ul的响应函数");				
+			}
+		};
+		// 所有超链接(无论新旧)都会有ul的事件
+		
+		
+	</script>
+</html>

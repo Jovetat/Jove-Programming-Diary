@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			/*1、全局作用域
+			 *直接编写在script标签中的JS代码，都在全局作用域
+			 * 全局作用域在页面打开时创建，在页面关闭时销毁
+			 * 在全局作用域有一个全局对象window
+			 * 它代表浏览器的窗口，由浏览器创建，可以直接使用
+			 * 在全局作用域中，创建的变量都会作为window对象的属性保存！
+			 * 同理创建的函数也会作为window方法保存
+			 */
+			for(var dic in window)
+			{
+				console.log(dic+":"+window[dic]);
+			}
+			var num=10086;
+			document.write(window.num);
+			function print()
+			{
+				document.write("<br />声明的函数会作为window的方法");
+			}
+			window.print();
+			
+			//变量的声明提前
+			//使用var关键字声明的变量，会在所有代码执行之前被声明
+			//但在从上至下运行到该代码时，赋值才会执行
+			
+			//函数的提前声明
+			fun();
+			// fun2();
+			function fun()										//函数声明会在所有代码执行前执行
+			{
+				console.log("可以在函数声明前调用");
+			}
+			//fun2会被声明但只有执行到此处时才会赋值
+			var fun2 = function(){
+				console.log("不可以在函数声明前调用");
+			}
+			
+			//window可用来指相同名称中的全局变量
+			var num1="全局";
+			var num2="全局变量";
+			function fun3()
+			{
+				var num1="局部";
+				document.write("<br />"+num1);
+				document.write("<br />"+window.num1);
+				document.write("<br />"+num2);					//输出局部未赋值但已声明的变量undefined
+				var num2="局部优先";
+			}
+			fun3();
+			
+			//在函数中，不使用var 声明的变量都会成为全局变量
+			
+			var number1=5;
+			function fun4()
+			{
+				number1=520;									//相当于window.number1=520
+				number2="相当于直接在局部声明全局变量";
+			}
+			fun4();
+			document.write("<br />"+number1);
+			document.write("<br />"+number2);
+			
+			
+		</script>
+	</body>
+</html>

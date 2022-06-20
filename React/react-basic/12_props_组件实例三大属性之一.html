@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>props</title>
+		
+		<style type="text/css">
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="test"></div>
+		<div id="test2"></div>
+		<div id="test3"></div>
+		
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/babel">
+			
+			// 创建组件
+			class Person extends React.Component{
+				
+				/* 
+					props是只读的！！！
+				 */
+				
+				render(){
+					// 解构赋值的写法
+					const {name,age,sex} = this.props
+					// return <li>姓名：{name}</li>
+					return (
+						<ul>
+							<li>姓名：{name}</li>
+							<li>性别：{age+1}</li>
+							<li>年龄：{this.props.sex}</li>
+						</ul>
+					)
+					// 年龄全部+1
+				}
+			}
+			// 渲染组件到页面
+			/* 
+				从组件外部向内部传递数据
+				react将这一组键值对传给了props，作为props对象的属性
+				在组件中可以通过this.props.属性名直接读取
+			 */
+			ReactDOM.render(<Person name="tom" age={18} sex="女"/>,document.getElementById("test"));
+			ReactDOM.render(<Person name="Na" age="16" sex="女"/>,document.getElementById("test3"));
+			/* 此处年龄+1时显示181为字符串的相加，如果去掉18外的“无法赋值，语法错误
+				应该写为 age = {18}
+			*/
+			
+			// 批量转递props
+			const peo = {name:'尼古拉斯赵四',age:62,sex:'男'};
+			// ReactDOM.render(<Person name={peo.name} age={peo.age} sex={peo.sex}/>,document.getElementById("test2"));
+			/* 这种方式可以传递变量但太过麻烦 */
+			// 主流传递方式，一次性将对象所有的键值对传递到props
+			ReactDOM.render(<Person {...peo}/>,document.getElementById("test2"));
+			/* 
+				要求使用的数据属性名与props中所需的属性名相同
+				...  为展开运算符（详细请阅读11附）
+				这里{}代表里面要写js语句，与附件中{}代表特殊的语句结构不同
+				但react允许用展开运算符复制对象(仅适用于标签属性的传递！)
+			 */
+			// 传递标签属性与传递props含义相同
+			
+		</script>
+		
+	</body>
+</html>

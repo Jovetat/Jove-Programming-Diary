@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			
+			//整个页面加载后执行
+			window.onload = function(){
+								//获取body标签
+				var body = document.getElementsByTagName("body")[0];
+				
+				console.log(body);
+								//在document中有一个属性body,它保存的是boddy的引用!!!
+				var body1 = document.body;
+				console.log(body1);
+								//	document.documentElement保存的是html根标签!!!
+				console.log(document.documentElement);
+								// document.all 代表页面中所有的元素
+				var all = document.all;
+				
+				console.log(all);
+				console.log("-------------------------all------------------------------");
+				for(var i=0;i<all.length;i++)
+				{
+					console.log(all[i]);
+				}
+								//另一种方式获取页面中所有的元素
+				all = document.getElementsByTagName("*");
+				console.log(all.length);
+								
+								//根据元素的class属性值查询一组元素节点对象(仅支持ie8以上)
+								//document.getElementsByClassName
+				var box1 = document.getElementsByClassName("box");
+				console.log("box.length = "+box1.length);
+				
+								//只获取指定class中的元素(获取class中的div)
+								//可以先找到box然后getElementsByTagName
+				/* 调用css选择器的方法,更加灵活且兼容ie8+
+				 * document.querySelector()
+				 * 需要一个选择器的字符串作为参数,可以根据一个css选择器来查询一个元素
+				 * 使用该方法总会返回唯一的一个元素,如果满足条件的元素有多个,那么它只会返回第一个
+				 */
+				var divs = document.querySelector(".box div");
+				console.log(divs);
+				//满足条件的元素有多个使用document.querySelectorAll()
+				//该方法和document.querySelector()用法类似,不同的是它会将符合条件的元素封装到一个数组中返回
+				//即使符合条件的元素只有一个,也会返回数组
+				var divs2 = document.querySelectorAll(".box");
+				console.log(divs2.length);
+			};
+			
+		</script>
+	</head>
+	<body>
+		<div class="box">
+			<div>在class=box内的div1</div>
+		</div>
+		<div class="box"></div>		
+		<div></div>
+	</body>
+</html>

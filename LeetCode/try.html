@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<button type="button" onclick="tryclick()">try</button>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function tryclick() {
+				console.log('try')
+				console.log('结果：' + singleNumber2([4,1,2,1,2]) )
+			}
+
+			var twoSum = function(nums, target) {
+				let arr = [];
+				arr.push(nums[0]);
+
+				for (let i = 1; i < nums.length; i++) {
+					console.log(arr);
+					if (arr.indexOf(target - nums[i]) < 0) {
+						arr.push(nums[i]);
+					} else {
+						return [arr.indexOf(target - nums[i]), i];
+					}
+				}
+			}
+
+			var mostCommonWord = function(paragraph, banned) {
+				let arr = paragraph.replace(/[\!|\?|\'|\,|\.|\;]/g, " ").replace(/\s+/g, " ").toLowerCase().split(" ")
+				let f = [0]
+				let map = new Map()
+				if (banned.indexOf(arr[0]) == -1) {
+					map.set(arr[0], 0)
+					f = [1]
+				}
+
+				for (let i = 1; i < arr.length; i++) {
+					f[i] = 0
+					if (banned.indexOf(arr[i]) == -1) {
+						f[i] = 1
+						if (map.has(arr[i])) {
+							f[map.get(arr[i])] += 1
+						} else {
+							map.set(arr[i], i)
+						}
+					} else {
+						continue
+					}
+				}
+				return arr[f.indexOf(Math.max(...f))]
+			};
+
+			var shortestToChar = function(s, c) {
+				var flag = 0
+				var pos = []
+				for (let i = 0; i < s.length; i++) {
+					if (s[i] == c) {
+						pos.push(i)
+					}
+				}
+				var ans = [pos[0]]
+				for (let i = 1; i < s.length; i++) {
+					if (Math.abs(pos[flag] - i) > pos[flag + 1] - i) {
+						flag++
+					}
+					ans[i] = Math.abs(pos[flag] - i)
+				}
+				return ans
+			};
+
+			var isPalindrome = function(x) {
+				if (x < 0 || (x % 10 == 0 && x != 0)) {
+					return false
+				} else {
+					let num = 0;
+					while (x > num) {
+						num = parseInt(num * 10 + x % 10)
+						x = parseInt(x / 10)
+					}
+					console.log(x, num)
+					return x == num || x == parseInt(num / 10)
+				}
+			};
+
+			var smallestRangeI = function(nums, k) {
+				const max = Math.max(...nums)
+				const min = Math.min(...nums)
+				return max - min - 2 * k < 0 ? 0 : max - min - 2 * k
+			};
+
+			var romanToInt = function(s) {
+				let sum = 0
+				const romap = new Map([
+					['I', 1],
+					['V', 5],
+					['X', 10],
+					['L', 50],
+					['C', 100],
+					['D', 500],
+					['M', 1000]
+				])
+				sum += romap.get(s[0])
+				for (let i = 1; i < s.length; i++) {
+					if (romap.get(s[i]) > romap.get(s[i - 1])) {
+						sum -= 2 * romap.get(s[i - 1])
+					}
+					sum += romap.get(s[i])
+				}
+				return sum
+			};
+
+			var longestCommonPrefix = function(strs) {
+				if (strs.length < 2) {
+					return strs[0]
+				}
+				const s0 = strs[0]
+				let re = 0
+				let flag = true
+				while (re < s0.length && flag) {
+					for (let j = 1; j < strs.length; j++) {
+						const ts = strs[j]
+						if (s0[re] != ts[re]) {
+							flag = false
+							break
+						}
+					}
+					if (flag) {
+						re++
+					}
+				}
+				return re > 0 ? strs[0].slice(0, re) : ""
+			};
+
+			var isValid = function(s) {
+				if (s.length % 2 == 1) {
+					return false
+				}
+				let stack = []
+				const map = new Map([
+					['}', '{'],
+					[')', '('],
+					[']', '[']
+				])
+				for (let ch of s) {
+					if (map.has(ch)) {
+						if (stack.length == 0 || stack[stack.length - 1] != map.get(ch)) {
+							return false
+						}
+						stack.pop()
+					} else {
+						stack.push(ch)
+					}
+				}
+				return !stack.length
+			};
+
+			var mergeTwoLists = function(list1, list2) {
+				// 递归
+				if (list1 === null) {
+					return list2
+				} else if (list2 === null) {
+					return list1
+				} else if (list1.val <= list2.val) {
+					list1.next = mergeTwoLists(list1.next, list2)
+					return list1
+				} else {
+					list2.next = mergeTwoLists(list1, list2.next)
+					return list2
+				}
+				// 迭代
+				let ls1 = 0
+				let ls2 = 0
+				while (ls1 < list1.length || ls2 < list2.length) {
+					console.log(ls1, ls2)
+					if (list1[ls1] <= list2[ls2]) {
+						re.push(list1[ls1])
+						ls1++
+					} else {
+						re.push(list2[ls2])
+						ls2++
+					}
+				}
+				return re
+			};
+
+			var removeDuplicates = function(nums) {
+				// 粗暴
+				for (let i = 1; i < nums.length; i++) {
+					if (nums[i] == nums[i - 1]) {
+						nums.splice(i, 1)
+						i--
+					}
+				}
+				return nums.length
+				// 双指针
+				const n = nums.length
+				let fast = 1,
+					slow = 1
+				while (fast < n) {
+					if (nums[fast] !== nums[fast - 1]) {
+						nums[slow] = nums[fast]
+						slow++
+					}
+					fast++
+				}
+				return slow
+			};
+
+			var intersection = function(nums1, nums2) {
+				let re = []
+				for (let i = 0; i < nums1.length; i++) {
+					if (nums2.includes(nums1[i]) && !re.includes(nums1[i])) {
+						re.push(nums1[i])
+					}
+				}
+				return re
+			};
+
+			var isAnagram = function(s, t) {
+				return s.length == t.length && [...s].sort().toString() === [...t].sort().toString()
+			};
+
+			var reorderLogFiles = function(logs) {
+				// 朴素（笨比算法）
+				// 双指针
+				let num = 0
+				let fast = slow = logs.length - 1
+				while (fast >= 0) {
+					if (!isNaN(logs[fast].split(' ')[1])) {
+						const flag = logs[slow]
+						logs[slow] = logs[fast]
+						logs[fast] = flag
+						num++
+						slow--
+					}
+					fast--
+				}
+				for (let i = 0; i < logs.length - num - 1; i++) {
+					let min = i
+					let logmin = logs[min].split(' ')
+					for (let j = i + 1; j < logs.length - num; j++) {
+						const lognow = logs[j].split(' ')
+						let n = 1
+						const long = logmin.length > lognow.length ? lognow.length : logmin.length
+						while (n < long) {
+							if (logmin[n].localeCompare(lognow[n]) > 0) {
+								min = j
+								logmin = lognow
+								break
+							} else if (logmin[n].localeCompare(lognow[n]) < 0) {
+								break
+							}
+							n++
+						}
+						if (n === long) {
+							if (logmin[0] > lognow[0] && logmin.length == lognow.length) {
+								min = j
+								logmin = lognow
+							} else if (!lognow[n] && logmin[n]) {
+								min = j
+								logmin = lognow
+							}
+						}
+					}
+					if (min != i) {
+						const fl = logs[i]
+						logs[i] = logs[min]
+						logs[min] = fl
+					}
+				}
+				return logs
+			};
+
+			var reorderLogFiles2 = function(logs) {
+				// sort（自带快速排序/timsort）
+				const ZERO = '0'.charCodeAt(0),
+					NINE = '9'.charCodeAt(0)
+				logs.sort((a, b) => {
+					const aisnum = a.charCodeAt(a.length - 1) >= ZERO && a.charCodeAt(a.length - 1) <= NINE
+					const bisnum = b.charCodeAt(b.length - 1) >= ZERO && b.charCodeAt(b.length - 1) <= NINE
+					if (aisnum && bisnum) {
+						return 0
+					} else if (aisnum) {
+						return 1
+					} else if (bisnum) {
+						return -1
+					}
+					const aArr = a.split(' ')
+					const bArr = b.split(' ')
+					const absecCom = aArr.slice(1).join(' ').localeCompare(bArr.slice(1).join(' '))
+					if (absecCom != 0) {
+						return absecCom
+					}
+					return aArr[0].localeCompare(bArr[0])
+				})
+				return logs
+			}
+
+			var reorderLogFiles3 = function(logs) {
+				// 双指针排数字logs，timsort排序字母logs部分
+				const ZERO = '0'.charCodeAt(0),
+					NINE = '9'.charCodeAt(0)
+				let num = 0
+				let fast = slow = logs.length - 1
+				while (fast >= 0) {
+					const lf = logs[fast]
+					if (lf.charCodeAt(lf.length - 1) >= ZERO && lf.charCodeAt(lf.length - 1) <= NINE) {
+						const flag = logs[slow]
+						logs[slow] = logs[fast]
+						logs[fast] = flag
+						num++
+						slow--
+					}
+					fast--
+				}
+				let fhalf = logs.slice(0, logs.length - num)
+				const shalf = logs.slice(logs.length - num)
+				fhalf.sort((a, b) => {
+					const aArr = a.split(' ')
+					const bArr = b.split(' ')
+					const absecCom = aArr.slice(1).join(' ').localeCompare(bArr.slice(1).join(' '))
+					if (absecCom != 0) {
+						return absecCom
+					}
+					return aArr[0].localeCompare(bArr[0])
+				})
+				return fhalf.concat(shalf)
+			}
+			
+			var searchInsert = function(nums, target) {
+			    let left = -1
+			    let right = nums.length
+			    while( left+1 != right ){
+					const mid = parseInt( (left+right)/2 )
+					nums[mid] < target ? left=mid : right=mid
+			    }
+			    return right
+			};
+			
+			var strStr = function(haystack, needle) {
+			    // 暴力破解
+				const nedl = needle.length
+				if(nedl === 0){
+					return 0
+				}
+				for(let i=0 ; i<=haystack.length-nedl+1 ; i++){
+					let j = 0
+					while(j<nedl){
+						if(haystack[j+i] !== needle[j]){
+							break
+						}
+						j++
+					}
+					if(j===nedl){
+						return i
+					}
+				}
+				return -1
+			};
+			
+			var strStr2 = function(haystack, needle) {
+			    // KMP算法 N.28
+			};
+			
+			var diStringMatch = function(s) {
+			    let re = []
+				let be = 0
+				let af = s.length
+				for(let i=0 ; i<=s.length ; i++){
+					if(s[i] === 'I'){
+						re.push(be)
+						be++
+					}
+					else{
+						re.push(af)
+						af--
+					}
+				}
+				return re
+			};
+			
+			var maxSubArray = function(nums) {
+				// 暴力破解(时间复杂度为n^3所以超出时间限制)
+				let start = []
+				let re = []
+				for(let i=0 ; i<nums.length ; i++){
+					if(nums[i]>0){
+						start.push(i)
+					}
+				}
+				if(start.length <= 1){
+					return Math.max(...nums)
+				}
+				for(let j=0 ; j<start.length ; j++){
+					let flag = []
+					for(let x=1 ; x<=nums.length-start[j] ; x++){
+						const f = nums.slice(start[j],start[j]+x)
+						let sum = 0
+						f.forEach((item)=>{
+							sum += item
+						})
+						flag.push(sum)
+					}
+					re.push( Math.max(...flag))
+				}
+				return Math.max(...re)
+			};
+			
+			var maxSubArray = function(nums) {
+				// 动态规划
+				let dp = [nums[0]]
+				let max = nums[0]
+				for(let i=1 ; i<nums.length ; i++){
+					dp[i] = Math.max(dp[i-1]+nums[i],nums[i])
+					max = Math.max(max,dp[i])
+				}
+				return max
+			};
+			
+			var plusOne = function(digits) {
+				const di = digits.length - 1
+				digits[di]++
+				let last = di
+				while(digits[last]===10){
+					digits[last] = 0
+					last--
+					if(last===-1){
+						digits.unshift(1)
+						return digits
+					}
+					digits[last]++
+				}
+				return digits
+			};
+			
+			var addBinary = function(a, b) {
+				let re = []
+				let jin = 0
+				for(let al=a.length-1,bl=b.length-1 ; al>=0 || bl>=0 ; al--,bl--){
+					let flag = al>=0 ? parseInt(a[al]) : 0
+					flag += bl>=0 ? parseInt(b[bl]) : 0 
+					flag += jin
+					jin = 0
+					re.unshift(flag%2)
+					jin = flag>1 ? 1: 0
+				}
+				if(jin){
+					re.unshift(1)
+				}
+				return re.join('')
+			};
+			
+			var singleNumber = function(nums) {
+			    nums.sort()
+				for(let i=0 ; i<nums.length ; i+=2){
+					if(nums[i]!=nums[i+1]){
+						return nums[i]
+					}
+				}
+			};
+			
+			var singleNumber2 = function(nums) {
+				console.log(nums)
+				// 异或（位运算）
+			    let ans = 0;
+			    for(const dic of nums) {
+					console.log('dic:'+dic)
+			        ans ^= dic;
+					console.log('ans:'+ans)
+			    }
+			    return ans;
+			};
+		
+
+		</script>
+
+		<style type="text/css">
+			button {
+				width: 300px;
+				height: 150px;
+				font-size: 80px;
+				margin-top: 200px;
+				margin-left: 200px;
+				background-color: #F7B0B0;
+				color: white;
+			}
+		</style>
+	</body>
+
+</html>

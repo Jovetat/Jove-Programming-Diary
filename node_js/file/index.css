@@ -1,0 +1,107 @@
+
+			*{
+				margin: 0;
+				padding: 0;
+				/* 取消所有默认外边距和内边距 */
+			}
+			h1{
+				text-align: center;
+				margin: 20px;
+				padding: 20px;
+			}
+			#computer_entirety{
+				background-color: #f8fafe;
+				padding: 20px;
+				width: 380px;
+				margin: auto;
+				border: 1px solid #ccd1dc;
+				box-shadow: 7px 7px 5px #888888;				/* 阴影 */
+				border-radius: 10px;
+				font-size: 0px;
+			}
+			#navigation{
+				margin-bottom: 60px;
+			}
+			#display_frame{
+				width: 360px;
+				height: 120px;
+				background-color: #414141;
+				padding: 0px 10px 0px 10px;						/* 上右下左 */
+				box-shadow: 0px 2px 4px 0px rgb(73,114,197,0.5);		/* 阴影 */
+				border-radius: 9px;
+			}
+			#computer_div{
+				margin-top: 20px;
+				padding-left: 10px;
+				width: 380px;
+			}
+			#computer_messege{
+				display: flex;									/* 弹性布局 */
+				justify-content:flex-end;						/* 右对齐 */
+				font-size: 32px;
+				color: white;
+				margin-right: 10px;
+			}
+			.computer_history{
+				margin-right: 10px;
+				height: 25px;
+				display: flex;									/* 弹性布局 */
+				justify-content:flex-end;						/* 右对齐 */
+				padding: 5px;
+				font-size: 19px;
+				color: whitesmoke;
+				opacity: 0.4;									/* 透明度 */
+			}
+			.basics-button{
+				border-radius: 30px;							/* 圆角 */
+				overflow: hidden;								/* 隐藏溢出的径向渐变背景 */
+				position: relative;								/* 相对定位 */
+				cursor: pointer;								/* 光标改为小手 */
+				box-shadow: 0px 2px 4px 0px rgb(73,114,197,0.2);		/* 阴影 */
+				outline: none;									/* 隐藏黑边 */
+				width: 80px;
+				height: 75px;
+				padding: 0;
+				margin: 5px;
+				border-style: none;
+				/* background-color: black; */
+				background-color: transparent;					/* 透明背景 */
+			}
+			.text-button{
+				color: #3e4044;
+				font-size: 22px;
+				font-weight: 500;
+			}
+			.arithmetic-button{
+				color: #e55026;
+				font-size: 26px;
+				font-weight: 500;
+			}
+			/* 按钮按下动效 */
+			.basics-button:hover{
+				background-color: #f0f3f8;
+			}
+			.basics-button:active{
+				box-shadow: box-shadow
+					7px 6px 28px 1px rgba(0, 0, 0, 0.24);				
+				transform: translateY(2px);
+			}
+			/* 按钮扩展动效 */
+			.btn-animation::after {
+				content: '';										/* 定义元素之前或之后放置的生成内容 */
+				position: absolute;									/* 绝对定位 */
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-image: radial-gradient(circle, #ccc 10%, transparent 10.1%);		/* 径向渐变 */
+				transform: scale(10);								/* 定义 2D 缩放转换 */
+				opacity: 0;
+				transition: all .4s;								/* 过渡动画 */
+			}
+			.btn-animation:active::after {
+				transform: scale(0);
+				opacity: .5;
+				transition: 0s;
+			}
+		

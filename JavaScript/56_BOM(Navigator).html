@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+		/* 
+		 * BOM
+		 * - 浏览器对象模型
+		 * - BOM可以通过JavaScript来操作浏览器
+		 * - 在BOM中提供了一组对象，用来完成对浏览器的操作
+		 */
+		
+		/* 
+		 * BOM对象
+		 * - - window			代表整个浏览器的窗口，同时也是网页中的全局对象
+		 * 		(全局作用域中的变量都会作为window对象的属性保存，全局作用域中的函数都会作为window对象的方法保存)
+		 * 
+		 * - - document			document 是页面的入口，可以利用它修改创建 HTML 的内容(window的属性,可以直接使用)
+		 * 					!!!以下BOM对象都是作为window对象的属性保存的!!!(可以通过window对象来使用，也可以直接使用【因为都是全局的】)
+		 * - - navigator		代表当前浏览器的信息，通过该对象可以来识别不同的浏览器
+		 * - - location			代表当前浏览器的地址栏信息，通过Location可以操作浏览器跳转页面
+		 * - - history			代表浏览器的历史记录，可以通过该对象来操作浏览器的历史记录
+		 * 		(由于隐私原因，该对象不能获取到具体的历史记录)
+		 * 		(用来操作浏览器向前或向后翻页)
+		 * 		(而且该操作只在当此访问时有效)
+		 * - - screen			代表用户的屏幕信息，可以获取到用户显示器的相关信息
+		 */
+		console.log(window);
+		console.log(window.navigator);
+		console.log(navigator);
+		console.log(location);
+		console.log(history);
+		console.log(screen);
+		
+		/* navigator
+		 * 由于历史原因，navigator对象中的大部分属性都已经不能帮助我们识别浏览器了
+		 */
+		/* 
+		 * appCodeName			返回浏览器的代码名
+		 * appName				返回浏览器的名称
+		 * ……
+		 * 一般我们只会使用userAgent(用户代理，等价于浏览器)来判断浏览器的信息
+		 * - - userAgent是一个字符串，包含有描述浏览器信息的内容，不同浏览器userAgent不同
+		 */
+		console.log("浏览器名称：" + navigator.userAgent);
+		// - Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.67
+		
+		// 判断是否是firefox浏览器(判断该字符串中是否含有firefox)
+		/* if(/firefox/i.test(navigator.userAgent))
+		{
+			alert("火狐浏览器欢迎你");
+		}
+		else if(/chrome/i.test(navigator.userAgent))
+		{
+			alert("谷歌：有些人是换皮但我不说");							// Edge与chrome无法区分
+		}
+		else if(/MSIE/i.test(navigator.userAgent))
+		{
+			alert("IE有人用?");
+		} */
+		
+		/* 
+		 * 如果通过UserAgent不能判断，还可以通过一些浏览器中特有的对象，来判断浏览器信息
+		 * eg:ActiveXObject 只有IE(包括Edge)含有此对象
+		 * if(window.ActiveXObject)			可以判断IE但无法判断Edge
+		 */
+		
+		
+		
+	</script>
+</html>

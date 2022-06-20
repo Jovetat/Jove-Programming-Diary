@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="box1"></div>
+		<div id="box2">
+			
+		</div>
+		<button id="btn01" style="margin-left: 200px;">btn01</button>
+		<button id="btn02" style="margin-left: 200px;">btn02</button>
+	</body>
+	<script type="text/javascript">
+	
+						// 以下实验针对IE8，其他浏览器不起作用
+		var btn01 = document.getElementById("btn01");
+		var btn02 = document.getElementById("btn02");
+		btn01.onclick = function(){
+			console.log("btn01的click事件");
+		};
+		btn02.onclick = function(){
+			console.log("btn02的click事件");
+		};
+		/* 设置btn01对鼠标按下相关事件进行捕获 */
+		
+		// btn01.setCapture();								//防止影响拖拽注释掉了，需要按钮例子自行取消注释
+		
+		//点任意处都会被捕获
+		/* 
+		 * 当调用元素的setCapture()方法以后，这个元素将会把下一次所有的鼠标按下相关的事件捕获到自身上!!!
+		 */
+		var box1 = document.getElementById("box1");
+					/* 拖拽box1元素 */
+		/* 
+		 * 拖拽的流程
+		 * - 1、当鼠标在被拖拽元素上按下时，元素开始拖拽		onmousedown
+		 * - 2、元素跟随鼠标移动								onmousemove
+		 * - 3、鼠标松开时，被拖拽元素固定在当前位置			onmouseup
+		 */
+		// document属性作为window对象的一个子对象被创建，是用于访问页面中所有元素的对象
+		
+		box1.onmousedown = function(event){
+			// 设置box1捕获所有鼠标按下事件
+			if(box1.setCapture)
+			{				
+				box1.setCapture();							// 此方法在其他浏览器中不可以，且会影响正常运行
+			}
+			/* box1.setCapture && box1.setCapture(); if语句的简写 */
+			// 针对IE8
+			event = event || window.event;
+			var offsetX = event.clientX - box1.offsetLeft;
+			var offsetY = event.clientY - box1.offsetTop;
+			document.onmousemove = function(event){
+				event = event || window.event;
+				box1.style.left = (event.clientX - offsetX) + "px";
+				box1.style.top = (event.clientY - offsetY) + "px";
+			};
+			document.onmouseup = function(){
+				document.onmousemove = null;
+				console.log("鼠标被松开");
+				document.onmouseup = null;
+				// 松开时取消对事件的捕获，不然没完没了
+				if(box1.releaseCapture)
+				{					
+					box1.releaseCapture();					// 此方法在其他浏览器中不可以，且会影响正常运行
+				}
+				// 针对IE8
+			};
+			return false;
+		};
+		
+		drap(box2);
+		// 拖拽方法的复用
+		function drap(obj)
+		{
+			obj.onmousedown = function(event){
+				event = event || window.event;
+				var offsetX = event.clientX - box1.offsetLeft;
+				var offsetY = event.clientY - box1.offsetTop;
+				document.onmousemove = function(event){
+					event = event || window.event;
+					obj.style.left = (event.clientX - offsetX) + "px";
+					obj.style.top = (event.clientY - offsetY) + "px";
+				};
+				document.onmouseup = function(){
+					document.onmousemove = null;
+					console.log("鼠标被松开");
+					document.onmouseup = null;
+				};
+				return false;
+			};
+		}
+		
+	</script>
+	<style type="text/css">
+		#box1{
+			width: 100px;
+			height: 100px;
+			background-color: cadetblue;
+			position: absolute;								/* 开启绝对定位 */
+		}
+		#box2{
+			width: 100px;
+			height: 100px;
+			background-color: #FF69B4;
+			position: absolute;					/* 开启绝对定位 */
+			margin-left: 200px;					/* 一直处于窗口左上角200px的位置 */
+			margin-top: 200px;
+		}
+	</style>
+</html>

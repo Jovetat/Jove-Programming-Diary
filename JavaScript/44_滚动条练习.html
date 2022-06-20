@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#info{
+				width: 300px;
+				height: 500px;
+				background-color: #FFD700;
+				overflow: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<h3>请仔细阅读霸王协议</h3>
+		<p id="info">
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+			虽然我知道不合理但你爱签不签，不签别用<br />
+		</p>
+		<input type="checkbox" id="sub_checkbox" disabled="disabled"/>我已仔细阅读并同意协议
+		<!-- disabled：不可用，暂时不可打勾和按动 -->
+		<input type="submit" name="" id="sub_button" disabled="disabled" value="提交" />
+		
+		<script type="text/javascript">
+			
+									//当垂直滚动条滚动到底时表单项可用
+			/* 先设置需不可用的勾选框或按钮 disabled="disabled"
+			 * onscroll		该事件将会在元素的滚动条滚动时触发
+			 */
+			var info = document.getElementById("info");
+			var sub_checkbox = document.getElementById("sub_checkbox");
+			var sub_button = document.getElementById("sub_button");
+			//为段落info绑定一个滚动条滚动的事件
+			info.onscroll = function(){
+				//检查垂直滚动条是否到底
+				if(info.scrollHeight - info.scrollTop == info.clientHeight)
+				{
+					console.log("到底了");
+					//使表单项可用(true禁用/false不禁用)
+					sub_button.disabled = false;
+					sub_checkbox.disabled = false;
+				}
+			};
+			sub_button.onclick = function(){
+				if(sub_checkbox.checked)
+				{
+					alert("资本的力量");
+				}
+				else
+				{
+					alert("请你鸭的先打勾");
+				}
+			};
+			
+		</script>
+	</body>
+</html>

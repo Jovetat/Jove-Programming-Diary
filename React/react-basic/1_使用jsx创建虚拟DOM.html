@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>使用js创建虚拟DOM</title>
+	</head>
+	<body>
+		
+		<!-- 准备好一个容器 -->
+		<div id="test"></div>
+		<div id="test2"></div>
+		
+		<!-- 引入react核心库（注意顺序，核心库react要在dom库之前） -->
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 引入react-dom，用于支持react操作dom -->
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 引入babel，用于将jsx转为js -->
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<!-- 此处将JavaScript改成babel，含义为将jsx通过babel文件转换为JavaScript -->
+		<script type="text/babel">
+			
+			/* jsx会将语法通过babel转换为js创建虚拟DOM的形式，但更为简便 */
+			// 1、创建虚拟DOM
+			const VDOM = <h1 id="title"><span>Hello , React</span></h1>;			/* 此处不写引号，因为不是字符串 */
+			// 另一种写法
+			const VDOM2 = (
+				<h1 id="title2">
+					<span>Hello , React</span>
+				</h1>
+			);
+			// const为常量，无法（通过重新赋值）改变的，也不能被重新声明，非常类似用 let 语句定义的变量；常量在声明的时候可以使用大小写，但通常情况下全部用大写字母
+			// 2、渲染虚拟DOM到页面
+			// ReactDOM.render(虚拟DOM,容器)
+			ReactDOM.render(VDOM,document.getElementById("test"));
+			ReactDOM.render(VDOM2,document.getElementById("test2"));
+			
+		</script>
+		
+	</body>
+</html>

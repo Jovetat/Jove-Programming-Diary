@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	
+		<table id="employeeTable" cellspacing="" cellpadding="">
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Salary</th>
+				<th>&nbsp;</th>
+			</tr>
+			<tr>
+				<td>Tom</td>
+				<td>ton@tom.com</td>
+				<td>5000</td>
+				<td><a href="deleteEmp?id=001">Delete</a></td>
+			</tr>
+			<tr>
+				<td>Tina</td>
+				<td>ton@tom.com</td>
+				<td>2000</td>
+				<td><a href="deleteEmp?id=002">Delete</a></td>
+			</tr>
+			<tr>
+				<td>Rait</td>
+				<td>ton@tom.com</td>
+				<td>2500</td>
+				<td><a href="deleteEmp?id=003">Delete</a></td>
+			</tr>
+		</table>
+		
+		<div id="formDiv">
+			<h4>添加新员工</h4>
+			<table>
+				<tr>
+					<td class="word">name:</td>
+					<td class="inp">
+						<input type="text" name="empName" id="empName" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td class="word">email:</td>
+					<td class="inp">
+						<input type="text" name="email" id="email" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td class="word">salary:</td>
+					<td class="inp">
+						<input type="text" name="salary" id="salary" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<button type="button" id="addRmpButton" value="abc">
+							Submit
+						</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	<body>
+		<script type="text/javascript">
+								//点击超链接后删除一行信息
+			//获取所有超链接<a></a>
+			var all_href = document.getElementsByTagName("a");
+			for(dic of all_href)						//遍历对象
+			{	
+				dic.onclick = del_message;
+			}
+			for(var i=0;i<all_href.length;i++)			//遍历对象
+			{
+				// dic.onclick = function(){
+				// 	alert(all_href[i]);					//undefine
+				// 	//当响应函数被点击执行时，for循环已执行完，i=3
+				// };
+				
+				console.log(all_href[i]);
+				console.log(all_href[i]==this);			///false
+			}
+			// for(dic in all_href)						//遍历对象的属性
+			// {
+			// 	console.log(dic);
+			// }
+								// 添加新属性
+			var addRmpButton = document.getElementById("addRmpButton");
+			addRmpButton.onclick = function(){
+									//方法一innerHTML
+				var message = document.createElement("tr");
+				message.innerHTML = "<td>"+document.getElementById("empName").value+"</td>"+
+									"<td>"+document.getElementById("email").value+"</td>"+
+									"<td>"+document.getElementById("salary").value+"</td>"+
+									"<td><a href='javascrip:;'>Delete</a></td>";
+				var hyperlink = message.getElementsByTagName("a")[0];
+				hyperlink.onclick = del_message;
+									//方法二appendChild()
+				// var name_message = document.createElement("td");
+				// var name = document.createTextNode(document.getElementById("empName").value);
+				// name_message.appendChild(name);
+				
+				// var email_message = document.createElement("td");
+				// var email = document.createTextNode(document.getElementById("email").value);
+				// email_message.appendChild(email);
+				
+				// var salary_message = document.createElement("td");
+				// var salary = document.createTextNode(document.getElementById("salary").value);
+				// salary_message.appendChild(salary);
+				
+				// var delete_href = document.createElement("td");
+				// var hyperlink = document.createElement("a");
+				// hyperlink.innerHTML = "Delete";
+				// hyperlink.href = "deleteEmp";
+				// hyperlink.onclick = del_message;
+				// delete_href.appendChild(hyperlink);
+				
+				// var message = document.createElement("tr");
+				// message.appendChild(name_message);
+				// message.appendChild(email_message);
+				// message.appendChild(salary_message);
+				// message.appendChild(delete_href);
+				
+				var employeeTable = document.getElementById("employeeTable");
+				//获取employeeTable
+				employeeTable.getElementsByTagName("tbody")[0].appendChild(message);
+				
+			};
+			
+			
+										//点击click删除整条信息
+			function del_message()
+			{
+				//删除<a></a>所在的那一行,this指此时绑定函数的超链接对象
+				//获取当前tr，a的爷爷
+				var tr = this.parentNode.parentNode;
+				//删除前弹出提示框
+				// - - confirm()用于弹出一个带有确认和取消的提示框，需要一个字符串作为参数，作为提示文字出现
+				// - - 返回一个布尔值，确定返回true，取消返回false
+				
+				//获取要删除员工名字，通过爷找到第一个子节点对象获取
+				//法二		tr.getElementsByTagName("td")[0].innerHTML;
+				//法三		tr.children[0].innerHTML;
+				if(confirm("确定删除"+tr.firstElementChild.innerHTML+"吗?"))
+				{
+					//删除tr，不许需要知道父结点就可以删除
+					tr.parentNode.removeChild(tr);
+				}
+				//点击超链接后，超链接会跳转页面，这个是超链接的默认行为
+				//当不希望出现默认行为时，可以通过在响应函数的最后return false来取消默认行为
+				return false;
+			}
+			
+			
+		</script>
+	</body>
+</html>

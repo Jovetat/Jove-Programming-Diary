@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+								// DOM查询获取元素节点子节点
+			/* 通过具体的元素节点调用(元素节点通过document调用)
+			 * getElementsByTagName()			返回当前系欸但的指定标签名的后代节点
+			 * childNodes属性					表示当前节点的所有子节点
+			 * firstChild属性					表示当前节点的第一个子节点
+			 * laseChild属性					表示当前节点的最后一个子节点
+			 */
+		</script>
+	</head>
+	<body>
+		<ul id="city">
+			<li id="beijing">北京</li>
+			<li>曹县</li>
+			<li>东京</li>
+			<li>耶路撒冷</li>
+		</ul>
+		<button type="button" id="btn">city.getElementsByTagName</button>
+		<button type="button" id="btn2">city.childNode</button>
+		<button type="button" id="btn3">city.children</button>
+		<button type="button" id="btn4">city.firstChild</button>
+		<button type="button" id="btn5">city.firstElementChild</button>
+		<script type="text/javascript">
+			var btn = document.getElementById("btn");
+			// 获取id为city的元素
+			var city = document.getElementById("city");
+			// 查找#city下所有li节点
+			var lis = city.getElementsByTagName("li");
+			
+			btn.onclick = function(){
+				alert(lis.length);
+				for(var i = 0;i<lis.length ; i++)
+				{
+					console.log(lis[i].innerHTML);
+				}
+			};
+			
+			var btn2 = document.getElementById("btn2");
+			btn2.onclick = function(){
+				// 返回#city的所有子节点
+				var cns = city.childNodes;
+									//childNodes属性会获取包括文本节点在内的所有节点（换行的空白也被包含在内）
+				//根据DOM标准，标签间的空白也会被当成文本节点（ie8以下的浏览器不会将空白当成子节点）
+				console.log("length="+cns.length);
+				for(var i=0 ;i<cns.length;i++)
+				{
+					console.log(cns[i]);
+				}
+			};
+			
+			var btn3 = document.getElementById("btn3");
+			var cns2 = city.children;
+			btn3.onclick = function(){
+									// children属性可以获取当前元素的所有子元素(不包括空白text)
+				console.log(cns2.length);
+				for(var i=0 ;i<cns2.length;i++)
+				{
+					console.log(cns2[i]);
+				}
+			};
+			
+			var btn4 = document.getElementById("btn4");
+								//city.firstChild = childNodes[0]	city.firstChild获取当前元素的第一个子节点(包括空白文本)
+								// city.lastChild获取当前元素的第一个子节点(包括空白文本)
+			var cns3 = city.firstChild;
+			btn4.onclick = function(){
+				console.log(cns3);								//空白text
+			};
+			
+			var btn5 = document.getElementById("btn5");
+								// firstElementChild获取当前元素的第一个子元素(不支持ie8及以下的浏览器)
+								// lastElementChild获取当前元素的最后一个子元素(不支持ie8及以下的浏览器)
+			var cns4 = city.firstElementChild;
+			btn5.onclick = function(){
+				console.log(cns4);								//<li id="beijing">
+			};
+			
+		</script>
+	</body>
+</html>

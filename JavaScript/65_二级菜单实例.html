@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>二级菜单</title>
+	</head>
+	<body>
+		<!-- 二级菜单 -->
+		<div id="my_menu" class="my-menu">
+			<div class="menu-span-open">
+				<span class="menu-span">web前端</span>
+				<a href="#" class="menu-item">html</a>							<!-- href为超链接路径，置空 -->
+				<a href="#" class="menu-item">css</a>
+				<a href="#" class="menu-item">JavaScript</a>
+				<a href="#" class="menu-item">vue</a>
+				<a href="#" class="menu-item">ajax</a>
+			</div>
+			<div class="menu-span-open menu-span-close">
+				<span class="menu-span">饭圈</span>
+				<a href="#" class="menu-item">低智商</a>	
+				<a href="#" class="menu-item">低教育水平</a>
+				<a href="#" class="menu-item">情绪不稳定</a>
+				<a href="#" class="menu-item">脆弱</a>
+				<a href="#" class="menu-item">资本造星</a>
+			</div>
+			<div class="menu-span-open menu-span-close">
+				<span class="menu-span">资本</span>
+				<a href="#" class="menu-item">祖上有钱</a>
+				<a href="#" class="menu-item">家里拆迁</a>
+				<a href="#" class="menu-item">天资聪慧</a>
+				<a href="#" class="menu-item">昧着良心</a>
+				<a href="#" class="menu-item">见不得光</a>
+				<a href="#" class="menu-item">努力机遇运气</a>
+			</div>
+		</div>
+	</body>
+	<!-- 引用之前的动画函数 -->
+	<script src="62_动画的外部函数文件.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		/* 点击菜单切换菜单的状态
+		 * 二级div包含menu-span-close类时则折叠，没有则展开
+		 */
+		// 获取所有class为menu-span的元素
+		var menu_span = document.querySelectorAll(".menu-span");
+		var open_div = menu_span[0].parentNode;					// 指示当前打开的一级菜单的父元素
+		
+		// 可打开多个
+		/* for(dic of menu_span)
+		{
+			dic.onclick = function(){
+				// 为父元素折叠达到隐藏子元素a的效果
+				// this为当前span，需操作的是他的父元素div
+				var parent_div = this.parentNode;
+				toggleClass(parent_div,"menu-span-close");		// 64_中的函数，切换class
+			};
+		} */
+		
+		// 同时只能有一个打开
+		for(dic of menu_span)
+		{
+			dic.onclick = function(){
+				// 为父元素折叠达到隐藏子元素a的效果
+				// this为当前span，需操作的是他的父元素div
+				var parent_div = this.parentNode;
+				
+				toggleMenu(parent_div);							// 切换菜单的折叠和显示状态
+				
+				if(open_div != parent_div && !findClass(open_div,"menu-span-close"))
+				{
+					// 当上次点击与这次点击相同则只执行上面的切换
+					// 为统一动画，将addclass改为toggleclass
+					// addClass(open_div,"menu-span-close");	// 关闭之前打开的菜单
+					toggleMenu(open_div);						// 关闭之前打开的菜单
+				}
+				open_div = parent_div;							// 修改open_div等于当前打开的菜单
+			};
+		}
+		
+		/* 
+		 * 动态切换菜单的折叠和显示状态
+		 */
+		function toggleMenu(obj)
+		{
+			var begin = obj.offsetHeight;						// 在切换类之前获取菜单高度
+			toggleClass(obj,"menu-span-close");					// 64_中的函数，切换class
+			var end = obj.offsetHeight;							// 在切换类之后获取菜单高度
+			// toggleClass执行完直接产生变化，所以先将高度重置回来，方便动画显示
+			// 不直接不执行是因为需要记录数值变化
+			obj.style.height = begin +"px";						// 内联样式优先
+			// 折叠动画效果就是将高度从begin向end过度
+			move_animation(obj,"height",end,14,function(){
+				obj.style.height ="";							// 动画执行完后回调函数中清空内联样式
+			});
+		}
+		
+	</script>
+	<style type="text/css">
+		.my-menu{
+			width: 150px;
+		}
+		.menu-span{
+			background-color: #5F9EA0;
+			color: #FFFFFF;
+			height: 40px;
+			display: block;										/* 升级为块级元素 */
+			text-align: center;									/* 文字水平居中 */
+			line-height: 40px;									/* 设置行号与实际高度相同从而达到水平居中 */
+			border-radius: 5px 5px 5px 5px;						/* 左上 右上 右下 左下  */
+			cursor: pointer;									/* 鼠标指上去为小手 */
+			user-select:none;									/* 设置文本不能被选中 */
+		}
+		.menu-span-open{
+			overflow: hidden;									/* 内容超出元素框时裁切 */
+		}
+		.menu-span-close{
+			/* 添加覆盖于open属性 */
+			height: 40px;										/* 将a裁切掉 */
+		}
+		.menu-item{
+			display: flex;
+			height: 30px;
+			color: black;
+			background-color: lightpink;
+			border-bottom: 0.1px solid rgba(20,20,20,0.2);		/* 设置下边框rgb值和透明度 */
+			opacity: 0.6;										/* 整体透明度 */
+			display: block;										/* 升级为块级元素 */
+			text-indent: 20px;									/* 文字缩进 */
+			line-height: 30px;									/* 设置行号与实际高度相同从而达到水平居中 */
+		}
+		/* 设置my_menu路径下所有a鼠标移入item效果 */
+		#my_menu a:hover{
+			opacity: 0.8;										/* 整体透明度 */
+		}
+	</style>
+</html>

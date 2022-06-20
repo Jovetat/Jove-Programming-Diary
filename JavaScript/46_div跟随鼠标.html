@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body style="height: 1000px;width: 3000px;">
+		<div id="box1">
+			
+		</div>
+		<script type="text/javascript">
+			
+			// div跟随鼠标移动
+			var box1 = document.getElementById("box1");
+			// 绑定鼠标移动事件
+			document.onmousemove = function(event){
+				
+				//解决兼容问题
+				event = event || window.event;
+				
+				// 获取鼠标坐标(获取到的是鼠标在当前的可见窗口的坐标)
+				// 当滚动条不在起始位置时，style.left仍计算的是距原点的距离
+				// 与获取到的鼠标坐标出现滚动条长度的偏差
+				var left = event.clientX;
+				var top = event.clientY;
+				
+				// 获取相对于整个页面的鼠标坐标(IE8+)
+				var left1 = event.pageX;
+				var top1 = event.pageY;
+				
+				// 设置div的偏移量
+				// box1.style.left = left + "px";
+				// box1.style.top = top + "px";
+				box1.style.left = left1 + "px";
+				box1.style.top = top1 + "px";
+				
+				// 兼容tmd IE8的方法(不受滚动条位置影响,clientX在ie8中也可用，只不过有偏差)
+				// 获取滚动条滚动的距离
+				// 后面那个为了兼容火狐
+				var st = document.documentElement.scrollTop ||document.body.scrollTop;
+				var sl = document.documentElement.scrollLeft ||document.body.scrollLeft;
+				console.log("x:"+st+"y:"+sl);
+				// box1.style.left = left+sl + "px";
+				// box1.style.top = top+st + "px";
+			};
+			
+		</script>
+	</body>
+	<style type="text/css">
+		#box1{
+			width: 100px;
+			height: 100px;
+			background-color: #6495ED;
+			/* 
+			 * 开启box1的绝对定位
+			 */
+			position: absolute;
+		}
+	</style>
+</html>

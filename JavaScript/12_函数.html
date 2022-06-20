@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//函数
+			//函数也是对象，函数封装功能和代码
+			
+			//创建函数对象,封装代码时不会立即执行
+			//1、可以将要封装的代码以字符串的形式传递给构造函数(很少使用这种方法)
+			var fun = new Function("document.write('Hello')");
+			console.log(typeof fun);			//Function(函数)类型
+			
+			//2、使用函数声明来创建一个函数
+			//function 函数名{[形参1、形参2……形参N]]}		【】的含义为形参可选写或不写
+			//参数不需要声明参数类型
+			function print()
+			{
+				document.write("函数构造方法");
+			}
+			
+			//调用函数:	函数对象（）;	封装的代码按顺序执行
+			fun();
+			print();
+			
+			//3、使用函数表达式来创建一个函数(将匿名函数赋值给变量)
+			//匿名函数
+			/*function()
+			{
+				document.write("匿名函数");
+			}*/
+			var fun2 = function()
+			{
+				document.write("与函数声明使用方法无区别");
+			};
+			//因为是赋值语句，所以需要	;
+			fun2();
+			
+			//调用函数时不会检查实参类型，也不会检查实参的数量
+			function sum(num1,num2)
+			{
+				console.log(num1,num2);
+				console.log(num1+num2+"函数内");
+				return num1+num2+"返回值";
+			}
+			//return;或无return 		无返回值，返回undefined
+			//可返回任意类型的值,也可以返回一个对象和函数
+			sum(4,6);
+			console.log(sum(5,7));
+			//没有实参对应的实参为undefined
+			//实参可以为任意数据类型
+			sum(555);								//number+undefined=NaN,但不会报错
+			
+			//对象也可以作为参数
+			var obj = {
+				name:"张三",
+				age:18,
+				gender:"男"
+			};
+			function xinxi(ren)
+			{
+				var str=ren.name+ren.age+ren.gender;
+				document.write(str);
+				return str
+			}
+			xinxi(obj);
+			
+			say_hi();
+			function say_hi()
+			{
+				alert(xinxi(obj));
+				alert(xinxi);						//输出函数代码
+			}
+			//实参也可以是一个函数,调用函数的同时将返回值作为实参
+			//mianji()	调用函数，mianji		函数对象，直接使用函数对象
+			
+			//将函数对象作为返回值
+			function funrefun()
+			{
+				alert("开始");
+				function funrefun2()				//声明但未调用
+				{
+					alert("套娃");
+				}
+				return funrefun2;					//返回函数对象
+			}
+			var a=funrefun();
+			a();									//a现在等于funrefun2的方法，调用
+			/*var a=funrefun();
+			 *a();这两步相当于
+			 * 将返回值函数直接调用
+			 */
+			funrefun()();
+			
+			//立即执行函数（在创建后立即执行），将匿名函数作为整体，只会执行一次
+			
+			(function(){
+				alert("匿名函数，最后的括号为了直接调用自己，最外层括号为了表示为一个整体");
+			})();
+			(function(a,b){
+				var c=a+b;
+				console.log(c);
+			})(123,456);
+			
+		</script>
+	</body>
+</html>

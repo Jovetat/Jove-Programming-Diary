@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		
+		<style type="text/css">
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="test"></div>
+		
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/babel">
+			
+			// 1、创建函数式组件（函数名就是组件名）
+			function CreatModule(){
+				console.log(this);												// undefined
+				// 因为babel编译后开启了严格模式，this不可以指向window，所以为undefined
+				return <h2>我是用函数定义的组件（适用于【简单组件】的定义)</h2>
+			}
+			// 这里函数式组件名首字母一定要大写
+			/* 7、jsx标签首字母
+				（1）若小写字母开头，则将标签转为html中同名元素，若html中无该标签对应的同名元素则报错
+				（2）若大写字母开头，react就去渲染对应的组件，若组件没有定义，则报错
+			 */
+			
+			// 2、渲染组件到页面（组件名要自结束或<CreatModule></CreatModule>
+			ReactDOM.render(<CreatModule/>,document.getElementById("test"));
+			
+			/* 
+				执行了ReactDOM.render(<CreatModule/>……之后，发生了什么？
+					1、React解析组件标签，找到了CreatModule组件
+					2、发现组件是用使用函数定义的，随后调用该函数
+					3、将返回的虚拟DOM转为真实DOM，随后呈现在页面中
+			 */
+			
+		</script>
+		
+	</body>
+</html>

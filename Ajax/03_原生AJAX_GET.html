@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#result{
+				width: 200px;
+				height: 100px;
+				border: solid 1px #5F9EA0;
+			}
+		</style>
+	</head>
+	<body>
+		<button>点击发送请求</button>
+		<div id="result"></div>
+	</body>
+	
+	<script type="text/javascript">
+		
+		const btn = document.getElementsByTagName('button')[0];
+		btn.onclick = function(){
+			
+			// 1.创建对象
+			const xhr = new XMLHttpRequest();
+			// 2.初始化	设置请求方法和url
+			/* xhr.open('GET','https://api.apiopen.top/getWangYiNews'); */
+			// 传递参数
+			xhr.open('GET','https://api.apiopen.top/getWangYiNews?page=1&count=10');
+			// 3.发送
+			xhr.send();
+			// 4.事件绑定，处理服务器返回端的结果
+			/* 
+				on当……的时候
+				readystate是xhr对象中的属性，表示状态
+					状态含有五个值 0 1 2 3 4
+						0：未初始化
+						1：open方法调用完毕
+						2：send方法调用完毕
+						3：服务端返回了部分结果
+						4：服务端返回了所有结果
+				change	改变，这个事件会触发四次，改变一次状态触发一次
+			 */
+			xhr.onreadystatechange = function(){
+				// 判断服务端返回了所有结果时
+				if(xhr.readyState === 4)
+				{
+					// 判断响应状态码 200 404 403(2开头的都是表示成果)
+					if(xhr.status >= 200 && xhr.status <300)
+					{
+						// 处理服务端响应的结果
+						/* 
+							行 头 空行 体
+						 */
+						// 1.响应行
+						// status是响应行里的状态码)
+						console.log(xhr.status);
+						// statusText是响应行里的状态字符串)
+						console.log(xhr.statusText);
+						// 所有响应头
+						console.log(xhr.getAllResponseHeaders());
+						
+						// 2.响应体
+						console.log(xhr.response);
+					}
+					else
+					{
+						
+					}
+				}
+			};
+		};
+		
+	</script>
+	
+</html>

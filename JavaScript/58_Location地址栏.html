@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h1>Location</h1>
+		<button type="button" id="btn01">跳转到b站</button>
+	</body>
+	<script type="text/javascript">
+		
+		/* 
+		 * Location对象
+		 * - - 该对象中封装了浏览器地址栏的信息
+		 */
+		console.log(location);		//http://127.0.0.1:8848/study/JavaScript/58_Location%E5%9C%B0%E5%9D%80%E6%A0%8F.html
+		// 如果直接打印Location，则可以获取到地址栏的信息(当前页面的完整路径)
+		var btn01 = document.getElementById("btn01");
+		btn01.onclick = function(){
+			/* 
+			 * 如果直接将location属性修改为一个完整的路径或相对路径
+			 * 则页面会自动跳转到该路径，并且会生成相应的历史记录
+			 */
+			location = "https://www.bilibili.com";
+			// location.assign("https://www.bilibili.com");	与上面效果相同
+		};
+		
+		/* 
+		 * 			Location的属性
+		 * hash						设置或返回从 # 开始的URL
+		 * search					设置或返回从 ? 开始的URL
+		 * host						设置或返回主机名和当前URL的端口号
+		 * hostname					设置或返回当前URL的主机名
+		 * href						设置或返回完整的URL
+		 * path						设置或返回当前URL的端口号
+		 * pathname					设置或返回当前URL的路径部分
+		 * protocol					设置或返回当前URL的协议
+		 */
+		
+		/*
+		 * 			Location的方法
+		 * assiqn()					用来跳转到其他的页面，作用和直接修改location一样(加载新的文档)
+		 * reload()					刷新(重新加载当前文档)
+		 * 							- - 刷新后input等输入缓存还在(ctrl+F5可以清除缓存刷新)
+		 * 		true				- - 可以在传递一个参数(true)，在刷新的时候强制清空缓存
+		 * replace()				使用用新的页面替换当前页面
+		 * 							- - 与assiqn的区别在于不会生成历史记录，无法回退回去
+		 */
+		
+	</script>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>props限制</title>
+		
+		<style type="text/css">
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="test"></div>
+		<div id="test2"></div>
+		<div id="test3"></div>
+		
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 多了全局对象React -->
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 多了全局对象ReactDOM -->
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script src="../js/prop-types.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 引入prop-types，用于对组件标签属性进行限制，多了PropTypes -->
+		
+		<script type="text/babel">
+			
+			// 创建组件
+			class Person extends React.Component{
+				
+				/* 
+					构造器中props作用(构造器可以不写)
+					通常在react中，构造器仅用于以下两种情况：
+						1、通过给 this.state 赋值对象来初始化内部state
+							组件内直接写赋值语句可以代替(state = {})
+						2、为事件处理函数绑定实例(8_中this.changeWeather = )
+							通过10_中赋值语句配合箭头函数可以解决绑定实例的问题
+					构造器唯一作用为(无影响，完全可以不写构造器)
+					写构造器的好处(构造器里必须写super且有变量props)：
+						1、React.Component 子类实现构造函数时，应在其他语句之前调用 super(props)
+						2、否则，this.props 在构造函数中‘可能’会出现未定义的 bug
+					如果希望在构造器中通过this访问props则写构造器并接受props并传递给super
+					(此场景几乎没有，所有大部分情况都不必写构造器)
+					总结：构造器能省则省
+				 */
+				constructor(props){
+					super(props);
+					/* 这里构造器不接props，super不传props，this.props为undefined */
+					console.log("constructor",this.props);
+				}
+				
+				render(){
+					const {name,age,sex} = this.props
+					return (
+						<ul>
+							<li>姓名：{name}</li>
+							<li>性别：{age+1}</li>
+							<li>年龄：{this.props.sex}</li>
+						</ul>
+					)
+				}
+				/* 将prop对标签属性的限制和默认值写入组件的内部 */
+					// 对标签属性进行类型、必要性的限制
+				static propTypes = {
+					name:PropTypes.string.isRequired,
+					sex:PropTypes.string,
+					age:PropTypes.number,
+				}
+					// 指定默认标签属性值
+				static defaultProps = {
+					sex:'公公',
+					age:19
+				}
+				/* 
+					变量 = 值 可以在组件中为实例添加属性
+					static 变量 = 值 可以为组件的类添加属性
+				 */
+				state = {
+					isNiuBi:false,
+					Heppy:'悲伤逆流成河'
+				}
+			}
+			
+			// 渲染组件到页面
+			ReactDOM.render(<Person name="tom"/>,document.getElementById("test"));
+			
+			const peo = {name:'尼古拉斯赵四',age:62,sex:'男'}
+			ReactDOM.render(<Person {...peo}/>,document.getElementById("test2"));
+			
+			
+		</script>
+		
+	</body>
+</html>

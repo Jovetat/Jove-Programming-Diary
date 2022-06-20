@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			
+			let x;
+			let y = x || 10;						//设置默认值
+			//相当于
+			let x;
+			let y;
+			if (x === undefined || x === null || x === 0 || x === '' || isNaN(x)) 
+			{
+			  y = 10;
+			}
+			
+			//声明多个变量
+			let x = y = z = 5;
+			
+								//箭头函数
+			//如果箭头函数只有一行，那么我们就不需要大括号，我们可以在不使用 return 关键字的情况下从它返回一个值
+			//		() => 1
+			//		() => {  return 1	}
+			
+								//默认参数值
+			//const用于声明一个只读的常量，可添加不可修改
+			const add = (a = 1, b = 2) => {
+			  return a + b
+			}
+			//等同于			
+			const add = (a, b) => {
+			  if (typeof a === 'undefined') {
+			    a = 1;
+			  }
+			  if (typeof b === 'undefined') {
+			    b = 1;
+			  }
+			  return a + b
+			}
+			
+		</script>
+	</body>
+</html>

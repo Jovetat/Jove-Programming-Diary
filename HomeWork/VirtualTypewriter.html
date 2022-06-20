@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>虚拟打字机</title>
+		
+		<style type="text/css">
+		
+			*{
+				margin: 0;
+				padding: 0;
+				/* 取消所有默认外边距和内边距 */
+			}
+			
+			.viewing-screen{
+				margin: auto;
+				margin-top: 60px;
+				margin-bottom: 70px;
+				border-radius: 20px;									/* 圆角 */
+				width: 1070px;
+				height: 200px;
+				background-color: #ef8a6e;
+				text-align: center;
+				box-shadow: 0px 3px 3px 0px rgb(73,114,197,0.6);		/* 阴影 */
+			}
+			.keyboard-box{
+				width: 900px;
+				height: 320px;
+				background-color: #CCD1DC;
+				margin: auto;
+				border-radius: 4px;										/* 圆角 */
+				box-shadow: 0px 3px 5px 0px rgb(73,114,197,0.4);		/* 阴影 */
+			}
+			.virtual-keyboard{
+				width: 880px;
+				margin: auto;
+				padding: 4px 0px 8px 8px;
+			}
+			.inline-key{
+				width: 880px;
+				height: 62px;
+				position: relative;										/* 开启相对定位(忽略绝对定位的元素，其他的元素按规则摆放) */
+			}
+			.key-button{
+				top: 0px;
+				width: 55px;
+				height: 53px;
+				background-color: white;
+				border-style: none;										/* 取消默认边框 */
+				cursor: pointer;										/* 光标改为小手 */
+				margin: 8px 6px 0px 0px;								/* 上右下左 */
+				box-shadow: 0px 2px 4px 0px rgb(73,114,197,0.4);		/* 阴影 */
+				border-radius: 4px;										/* 圆角 */
+				/* background-color: transparent; */						/* 透明背景 */
+				position: absolute;										/* 开启绝对定位(因为需要移动),不会因为其他元素而发生位置改变 */
+				float: left;											/* 设置按键浮动，防止按键行距离谱 */
+			}
+			.key-button-hover{
+				background-color: #f0f3f8;
+			}
+			.key-change-shift{
+				background-color: #e9eaff;
+			}
+			.key-change-caps{
+				background-color: #ffe2e2;
+			}
+			.key-double-text{
+				display: block;
+				line-height: 22px;
+				color:rgba(0,0,0,0.7);									/* 设置文字透明度 */
+			}
+			.key-text{
+				color:rgba(0,0,0,0.7);									/* 设置文字透明度 */
+			}
+			#authorName{
+				margin: 12px 0 0 20px;
+				color: #E9EAFF;
+			}
+			#viewing_input{				
+				font-size: 20px;
+				border: none;											/* 取消默认边框 */
+				outline: #888888;										/* 重新设置选中后默认框 */
+				color:rgba(0,0,0,0.7);									/* 设置文字透明度 */
+				padding: 10px 20px 10px 20px;
+				margin: 12px 0 0 0;
+				width: 1000px;
+				height: 160px;
+				border-radius: 15px;									/* 圆角 */
+				overflow-y:auto;										/* 文本超出范围时添加滚动条 */
+				font-weight: 600;										/* 加粗 */
+				line-height: 28px;										/* 行距 */
+				cursor: default;										/* 光标从输入改为正常 */
+			}
+			#typewriter_view{
+				padding: 0px 20px 0px 20px;
+				width: 720px;
+				margin: 40px 0 0 60px;
+				border: none;											/* 取消默认边框 */
+				outline: #888888;										/* 重新设置选中后默认框 */
+				color:rgba(0,0,0,0.7);									/* 设置文字透明度 */
+				border-radius: 10px;									/* 圆角 */
+				box-shadow: 0px 4px 5px 0px rgb(73,114,197,0.6);		/* 阴影 */
+				pointer-events: none;									/* 元素不可点击 */
+				letter-spacing: 3px;									/* 字母间距 */
+			}
+			
+			/*滚动条整体样式*/
+			#viewing_input::-webkit-scrollbar {
+				/*高宽分别对应横竖滚动条的尺寸*/
+				width: 10px;     
+				height: 1px;
+			}
+			#viewing_input::-webkit-scrollbar-thumb {
+				/*滚动条里面小方块*/
+				border-radius: 10px;
+				/* -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.1); */
+				background: #ffa689;
+			}
+			#viewing_input::-webkit-scrollbar-track {
+				/*滚动条里面轨道*/
+				/* -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.1); */
+				border-radius: 10px;
+				background: #edf2fe;
+			}
+			
+		</style>
+		
+		
+	</head>
+	<body>
+		
+		<div id="authorName">DouLi</div>
+		<div id="viewingScreen" class="viewing-screen">			
+			<textarea readonly="readonly" rows="" cols="" id="viewing_input" spellcheck="false"></textarea>			<!-- 只读 -->
+			<input type="text" id="typewriter_view" value="" />
+		</div>
+		
+		<div id="keyboardBox" class="keyboard-box">
+			<div id="virtualKeyboard" class="virtual-keyboard">
+				
+				<div id="No1_row" class="inline-key">
+					<button type="button" class="key-button" style="left: 0px;" onclick="Keyboard_Onclick('`')">
+						<span class="key-double-text">~</span>
+						<span class="key-double-text">`</span>
+					</button>
+					<button type="button" class="key-button" style="left: 61px;" onclick="Keyboard_Onclick('1')">
+						<span class="key-double-text">!</span>
+						<span class="key-double-text">1</span>
+					</button>
+					<button type="button" class="key-button" style="left: 122px;" onclick="Keyboard_Onclick('2')">
+						<span class="key-double-text">@</span>
+						<span class="key-double-text">2</span>
+					</button>
+					<button type="button" class="key-button" style="left: 183px;" onclick="Keyboard_Onclick('3')">
+						<span class="key-double-text">#</span>
+						<span class="key-double-text">3</span>
+					</button>
+					<button type="button" class="key-button" style="left: 244px;" onclick="Keyboard_Onclick('4')">
+						<span class="key-double-text">$</span>
+						<span class="key-double-text">4</span>
+					</button>
+					<button type="button" class="key-button" style="left: 305px;" onclick="Keyboard_Onclick('5')">
+						<span class="key-double-text">%</span>
+						<span class="key-double-text">5</span>
+					</button>
+					<button type="button" class="key-button" style="left: 366px;" onclick="Keyboard_Onclick('6')">
+						<span class="key-double-text">^</span>
+						<span class="key-double-text">6</span>
+					</button>
+					<button type="button" class="key-button" style="left: 427px;" onclick="Keyboard_Onclick('7')">
+						<span class="key-double-text">&</span>
+						<span class="key-double-text">7</span>
+					</button>
+					<button type="button" class="key-button" style="left: 488px;" onclick="Keyboard_Onclick('8')">
+						<span class="key-double-text">*</span>
+						<span class="key-double-text">8</span>
+					</button>
+					<button type="button" class="key-button" style="left: 549px;" onclick="Keyboard_Onclick('9')">
+						<span class="key-double-text">(</span>
+						<span class="key-double-text">9</span>
+					</button>
+					<button type="button" class="key-button" style="left: 610px;" onclick="Keyboard_Onclick('0')">
+						<span class="key-double-text">)</span>
+						<span class="key-double-text">0</span>
+					</button>
+					<button type="button" class="key-button" style="left: 671px;" onclick="Keyboard_Onclick('-')">
+						<span class="key-double-text">_</span>
+						<span class="key-double-text">-</span>
+					</button>
+					<button type="button" class="key-button" style="left: 732px;" onclick="Keyboard_Onclick('=')">
+						<span class="key-double-text">+</span>
+						<span class="key-double-text">=</span>
+					</button>
+					<button type="button" class="key-button" style="width: 80px; left:793px" onclick="Keyboard_Onclick('Backspace')">
+						<span class="key-text">Backspace</span>
+					</button>
+				</div>
+				<div id="No2_row" class="inline-key">
+					<button type="button" class="key-button" style="width: 65px; left: 0px;" onclick="Keyboard_Onclick('Tab')">
+						<span class="key-text">Tab</span>
+					</button>
+					<button type="button" class="key-button" style="left: 71px;" onclick="Keyboard_Onclick('Q')">
+						<span class="key-text">Q</span>
+					</button>	
+					<button type="button" class="key-button" style="left: 132px;" onclick="Keyboard_Onclick('W')">
+						<span class="key-text">W</span>
+					</button>
+					<button type="button" class="key-button" style="left: 193px;" onclick="Keyboard_Onclick('E')">
+						<span class="key-text">E</span>
+					</button>
+					<button type="button" class="key-button" style="left: 254px;" onclick="Keyboard_Onclick('R')">
+						<span class="key-text">R</span>
+					</button>
+					<button type="button" class="key-button" style="left: 315px;" onclick="Keyboard_Onclick('T')">
+						<span class="key-text">T</span>
+					</button>
+					<button type="button" class="key-button" style="left: 376px;" onclick="Keyboard_Onclick('Y')">
+						<span class="key-text">Y</span>
+					</button>
+					<button type="button" class="key-button" style="left: 437px;" onclick="Keyboard_Onclick('U')">
+						<span class="key-text">U</span>
+					</button>
+					<button type="button" class="key-button" style="left: 498px;" onclick="Keyboard_Onclick('I')">
+						<span class="key-text">I</span>
+					</button>
+					<button type="button" class="key-button" style="left: 559px;" onclick="Keyboard_Onclick('O')">
+						<span class="key-text">O</span>
+					</button>
+					<button type="button" class="key-button" style="left: 620px;" onclick="Keyboard_Onclick('P')">
+						<span class="key-text">P</span>
+					</button>
+					<button type="button" class="key-button" style="left: 681px;" onclick="Keyboard_Onclick('[')">
+						<span class="key-double-text">{</span>
+						<span class="key-double-text">[</span>
+					</button>
+					<button type="button" class="key-button" style="left: 742px;" onclick="Keyboard_Onclick(']')">
+						<span class="key-double-text">}</span>
+						<span class="key-double-text">]</span>
+					</button>
+					<button type="button" class="key-button" style="width: 70px; left: 803px;" onclick="Keyboard_Onclick('\\')">
+						<span class="key-double-text">|</span>
+						<span class="key-double-text">\</span>
+					</button>
+				</div>
+				<div id="No3_row" class="inline-key">
+					<button type="button" class="key-button" style="width: 80px; left: 0px;" onclick="ChangeCasplock()">
+						<span class="key-text">CapsLock</span>
+					</button>
+					<button type="button" class="key-button" style="left: 86px;" onclick="Keyboard_Onclick('A')">
+						<span class="key-text">A</span>
+					</button>
+					<button type="button" class="key-button" style="left: 147px;" onclick="Keyboard_Onclick('S')">
+						<span class="key-text">S</span>
+					</button>
+					<button type="button" class="key-button" style="left: 208px;" onclick="Keyboard_Onclick('D')">
+						<span class="key-text">D</span>
+					</button>
+					<button type="button" class="key-button" style="left: 269px;" onclick="Keyboard_Onclick('F')">
+						<span class="key-text">F</span>
+					</button>
+					<button type="button" class="key-button" style="left: 330px;" onclick="Keyboard_Onclick('G')">
+						<span class="key-text">G</span>
+					</button>
+					<button type="button" class="key-button" style="left: 391px;" onclick="Keyboard_Onclick('H')">
+						<span class="key-text">H</span>
+					</button>
+					<button type="button" class="key-button" style="left: 452px;" onclick="Keyboard_Onclick('J')">
+						<span class="key-text">J</span>
+					</button>
+					<button type="button" class="key-button" style="left: 513px;" onclick="Keyboard_Onclick('K')">
+						<span class="key-text">K</span>
+					</button>
+					<button type="button" class="key-button" style="left: 574px;" onclick="Keyboard_Onclick('L')">
+						<span class="key-text">L</span>
+					</button>
+					<button type="button" class="key-button" style="left: 635px;" onclick="Keyboard_Onclick(';')">
+						<span class="key-double-text">:</span>
+						<span class="key-double-text">;</span>
+					</button>
+					<button type="button" class="key-button" style="width: 70px; left: 696px;" onclick="Keyboard_Onclick('\'')">
+						<span class="key-double-text">"</span>
+						<span class="key-double-text">'</span>
+					</button>
+					<button type="button" class="key-button" style="width: 100px; left: 772px;" onclick="Keyboard_Onclick('Enter')">
+						<span class="key-text">Enter</span>
+					</button>
+				</div>
+				<div id="No4_row" class="inline-key">
+					<button id="shift_key1" type="button" class="key-button" style="width: 128px; left: 0px;" onclick="ChangeShift()">
+						<span class="key-text">Shift</span>
+					</button>
+					<button type="button" class="key-button" style="left: 134px;" onclick="Keyboard_Onclick('Z')">
+						<span class="key-text">Z</span>
+					</button>
+					<button type="button" class="key-button" style="left: 195px;" onclick="Keyboard_Onclick('X')">
+						<span class="key-text">X</span>
+					</button>
+					<button type="button" class="key-button" style="left: 256px;" onclick="Keyboard_Onclick('C')">
+						<span class="key-text">C</span>
+					</button>
+					<button type="button" class="key-button" style="left: 317px;" onclick="Keyboard_Onclick('V')">
+						<span class="key-text">V</span>
+					</button>
+					<button type="button" class="key-button" style="left: 378px;" onclick="Keyboard_Onclick('B')">
+						<span class="key-text">B</span>
+					</button>
+					<button type="button" class="key-button" style="left: 439px;" onclick="Keyboard_Onclick('N')">
+						<span class="key-text">N</span>
+					</button>
+					<button type="button" class="key-button" style="left: 500px;" onclick="Keyboard_Onclick('M')">
+						<span class="key-text">M</span>
+					</button>
+					<button type="button" class="key-button" style="left: 561px;" onclick="Keyboard_Onclick(',')">
+						<span class="key-double-text">&lt;</span>
+						<!-- < -->
+						<span class="key-double-text">,</span>
+					</button>
+					<button type="button" class="key-button" style="left: 622px;" onclick="Keyboard_Onclick('.')">
+						<span class="key-double-text">&gt;</span>
+						<!-- > -->
+						<span class="key-double-text">.</span>
+					</button>
+					<button type="button" class="key-button" style="left: 683px;" onclick="Keyboard_Onclick('/')">
+						<span class="key-double-text">?</span>
+						<span class="key-double-text">/</span>
+					</button>
+					<button id="shift_key2" type="button" class="key-button" style="width: 128px; left: 744px;" onclick="ChangeShift()">
+						<span class="key-text">Shift</span>
+					</button>
+				</div>
+				<div id="No5_row" class="inline-key">
+					<button type="button" class="key-button" style="width: 872px; left: 0px;" onclick="Keyboard_Onclick('Space')">
+					</button>
+				</div>
+				
+			</div>
+		</div>
+		
+		
+		<script type="text/javascript">
+		
+			var isCasplock = false;										// 判断是否按下大写锁定
+			var isShift = false;										// 判断是否按下大写锁定
+			var timer;													// 定时器
+			var timer_str;
+			var move_dis = 7;											// 步幅
+			var print_time = 800;										//打字机输出间隔
+			var viewing_input = document.getElementById("viewing_input");	//输入框
+			// 键盘数组，对应根据class名的顺序,onclick()
+			var allKeyButton = document.getElementsByClassName("key-button");
+			var typewriter_str = "";
+			
+			var keyArray = [192,49,50,51,52,53,54,55,56,57,48,189,187,8,
+					9,81,87,69,82,84,89,85,73,79,80,219,221,220,
+					20,65,83,68,70,71,72,74,75,76,186,222,13,
+					16,90,88,67,86,66,78,77,188,190,191,16,
+					32
+				];
+			// 对应allKeyButton数组中0~54个按键的keycode
+			
+			// 键盘松开时触发动画
+			document.onkeyup = function(event){
+				event = event || window.event;
+				// 拿到值找对应的键
+				let flag01 = keyArray.indexOf(event.keyCode);
+				if(flag01 == -1)
+				{
+					console.log("暂未开发此功能");
+				}
+				else
+				{
+					allKeyButton[flag01].click();
+				}
+			};
+			
+			
+			/* 定时将输入框中的内容输出到另一个框内 */
+			var typewriter_view = document.getElementById("typewriter_view");
+			typewriter_view.timer_str = setInterval(function(){
+				if(typewriter_str.length > 0){
+					typewriter_view.value += typewriter_str[0];
+					typewriter_str = typewriter_str.slice(1);
+				}
+			},print_time);
+			
+			
+			function Keyboard_Onclick(text)
+			{
+				// 触发动画
+				let tar = event.target;									// event.target返回触发事件的元素
+				if(!tar.classList.contains("key-button"))
+				{
+					// 防止事件被span触发(将触发元素改为其父结点)
+					tar = tar.parentNode;
+				}
+				SimulateKeystrokes(tar,move_dis,move_dis,1,function(){
+					SimulateKeystrokes(tar,-move_dis,-move_dis,1);
+				});
+				
+				PrintViewing(text);
+			}
+			
+			function SimulateKeystrokes(obj,xMove,yMove,speed,callback)
+			{
+				// 动画总工程
+				/* 参数:
+				 * - - obj			要执行动画对象
+				 * - - xMove		x轴移动的距离
+				 * - - yMove		y轴移动的距离
+				 * - - speed		速度(正值)
+				 * - - callback		回调函数，这个函数将会再动画执行完毕以后执行(传不传都可以)
+				 */
+				// 模拟按下键盘后的动画
+				let my_Xposition = obj.offsetLeft;				// 获取当前元素相对于其定位父元素的水平偏移位置
+				let my_Yposition = obj.offsetTop-8;				// 获取当前元素相对于其定位父元素的竖直偏移位置
+				let targetX = my_Xposition + xMove;
+				let targetY = my_Yposition + yMove;
+				
+				/* console.log("my_Xposition"+my_Xposition);
+				console.log("my_Yposition"+my_Yposition);
+				console.log("targetX"+targetX);
+				console.log("targetY"+targetY); */
+				
+				MoveAnimation(obj,my_Xposition,my_Yposition,targetX,targetY,speed,speed,callback);
+			};
+			
+			function MoveAnimation(obj,my_Xposition,my_Yposition,targetX,targetY,speedX,speedY,callback)
+			{
+				/* 参数:
+				 * - - obj			要执行动画对象
+				 * - - my_position	目前处于的位置
+				 * - - target		执行动画的目标位置
+				 * - - speed		速度(正值步幅)
+				 * - - callback		回调函数，这个函数将会再动画执行完毕以后执行(传不传都可以)
+				 */
+				
+				// 在开启定时器之前，将当前元素上的其他定时器关闭
+				// clearInterval(obj.timer);
+				// 添加类用于改变颜色
+				obj.classList.add("key-button-hover");
+				// 判断速度的正负值(目标在目前为止左侧，速度取负值)
+				if(targetX < my_Xposition)
+				{
+					speedX -= 2*speedX;
+				}
+				if(targetY < my_Yposition)
+				{
+					speedY -= 2*speedY;
+				}
+				// 开启定时器，执行动画效果
+				var new_valueX = my_Xposition;
+				var new_valueY = my_Yposition;
+				obj.timer = setInterval(function(){
+					new_valueX += speedX;
+					new_valueY += speedY;
+					if( (speedX < 0 && new_valueX < targetX) || (speedX > 0 && new_valueX > targetX) )
+					{
+						new_valueX = targetX;
+					}
+					if( (speedY < 0 && new_valueY < targetY) || (speedY > 0 && new_valueY > targetY) )
+					{
+						new_valueY = targetY;
+					}
+					obj.style.left = new_valueX + "px" ;
+					obj.style.top = new_valueY + "px" ;
+					if(new_valueX == targetX)
+					{
+						// 动画执行完毕，调用回调函数（有回调函数的时候执行）
+						clearInterval(obj.timer);
+						// 请除运动时的颜色改变
+						obj.classList.remove("key-button-hover");
+						clearInterval(obj.timer);							//请除计时器
+						callback && callback();
+					}
+				},13);
+			}
+			
+			function PrintViewing(text)
+			{
+				// 大小写及其shift判断
+				let flag = false;
+				let result = text;
+				switch(text)
+				{
+					case 'Tab':
+						result = "    ";
+						break;
+					case 'Backspace':
+						result = "";
+						viewing_input.value = viewing_input.value.slice(0,viewing_input.value.length-1);
+						break;
+					case 'Enter':
+						result = "\r\n";
+						break;
+					case 'Space':
+						result = " ";
+						break;
+					default:
+						flag = true;
+				}
+				if(flag)
+				{
+					if(isShift)
+					{
+						switch(text)
+						{
+							case '`':
+								result = "~";
+								break;
+							case '1':
+								result = "!";
+								break;
+							case '2':
+								result = "@";
+								break;
+							case '3':
+								result = "#";
+								break;
+							case '4':
+								result = "$";
+								break;
+							case '5':
+								result = "%";
+								break;
+							case '6':
+								result = "^";
+								break;
+							case '7':
+								result = "&";
+								break;
+							case '8':
+								result = "*";
+								break;
+							case '9':
+								result = "(";
+								break;
+							case '0':
+								result = ")";
+								break;
+							case '-':
+								result = "_";
+								break;
+							case '=':
+								result = "+";
+								break;
+							case '[':
+								result = "{";
+								break;
+							case ']':
+								result = "}";
+								break;
+							case '\\':
+								result = "|";
+								break;
+							case ';':
+								result = ":";
+								break;
+							case '\'':
+								result = "\"";
+								break;
+							case ',':
+								result = "<";
+								break;
+							case '.':
+								result = ">";
+								break;
+							case '/':
+								result = "?";
+								break;
+						}
+					}
+				}				
+				if(!isCasplock)
+				{
+					result = result.toLowerCase();						// 转换为大写
+				}
+				
+				viewing_input.value += result;
+				typewriter_str += result;
+				
+			}
+			
+			function ChangeCasplock()
+			{
+				// 触发动画
+				let tar = event.target;							// event.target返回触发事件的元素
+				if(!tar.classList.contains('key-button'))
+				{
+					// 防止事件被span触发(将触发元素改为其父结点)
+					tar = tar.parentNode;
+				}
+				isCasplock = !isCasplock;
+				if(isCasplock)
+				{
+					tar.classList.add("key-change-caps");
+				}
+				else
+				{
+					tar.classList.remove("key-change-caps");
+				}
+				SimulateKeystrokes(tar,move_dis,move_dis,1,function(){
+					SimulateKeystrokes(tar,-move_dis,-move_dis,1);
+				});								
+			}
+			
+			var shift_key1 = document.getElementById("shift_key1");
+			var shift_key2 = document.getElementById("shift_key2");
+			
+			function ChangeShift()
+			{
+				// 触发动画
+				let tar = event.target;							// event.target返回触发事件的元素
+				if(!tar.classList.contains('key-button'))
+				{
+					// 防止事件被span触发(将触发元素改为其父结点)
+					tar = tar.parentNode;
+				}
+				isShift = !isShift;
+				if(isShift)
+				{
+					shift_key1.classList.add("key-change-shift");
+					shift_key2.classList.add("key-change-shift");
+				}
+				else
+				{
+					shift_key1.classList.remove("key-change-shift");
+					shift_key2.classList.remove("key-change-shift");
+				}
+				SimulateKeystrokes(tar,move_dis,move_dis,1,function(){
+					SimulateKeystrokes(tar,-move_dis,-move_dis,1);
+				});	
+			}
+			
+		</script>
+		
+			
+	</body>
+	
+	<!-- 
+			 真实键盘输入文字，打字机输入效果（无输入框，接管键盘输入延迟输出）
+			 虚拟打字机可用鼠标操作
+			 键盘鼠标都可触发动态按键动作（js动画）
+	 -->
+</html>

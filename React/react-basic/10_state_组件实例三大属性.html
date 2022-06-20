@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>state</title>
+		
+		<style type="text/css">
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="test"></div>
+		
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			
+		</script>
+		
+		<script type="text/babel">
+			
+					/* 状态state */
+			// 1、创建组件（继承react组件）
+			class Weather extends React.Component{
+				constructor(props){
+					// 构造器只会调用一次(构造一个对象只会调用一次)
+					console.log('constructor')
+					super(props)
+					// 初始化状态
+					this.state = {
+						isHot:false,
+						wind:'大风'
+					}
+					// 解决changeWeather中this指向问题
+					this.changeWeather = this.changeWeather.bind(this);
+				}
+				
+				// render会调用1+n次(1是初始化的那次，n是状态更新的次数)
+				render(){
+					console.log('render')
+					const {isHot,wind} = this.state
+					return <h1 id="title" onClick={this.changeWeather}>今天天气很{isHot?'炎热':'凉爽'},{wind}</h1>
+				}
+				
+				// changeWeather点几次调几次
+				changeWeather(){
+					console.log(this);						// undefined(在不加bind前)
+					// 状态内的数据不可以直接更改（虽然改过来了但页面内容不会发生变化，react不认可）
+					// 在react开发者工具中可以看到点击后isHot的值并没有发生改变
+					/* this.state.isHot = !this.state.isHot (不可直接更改，可读)*/
+					/* 
+						！！！状态(state)不可直接更改，要借助一个内置的API去更改！！！
+					 */
+					// 在React.Component(react组件原型)上有一个setState的方法
+					const isHotFlag = this.state.isHot
+					// 状态必须通过setState进行修改(控制台中实例属性并未发生改变，通过react开发工具查看)
+					this.setState({isHot:!isHotFlag})
+					/* 
+						setState传递一个对象后，会将新对象合并到老对象上(一种更新)，无关属性(wind……)不会受到影响
+					 */
+				}
+			}
+			// 2、渲染组件到页面
+			ReactDOM.render(<Weather/>,document.getElementById("test"));
+			
+			
+		</script>
+		
+	</body>
+</html>

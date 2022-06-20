@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			
+			//正则表达式（用于定义字符串规则）
+			//判断是否符合规则或将符合规则的内容提取出来
+			
+			//创建正则表达式的对象
+			var reg = new RegExp("a");							//object正则表达式对象(检查一个字符串中是否含有a、区分大小写)
+			//var reg = new RegExp("正则表达式","匹配模式");
+			
+			/* 匹配模式(第二个参数)
+			 * i	忽略大小写
+			 * g	全局匹配模式
+			 * 可以为正则表达式设置多个匹配模式且顺序无所谓//ig
+			 */
+			
+			
+									//检查是否符合规则test()
+			var str = "bcabc";									//只要有a就是true
+			var result = reg.test(str);							//符合正则表达式规则返回true，否则返回false
+			console.log(result);								//true
+			
+			//使用字面量来创建正则表达式(与构造的方式效果相同)
+			//var 变量 = /正则表达式/匹配模式(内容只能是字符串，写死了，不像构造的方式可以根据变量灵活变化)
+			var reg2 = /a/i ;
+			
+									//或
+			reg = /a|b/;										//创建一个正则表达式，检查字符串中有a或b，有a或有b则为true
+			var result = reg.test("bcde");
+			console.log(result);								//true
+			
+									//是否有字母
+			reg = /[ab]/ ;										//中括号中的内容也是或的关系； = /a|b/
+			reg = /[a-z]/ ;										//表示任意的小写，指a~z全部字母
+			reg = /[a-z]/i ;									//表示任意字母
+			reg = /[A-z]/ ;										//表示任意字母
+			reg = /[0-9]/ ;										//任意数字
+			
+									//开口和结尾固定，中间取特定值
+			reg = /abc|adc|aec/ ;								//是否有abc或adc或aec
+			reg = /a[bde]c/ ;									//是否有abc或adc或aec
+			
+									//除了特定内容有其他内容
+			reg = /[^ab]/ ;										//只要除了a或b有其他的则返回true
+			reg = /[^0-9]/ ;									//除了数字有其他的
+			result = reg.test("n123吖56789");					//true
+			console.log(result);
+			
+									//split的正则表达式参数(默认全局匹配)
+			str = "1a2b3c4d5e6f";
+			result = str.split(/[A-z]/);						//根据任意字母将字符拆分
+			console.log(result);								// ["1", "2", "3", "4", "5", "6", ""]
+			
+									//搜索字符串中是否含有指定内容(设置全局也只返回一个)
+			str = "hello abc world";							//检索与正则表达式相匹配的值
+			result = str.search("abc");							//搜到指定内容返回第一次出现的索引，否则返回-1
+			console.log(result);								// 6
+			str = "hello ac world aec";
+			result = str.search(/a[bef]c/);						//是否有abc或adc或aec
+			console.log(result);								// 15
+			
+									//将符合正则表达的内容提取出来
+			str = "1a2b3c4d5e6f";								//想要提取所有字母
+			result = str.match(/[A-z]/);						//提取出一个任意字母(默认只会找到第一个符合要求的内容)
+			console.log(result[0]);								//array(1) a
+			result = str.match(/[a-z]/ig);						//开启全局匹配模式就会匹配所有内容，提取出所有字母(包括大小写)
+			console.log(result);								//array(6) ["a", "b", "c", "d", "e", "f"]
+			console.log(Array.isArray(result));					//true	是一个数组
+			
+									//将字符串中符合正则表达式的内容替换/删除
+			str = "1a2b3c4a5e6a";
+			result = str.replace("a","^-^");					//默认只替换第一个
+			//result = str.replace("被替换的内容"/正则表达式,"新的内容");	不会影响到原字符串
+			console.log(result);								//1^-^2b3c4a5e6a
+			result = str.replace(/a/ig,"^-^");					//全部字母a替换
+			console.log(result);								//1^-^2b3c4^-^5e6^-^
+			
+									//量词，检查是否有n个连续出现的a
+			//量词指对它前边的一个内容起作用；eg:	/ab{3}/	指abbb
+			//通过两次可以设置一个内容出现的次数
+									//出现n次{n}
+			str = "1aaa3c4a5e6a";
+			reg = /a{3}/;										//查询是否包含aaa
+			console.log(reg.test(str));							//true			
+			str = "1ababab5e6a";
+			reg = /(ab){3}/;									//查询是否包含ababab
+			console.log(reg.test(str));							//true
+									//出现n~m次{n,m}
+			str = "1abbbab5e6a";
+			reg = /ab{4,5}a/g;									//判断a b*n a中间的b出现是否是4~5次，超过或小于都为false
+			console.log(reg.test(str));							//false
+									//出现n次以上{n,}
+			reg = /ab{4,}a/g;									//判断a b*n a中间的b出现是否大于四次
+			
+			/* n+		至少一个n的字符串  
+			 * n=		包含零个或多个n的字符串
+			 * n?		包含零个或一个n的字符串
+			 * n{x}		包含x个n的字符串
+			 * n{x,y}	包含x~y个的n的字符串
+			 * n{x,}	包含x个以上的n的字符串
+			 * n$		以n结尾的字符串
+			 * ^n		以n开头的字符串
+			 * [^n]		除了n有其他内容
+			 * ?=n		匹配紧跟n其后的字符串	
+			 * ?!=n		匹配没有在n其后的字符串
+			 */
+			
+			//手机号正则表达式
+			/* 1开头								^1
+			 * 第二位为3~9							[3-9]
+			 * 三位以后任意数字，共九个				[0-9]{9}
+			 * 只包含手机号							$
+			 */
+			reg = /^1[3-9][0-9]{9}$/;
+			console.log("手机号判断结果:"+reg.test("11013264987"));				//手机号判断结果:false
+			
+			
+									//元字符
+			/*	.		代表查找单个字符，除了换行和行结束符
+			 * \w		任意字母、数字、_
+			 * \W		除了 任意字母、数字、_
+			 * \d		任意数字
+			 * \D		除了 任意数字
+			 * \s		空格
+			 * \S		除了 空格
+			 * \b		单词边界(前后都得是单词边界)，搜索child	/\bchild\b/		而children不可以，返回false
+			 * \B		除了 单词边界
+			 * \0		NUL字符
+			 * \n		换行符
+			 * \f		换页符
+			 * \r		回车符
+			 * \t		制表符
+			 * \v		垂直制表符
+			 * \xxx		八进制数xxx规定的字符
+			 * \xdd		十六进制数dd规定的字符
+			 * \uxxxx	十六进制的Unicode字符
+			 */
+			//使用转义字符  \  使元字符不代表特殊含义
+			
+									//检查一个字符串中是否含有  .
+			reg = /\./;
+			//使用构造函数时，由于它的参数是一个字符串，而\是字符串中转义字符，所以\\来代替\
+			// reg = new RegExp("\\.");
+			console.log(reg.test(str));							//fasle
+			
+									//去除字符串中空格
+			str = "             hello  world                      ";
+			result = str.replace(/\s/g,"");
+			console.log(result);								//helloworld
+									//取除前后的空格
+			console.log(str.trim());							//hello  world
+			reg = /^\s*|\s*$/g;									//与trim效果相同
+			//^开头	\s空格	*零或多个	|或		$结尾	g全局匹配
+			console.log(str.replace(/^\s*|\s*$/g,""));			//hello  world
+			
+									//电子邮件的正则表达式
+			var emailreg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/;
+			console.log(emailreg.test("2058981@qq.com"));		//true
+			
+			
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="box1"></div>
+		<div id="box2"></div>
+		<br><br>
+		<button id="btn01" style="margin-top: 100px;">box1移动到1000px</button>
+		<button id="btn02" style="margin-top: 100px;">box1移动到0px</button>
+		<br><br>
+		<button id="btn03" style="margin-top: 150px;">box2向右移动</button>
+		<button id="btn04" style="margin-top: 150px;">测试其他动画效果</button>
+		<div style="width: 0; height: 1000px; border-left: 1px #FF69B4 solid; position: absolute; left: 1000px; top: 0;">
+			
+		</div>
+		<!-- 终止线 -->
+	</body>
+	
+	<!-- 调用外部js文件代码 -->
+	<script src="62_动画方法的外部文件.js" type="text/javascript" charset="utf-8"></script>
+	<!-- ALT点击跳转 -->
+	<script type="text/javascript">
+		
+		var btn01 = document.getElementById("btn01");
+		var btn02 = document.getElementById("btn02");
+		var btn03 = document.getElementById("btn03");
+		var btn04 = document.getElementById("btn04");
+		var box1 = document.getElementById("box1");
+		var box2 = document.getElementById("box2");
+		var timer;
+		
+		// 点击按钮方块向右移动到指定位置
+		btn01.onclick = function(){
+			move_animation(box1,"left",1000,10);
+		}
+		btn02.onclick = function(){
+			move_animation(box1,"left",0,10);
+		}
+		/* 
+		 * 使box1移动后再使box2移动，box1的移动就停止了(move_animation函数把前一个定时器清了)
+		 * 目前我们的定时器的标识由全局变量timer保存
+		 * 所有正在执行的定时器都在这个变量中保存
+		 */
+		btn03.onclick = function(){
+			move_animation(box2,"left",1000,20);
+		}
+		btn04.onclick = function(){
+			move_animation(box2,"width",1000,20,function(){
+				console.log("执行完毕");
+				move_animation(box2,"height",1000,20,function(){
+					console.log("无限套娃");
+				});
+			});
+		}
+		
+		
+	</script>
+	<style type="text/css">
+		*{
+			/* 清除默认样式 */
+			margin: 0;
+			padding: 0;
+		}
+		#box1{
+			left: 0px;							/* 防止IE中未设置值，显示auto，不兼容可以不写此行 */
+			width: 100px;
+			height: 100px;
+			background-color: #5F9EA0;
+			position: absolute;
+		}
+		#box2{
+			left: 0px;							/* 防止IE中未设置值，显示auto，不兼容可以不写此行 */
+			width: 100px;
+			height: 100px;
+			margin: 200px 0px;
+			background-color: #9932CC;
+			position: absolute;
+		}
+	</style>
+</html>

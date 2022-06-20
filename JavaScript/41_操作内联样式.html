@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>操作内联样式</title>
+		<style type="text/css">
+			#box1{
+				width: 200px;
+				height: 200px;
+				background-color: #6495ED /* !important */;
+				/* 在样式中写了	!important	则此时样式会有最高的优先级
+				   即使通过JS也不能覆盖该样式，此时会导致JS修改样式失效
+				   尽量不要为样式添加	!important
+				*/
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box1">
+			
+		</div>
+		<br />
+		<button id="btn01" type="button">修改box大小</button>
+		<button id="btn02">读取元素的样式</button>
+		<script type="text/javascript">
+			var box1 = document.getElementById("box1");
+			var btn01 = document.getElementById("btn01");
+			btn01.onclick = function(){
+				
+									//修改box1的宽度
+				/* 通过JS修改元素样式
+				 * 语法:元素.style.样式名 = 样式值
+				 */
+				box1.style.width = "400px";
+				
+									//修改背景颜色
+				/* 如果css的样式名中含有 - 	
+				 * 这种名称在JS是不合法的，eg：background-color
+				 * 需要将这种样式名修改为驼峰命名法
+				 */
+				box1.style.backgroundColor = "blueviolet";
+				
+				/* 我们通过style属性设置的样式都是内联样式（HTML）!!!!!!!
+				 * 而内联样式有较高的优先级，所以通过JS修改的样式往往会立即显示
+				 */
+				
+			};
+			
+			var btn02 = document.getElementById("btn02");
+			btn02.onclick = function(){
+									//读取box1内联样式
+				// 语法:元素.style.样式名 
+				alert("box1.style.width:"+box1.style.width);				//在通过style设置内联样式前无法读取
+				// 通过style属性设置和读取的都是内联样式(HTML)
+			};
+			
+		</script>
+	</body>
+</html>

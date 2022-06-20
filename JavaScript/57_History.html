@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<h1>History</h1>
+		<a href="../JavaScript/auxiliary_page/57_test01.html">去TEST01</a>
+		<br><br>
+		<button type="button" id="btn01">回退back</button>
+		<button type="button" id="btn02">前进forward</button>
+		<button type="button" id="btn03">向后跳转两个页面go</button>
+	</body>
+	<script type="text/javascript">
+		
+		/* 
+		 * History
+		 * - - 此对象可以用来操作浏览器向前或向后翻页
+		 */
+		console.log(history);
+		
+		/* 
+		 * history属性
+		 * - - length				返回浏览器历史列表中的URL数量(当次，关闭后清零)
+		 */
+		
+		/*
+		 * history方法
+		 * - - back()				加载history列表中的前一个URL(和浏览器回退功能相同)
+		 * - - forward()			加载history列表中的下一个URL(和浏览器前进功能相同)
+		 * - - go(int)				可以用来跳转到指定的页面，需要一个整数作为参数
+		 * 								eg:2表示向前跳转两个页面，-1表示向后跳转一个页面
+		 */
+		
+		var btn01 = document.getElementById("btn01");
+		btn01.onclick = function(){
+			history.back();
+		};
+		var btn02 = document.getElementById("btn02");
+		btn02.onclick = function(){
+			history.forward();
+		};
+		var btn03 = document.getElementById("btn03");
+		btn03.onclick = function(){
+			history.go(-2);
+		};
+		
+	</script>
+</html>

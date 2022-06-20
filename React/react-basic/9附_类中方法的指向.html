@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script type="text/javascript">
+			
+			class Person{
+				constructor(name,age) {
+					this.name = name
+					this.age = age
+				}
+				speak(){
+					// speak方法放在了类的原型对象上，供实例使用
+					console.log(this);							// this为实例对象
+				}
+			}
+			
+			const p1 = new Person('jery',18);
+			p1.speak();											// 通过实例调用speak方法
+			
+			const x = p1.speak;
+			x();												// undefined
+			// 属于直接调用(获取了函数),已然与实例无关
+			/* 不是window的原因是因为，类中定义的方法自动开启严格模式（严格模式可以局部【函数内部】开启），this无法指向window */
+			
+			function demo(){
+				'use strict'									// 函数内部局部开启严格模式
+				console.log("严格模式函数内部this:",this);
+			}
+			demo();
+			function demo2(){
+				// 不会受到demo中严格模式的影响
+				console.log("非严格模式函数内部this:",this);
+			}
+			demo2();
+			
+		</script>
+		
+	</body>
+</html>

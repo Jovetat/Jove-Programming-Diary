@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//数组（Array），数组也是对象
+			//和普通对象功能类似也是用来存储一些值的
+			//普通对象是使用字符串作为元素名，数组使用数字作为索引操作元素
+			//索引：从0开始的整数
+			/*数组的存储性能比普通对象要好，在开发中经常使用数组来存储一些数据*/
+			
+							//创建数组对象
+			var arr = new Array();
+			console.log(typeof arr);				//object
+			
+							//向数组中添加元素(元素可以是任意的数据类型，包括对象)
+			/*	数组【索引】= 值	*/
+			arr[0]=10;
+			arr[1]=12;
+			console.log(arr);						//	[10,12]
+			
+							//读取数组中的元素
+			/*	数组【索引】	*/
+			//如果读取不存在的索引，不会报错而是返回undefined
+			console.log(arr[1]);
+			
+							//获取连续的数组的长度		Array.length
+			document.write(arr.length);					//2
+			//对于非连续数组，返回获取到数组最大索引数+1
+			arr[10]=15;									//中间都为undefined
+			document.write("<br />"+arr);				//10,12,,,,,,,,,15
+			document.write("<br />"+arr.length);		//11
+			
+							//设置数组长度
+			arr.length = 20 ;							//大于原长度多出部分会空出来
+			document.write("<br />"+arr.length);		//20
+			document.write("<br />"+arr);				//10,12,,,,,,,,,15,,,,,,,,,
+			document.write("<br />"+arr[5]);			//undefined
+			arr.length = 1 ;							//小于原长度多出的元素会被删除
+			document.write("<br />"+arr);				//10
+			
+							//向数组的最后一个位置添加元素
+			arr[arr.length]=14;
+			arr[arr.length]=16;
+			document.write("<br />"+arr);				//10,12,16
+			
+							//使用字面量来创建数组,在创建时指定数组中的元素
+			var arr2 = [1,2,3,4,5,6,7,8,9];				//等同于arr3的创建方式
+			var arr3 = new Array(1,2,3,4,5,6,7,8,9)
+			console.log(arr2+";"+arr.length);
+			//创建一个数组中只有一个元素10
+			var arry = [10] ;
+			
+			//创建一个长度为10的数组
+			var arry2 = new Array(10)
+			
+			//数组中存放对象
+			var obj = {name:"唐三藏",age:98};
+			var peo = new Array();
+			peo[peo.length] = obj;
+			console.log(peo[0].name);
+			//方法2，直接存放
+			peo = [ {name:"茶叶蛋",age:2},{name:"油条",age:1.5},{name:"牛奶",age:3} ];
+			for(dic of peo)								//使用in只会输出NaN
+			{
+				console.log(dic.name+dic.age);
+			}
+			
+							//也可以存放函数
+			var funArray = [ function(){alert(peo[0].name)},function(){alert(peo[1].name)},function(){alert(peo[2].name)} ];
+			funArray[0]();
+			funArray[1]();
+			
+							//数组中也可存放数组(二维数组)
+			var arrArray = [ [1,2,3],[2,3,4],arr3,peo,funArray ];
+			console.log(arrArray);
+			console.log(arrArray[0][1].toString()+";"+arrArray[1][2]+";"+arrArray[2][5].toString()+";"+arrArray[3][2].name);
+			arrArray[4][0]();
+			
+							//数组的方法
+			/*concat(数组1，数组2，数组3，……，元素1，元素2)连接两个或更多数组，并返回结果(不会对原数组产生影响)
+			 * join(连接符-不输入默认为" , "	;无连接符-' "" ';把数组的所有元素放入一个字符串，元素通过指定的分隔符进行分隔(不会对原数组产生影响；var result = arr.join();)
+			 * pop()删除并返回数组的最后一个元素
+			 * push(元素,元素,……)向数组的末尾添加一个或多个元素，返回新的数组长度
+			 * unshift(元素,元素,……)向数组的开头添加一个或多个元素，返回新的数组长度
+			 * reverse()颠倒数组中元素的顺序，该方法会直接修改原数组
+			 * sort()可以对数组中的元素进行排序，该方法会直接修改原数组，默认会按照Unicode编码进行排序，纯数字数组只能十以下（十以上按照第一位排序依此类推），字母同理
+			 * 可指定排序规则，如下
+			 * shift()删除并返回数组的第一个元素
+			 * slice(start,end)从数组提取出指定的元素,不会改变原数组，将截取的元素封装到一个新数组中，包含start 不包含end(索引)
+			 * 第二个参数可以省略，截取到结束，负数代表到倒数第几个，第二个参数为-1会把最后一个截掉
+			 * splice(start,deleteNum,addyuansu)删除元素，并向数组添加新元素(会影响到原数组,会将指定元素从原数组中删除,被删除元素会作为返回值)
+			 * 第一个参数表示开始位置的索引，第二个参数表示删除的数量，第三个参数以后表示添加的新元素（插入最前）
+			 */
+			
+							//数组的遍历
+			for(var i= 0;i<arr2.length;i++)				//可以遍历对象数组
+			{
+				console.log(arr2[i]);					//1 2 3 4 5 6 7 8 9
+			}
+			for(dic in arr2)							//用于遍历数组中对象的属性
+			{
+				console.log(dic);						//0 1 2 3 4 5 6 7 8
+			}
+			for(dic of arr2)							//可以遍历对象数组
+			{
+				console.log(dic);						//1 2 3 4 5 6 7 8 9
+			}
+			
+							//forEach遍历需要一个函数作为参数
+			//由我们创建但不是由我们调用，称为回调函数
+			//每次执行时，浏览器会将遍历到的元素以实参的形式传递进来，我们可以定义形参来读取这些内容
+			
+			//浏览器会在回调函数中传递三个参数
+			/* 第一个参数：当前正在遍历的元素
+			 * 第二个参数：当前正在遍历元素的索引
+			 * 第三个参数：正在遍历数组
+			 */
+			peo.forEach(function(dic1,dic2,dic3){
+				console.log(dic1,dic2,dic3);
+			});
+			
+							//sort()指定排序规则，在sort()添加一个回调函数指定排序规则
+			//回调函数中需定义两个形参，浏览器将会分别使用数组中的元素作为实参去调用回调函数
+			
+			var numarr = [7,8,9];						//a为后面那个，b为前面的，遍历到结束
+			console.log(numarr);
+			numarr.sort(function(a,b){
+				console.log("a = "+a);					//a = 2，b = 1
+				console.log("b = "+b);					
+				if(a>=b)
+				{
+					return b-a;							//返回一个 =0 的值 a 和 b 的相对位置不变
+														//返回一个 <0 的值， a 会被排列到 b 之前
+														//返回一个 >0 的值, b 会被排列到 a 之前
+				}				
+			});
+			//返回a-b升序排列，返回b-a降序排列
+			console.log(numarr);
+			
+			
+		</script>
+	</body>
+</html>

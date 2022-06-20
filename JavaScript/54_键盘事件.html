@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<div id="box1"></div>
+		<br />
+		<input type="text" name="" id="name_input" value="" />
+		<br><br><br>
+		<label>不能输入数字的文本框</label>
+		<br>
+		<input type="text" name="" id="num_input" value="" />
+		
+	</body>
+	<script type="text/javascript">
+		
+		/* 
+		 * 键盘事件:
+		 * - - onkeydown —— 按键被按下(如果一直按着不松手，则事件一直触发，第一二次间隔时间较长防止误操作)
+		 * - - onkeyup   —— 按键被松开
+		 * 键盘事件一般都会绑定给一些可以获取到焦点的对象或者是document(eg:input)
+		 * altKey alt是否被按下；ctrlKey ctrl是否被按下 shiftKey……，返回一个bool
+		 */
+		document.onkeydown = function(event){
+			event = event || window.event;
+			
+			/* 
+			 * 可以通过keyCode来获取被按下按键的编码
+			 */
+			// 判断y是否被按下
+			if(event.keyCode === 89)
+			{
+				console.log("y被按下");
+			}
+			// 判断y和ctrl是否同时被按下
+			if(event.keyCode === 89 && event.ctrlKey)
+			{
+				console.log("ctrl与y同时被按下");
+			}
+			
+			
+		};
+		document.onkeyup = function(event){
+			// 同理
+		};
+		
+		// 为input绑定键盘事件
+		var name_input = document.getElementById("name_input");
+		name_input.onkeydown = function(){
+			console.log("input的键盘事件");
+			// 在文本框输入内容，属于onkeydown的默认行为
+			// 取消默认行为(这里的input就无法输入任何内容了，但是能检测到输入)
+			return false;
+		};
+		
+		// 使文本框不能输入数字(小键盘的数字仍可输入)
+		var num_input = document.getElementById("num_input");
+		num_input.onkeydown = function(event){
+			event = event || window.event;
+			// 数字keyCode值48~57
+			if(event.keyCode >= 48 && event.keyCode <= 57)
+			{
+				return false;
+			}
+		};
+		
+	</script>
+	<style type="text/css">
+		#box1{
+			width: 100px;
+			height: 100px;
+			background-color: #5F9EA0;
+		}
+	</style>
+</html>

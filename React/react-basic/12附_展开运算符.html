@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script type="text/javascript">
+		
+			/* 展开运算符 ...  */
+			let arr1 = [1,3,5,7,9];
+			let arr2 = [2,4,6,8,10];
+			// 展开一个数组 分别输出
+			console.log(...arr2);
+			// 连接两个数组(展开，放在数组中)
+			let arr3 = [...arr1,...arr2];
+			console.log(arr3);
+			
+			// 在函数中使用，函数传参(参数个数不固定，参数类型可以不同)
+			function sum(...numbers)
+			{
+				console.log(numbers);						// 将参数放入numbers数组
+				return numbers.reduce((preValue,currentValue)=>{
+					/* 
+						reduce传递一个参数为一个函数
+						函数接收两个参数，一个是之前的值preValue，另一个是当前的值currentValue
+						reduce返回处理结果
+					 */
+					return preValue + currentValue
+				})
+			}
+			console.log('sum='+sum(1,2,3,4,5));
+			
+			// ...展开运算符无法展开一个对象
+			let person = {name:'tom',age:18}
+			// console.log(...person);		Found non-callable @@iterator
+			
+			// 复制一个对象
+			let person2 = person;
+			person.name = 'jerry';
+			console.log(person2);
+			/* 将person2指向person，随person的改变而改变，不能称作为复制，而是引用关系的传递 */
+			/* 
+				正确的对象的赋值方式
+				直接写...无法展开对象，但外部写了{}，会以字面量的形式复制一个对象
+			*/
+			let person3 = {...person};
+			person.name = '冬泳怪哥';
+			console.log(person3);
+			
+			// 复制对象的同时修改属性，同时可以添加属性
+			let person4 = {...person,name:"jack"};
+			let person5 = {...person,name:"黄皮耗子",address:"木叶村"};
+			console.log(person4);
+			console.log(person5);
+			
+			
+			
+		</script>		
+		
+	</body>
+</html>

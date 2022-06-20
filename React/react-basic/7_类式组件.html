@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		
+		<style type="text/css">
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="test"></div>
+		
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/babel">
+			
+			// 1、创建类式组件（类名就是组件名）
+			// 必须继承React官方内置的类Component
+			class MyComponent extends React.Component{
+				 // 不需要写构造器和super，但必须写render
+				 /* render放在MyComponent的原型对象上，供实例使用*/
+				 render(){
+					 // render中的this是MyComponent的实例对象 <=> MyComponent组件实例对象
+					 console.log('render中的this为：',this);
+					 return <h2>我是用类定义的组件（适用于【复杂组件】的定义)</h2>
+				 }
+			}
+			/*
+				React 组件使用一个名为 render() 的方法，接收输入的数据并返回需要展示的内容
+				在示例中这种类似 XML 的写法被称为 JSX
+				被传入的数据可在组件中通过 this.props 在 render() 访问。
+				必须要用一个外层的 JSX 元素把所有内容包裹起来，返回并列多个 JSX 元素是不合法的
+			*/
+			
+			// 2、渲染组件到页面
+			ReactDOM.render(<MyComponent/>,document.getElementById("test"));
+			
+			/* 
+				执行了ReactDOM.render(<MyComponent/>……之后，发生了什么？
+					1、React解析组件标签，找到了MyComponent组件
+					2、发现组件是用使用类定义的，随后new出来该类的实例
+					   并通过该实例调用到原型上的render方法
+					3、将render返回的虚拟DOM转为真实DOM，随后呈现在页面中
+			 */
+			
+		</script>
+		
+	</body>
+</html>

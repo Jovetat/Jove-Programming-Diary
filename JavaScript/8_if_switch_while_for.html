@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+						//if(判断的是==,包含自动转换)
+		var a="22";
+			if(a>10)
+			{
+				alert("起飞");
+			}
+			else if(a>5)
+			{
+				alert("降落");
+			}
+			else
+			{
+				alert("与c相同");
+			}
+			
+						//switch(判断的是全等===,无自动转换)
+		switch(a)
+		{
+			case 1:
+				alert("壹");
+				break;
+			case 2:
+				alert("贰");
+				break;
+			default:
+				alert("呦呦呦");
+		}
+						//while
+		var i=0;
+		while(i<10)
+		{
+			document.write(i+"<br />");
+			i++;			
+		}
+		do
+		{
+			document.write(i);
+			i++;			
+		}while(i<10)
+						//for
+		for(var j=0;j<100;j++)
+		{
+			document.write(j+"&nbsp;");			//&nbsp;为空格
+		}
+		//break和continue
+		
+		//for...of循环简写
+		// for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环
+		//调用自定义迭代钩子，并为每个不同属性的值执行语句
+		let fruits = ['apple', 'orange', 'grape'];
+		for (let fruit of fruits)
+		{
+		  console.log(fruit);
+		}
+		
+		</script>
+	</body>
+</html>

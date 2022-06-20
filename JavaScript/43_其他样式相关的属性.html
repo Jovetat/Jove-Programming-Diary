@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#box1{
+				width: 100px;
+				height: 100px;				
+				background-color: #6495ED;
+				padding: 10px;
+				/* 内边距 */
+				border: 10px solid hotpink;
+				/* 边框 */
+			}
+			#box3{
+				width: 200px;
+				height: 300px;
+				/* 也包括滚动条的区域 */
+				background-color:  darkorchid;
+				overflow: auto;
+				/* 滚动条  box3小于box4，box4的内容显示不足，转为滚动条*/
+				/* hidden为裁切 */
+			}
+			#box4{
+				width: 450px;
+				height: 600px;
+				background-color: gold;				
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box2" >
+			<!-- 相对定位:	style="position: relative;(只要position值不是static就是相对定位)" -->
+			<div id="box1" ></div>
+		</div>
+		<div id="box3">
+			<div id="box4"></div>
+		</div>
+		<br /><br />
+		<button id="btn01" type="button">点击读取box1可见宽度</button>
+		<button id="btn02" type="button">点击读取box2高度</button>
+		<script type="text/javascript">
+			
+			var box1 = document.getElementById("box1");
+			var box3 = document.getElementById("box3");
+			var btn01 = document.getElementById("btn01");
+			var btn02 = document.getElementById("btn02");
+			btn01.onclick = function(){
+				
+				/* 					获取元素的可见宽度和可见高度
+				 * 会获取元素宽度和高度，包括内容区和内边距
+				 * clientWidth
+				 * clientHeight
+				 * - 这些属性都是不带px的，获取都是一个数字，可以直接进行计算
+				 * 之前的方法不会计算包含内边距导致的宽度变化
+				 * - 这些属性都只读的，不能修改，只有style能改
+				 */
+				alert(box1.clientWidth);										//120，还自动增加了内边距宽度
+			};
+			
+			btn02.onclick = function(){
+				
+				/*					元素信息
+				 * 获取元素的高度和宽度
+				 * - 获取元素的整个的大小，包括内容区、内边距和边框
+				 * offsetWidth
+				 * offsetHeight
+				 * offsetParent		可以用来获取当前元素的定位父元素
+				 * 找的是开启相对定位的第一个祖先元素，如果父元素都没开启相对定位则获取body
+				 * offsetLeft		获取当前元素相对于其定位父元素的水平偏移位置
+				 * offsetTop		获取当前元素相对于其定位父元素的垂直偏移位置
+				 * scrollHeight		获取元素的整体滚动区域高度
+				 * scrollWidth		获取元素的整体滚动区域宽度
+				 * scrollLeft		获取元素水平滚动条滚动的距离（距左侧）
+				 * scrollTop		获取元素垂直滚动条滚动的距离（距上侧）
+				 */
+				console.log("box1.offsetWidth:"+box1.offsetWidth);						//140，包括内边距和边框
+				console.log("box1.offsetParent:"+box1.offsetParent);				//body
+				console.log("box1.offsetLeft:"+box1.offsetLeft);					//8(相对于body)
+				console.log("box3.clientHeight:"+box3.clientHeight);				//283(显示高度)(被抛去进度条所占的17px)
+				console.log("box3.scrollHeight:"+box3.scrollHeight);				//600(滚动【滚动区域】高度)
+				console.log("box3.scrollLeft:"+box3.scrollLeft);					//随水平滚动条位置变化
+				console.log("box3.scrollTop:"+box3.scrollTop);						//随垂直滚动条位置变化
+				
+				//当满足		scrollHeight-scrollTop == clientHeight	时证明垂直滚到条到底部了
+				//同理		scrollWidth-scrollLeft == clientWidth	时证明水平滚动条到底了
+				console.log("box3.scrollHeight-box3.scrollTop"+(box3.scrollHeight-box3.scrollTop));
+			};
+						
+		</script>
+	</body>
+</html>

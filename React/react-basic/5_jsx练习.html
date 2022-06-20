@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		
+		<style type="text/css">
+			
+		</style>
+		
+	</head>
+	<body>
+		
+		<div id="test"></div>
+		
+		<script src="../js/react.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/react-dom.development.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/babel.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/babel">
+		
+			/* 				jsx
+				！！！2、标签中混入js表达式时要用 {}
+				一定注意区分：【js语句（代码）】与【js表达式】
+					一、表达式：表达式会产生一个值，可以放在任何一个需要值的地方
+						(1)、a
+						(2)、a+b
+						(3)、demo(1)		函数调用表达式，没写返回值会返回undefined
+						(4)、arr.map()		数组方法会返回值
+						(5)、function test(){  }		let x = fun…… ，x值为函数本身
+					二、语句（代码）：
+						(1)、if(){}
+						(2)、for(){}
+						(3)、switch(){case:xxxxx}
+			 */
+		
+			// 模拟一些数据
+			const data = ['Angular','React','Vue'];
+			const data2 = [<li>Angular</li>,<li>React</li>,<li>Vue</li>];
+			// {data2} react会自动遍历并正常显示(但一般后台数据不会带标签，所以不用这种方法)
+			const obj = {name1:'Angular',name2:'React',name3:'Vue'};
+			// {obj} react无法遍历对象元素，会报错
+			
+			// 1、创建虚拟DOM
+			const VDOM = (
+			<div>
+				<h1>前端js框架列表</h1>
+				<ul>
+					{
+						data.map((item,index)=>{
+							return <li key={index}>{item}</li>
+						})
+					}
+				</ul>
+			</div>
+			)
+			// 2、渲染虚拟DOM到页面
+			ReactDOM.render(VDOM,document.getElementById("test"));
+			
+		</script>
+		
+	</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#box1{
+				width: 100px;
+				height: 100px;				
+				background-color: #6495ED;				
+			}
+		</style>		
+	</head>
+	<body>
+		<div id="box1" ></div>
+		<br /><br />
+		<button id="btn01" type="button">点击读取box1样式</button>
+		
+		<script type="text/javascript">
+			
+			var box1 = document.getElementById("box1");
+			var btn01 = document.getElementById("btn01");
+			btn01.onclick = function(){
+				
+									//获取元素当前显示的样式
+				//它可以用来读取当前元素 !正在显示! 的样式
+				
+				/* IE 语法:		元素.currentStyle.样式名
+				 * 如果没有设置则获取元素默认值		宽和高默认值为auto(自动)		背景色默认值为transparent(透明的)
+				 */
+				
+				// alert(box1.currentStyle.width);					//只有IE支持(Edge和chrome都会报错)
+				
+				/* 在其他浏览器中可以使用（IE9+、edge、chrome……）
+				 * getComputedStyle(要获取元素的对象,可以传递一个伪元素[一般都是null])方法		来获取元素当前的样式
+				 * window的方法，可以直接使用
+				 * 如果没有设置则获取真实的样式的值(宽为auto也会显示具体的值)
+				 */
+				
+				// var obj = window.getComputedStyle(box1,null);		//该方法返回一个对象，对象中封装了当前元素的样式作为自身属性
+				// console.log(obj);									//要获取元素的包含所有属性的对象
+				// alert(obj.width + "*" + obj.height);
+				
+				// 通过currentStyle和getComputedStyle()读取到的样式都是只读的，不能修改，如果要修改必须通过style属性
+				
+				alert(compatibilityGetStyle(box1,"width"));				//"100px"
+				
+			};
+			
+			/* 					//定义一个函数兼容所有浏览器，获取指定元素的当前样式
+			 * 参数:	obj	要获取样式的元素
+			 * 			name	要获取的样式名
+			 */
+			function compatibilityGetStyle(obj,style_name)
+			{				
+				if(window.getComputedStyle)
+				{
+					// +window作为全局的属性(没找到时返回undefined)，不加window为变量在作用域中寻找(没找到时报错)
+					// 正常浏览器的方式有getComputedStyle方法
+					return getComputedStyle(obj,null)[style_name];
+					//只有【】这样写，style_name才能是表达获取不同属性的变量
+				}
+				else
+				{
+					// IE8
+					return obj.currentStyle[style_name];
+				}
+				//return window.getComputedStyle?getComputedStyle(obj,null)[style_name]:obj.currentStyle[style_name]
+			}
+			
+		</script>
+		
+	</body>
+</html>

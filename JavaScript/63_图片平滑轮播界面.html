@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="img_box">			<!-- 限制显示范围，作为大的容器 -->			
+			<ul id="imgList">				<!-- 作为承载所有图片的横条，通过ul的横向移动，显示div范围内的图片 -->
+									<!-- 图片列表 -->
+				<li>	<img src="./img/cat01.jpg" class="imgList-class">	</li>
+				<li>	<img src="./img/cat02.jpg" class="imgList-class">	</li>
+				<li>	<img src="./img/cat03.jpg" class="imgList-class">	</li>
+				<li>	<img src="./img/cat04.jpg" class="imgList-class">	</li>
+				<!-- 最后一张与第一张相同，为了一直向右滚动而不向左，产生无限的感觉 -->
+				<li>	<img src="./img/cat01.jpg" class="imgList-class">	</li>
+			</ul>
+									<!-- 创建图片导航按钮 -->
+			<div id="nav_div">
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="62_动画的外部函数文件.js"></script>
+	<script type="text/javascript">
+		
+		var imgList = document.getElementById("imgList");
+		var cat_img_arr = document.getElementsByClassName("imgList-class");
+		var nav_div = document.getElementById("nav_div");
+		var img_box = document.getElementById("img_box");
+		var all_link = document.getElementsByTagName("a");
+		var current_index = 0;
+		var img_width = 520;
+		var timer;							// 定时器的标识
+		imgListInit();						// 图片平滑轮播界面方法
+		autoChange();						// 自动切换图片
+		
+		/* 设置当前轮播图片导航颜色(默认选中的效果) */
+		setA(current_index);
+		
+		
+		function imgListInit(){			
+			/* 根据图片数量自动设置宽度 */
+			imgList.style.width = img_width*cat_img_arr.length + "px";
+			/* 点击超链接切换到对应的图片事件 */
+			for(var i=0;i<all_link.length;i++)
+			{
+				// 为对象添加索引属性标识，以便分辨所有超链接
+				all_link[i].cat_index = i;
+				// 先执行循环，后执行响应函数绑定
+				all_link[i].onclick = function(){
+					// 防止点击与轮播的动画冲突，取消轮播
+					clearInterval(timer);
+					/* 获取遍历连接的索引(不使用此时的i，因为绑定事件时for循环已执行完毕) */
+					current_index = this.cat_index;
+					setA(this.cat_index);
+					// 将自动切换再重新开启
+					autoChange();
+				};
+			}
+		}
+		/* 设置当前轮播图片导航颜色，修改未选中导航颜色(默认选中的效果) */
+		function setA(index){
+			// 判断是否为最后一张(最后一张向右移动到第一张，显示第一个导航)
+			console.log(imgList.style.left);
+			if(index == cat_img_arr.length -1 )
+			{
+				move_animation(imgList,"left",index*-img_width,25,function(){
+					// 写在里面是先移动，后变色
+					for(dic of all_link)
+					{
+						/* 空串方式内联样式优先级高使点击变色失效，(无内联样式默认读取样式表) */
+						dic.style.backgroundColor = "";
+					}
+					all_link[0].style.backgroundColor = "violet";
+					// 通过css将最后一张切换为第一张(第一张与最后一张一样)
+					imgList.style.left = 0;						// 放于回调函数外侧将会先执行此条，非常怪异，先跳后移动
+					/* 如果不懂可以在浏览器把imgbox的overflow关闭看看 */
+				});				
+				return;
+			}
+			// 切换图片
+			move_animation(imgList,"left",index*-img_width,25,function(){
+				// 写在里面是先移动，后变色
+				for(dic of all_link)
+				{
+					/* 空串方式内联样式优先级高使点击变色失效，(无内联样式默认读取样式表) */
+					dic.style.backgroundColor = "";
+				}
+				all_link[index].style.backgroundColor = "violet";
+			});
+		}
+		/* 自动切换图片 */
+		function autoChange()
+		{
+			// 定时切换图片
+			timer = setInterval(function(){
+				current_index = (current_index + 1) % cat_img_arr.length;
+				console.log(current_index);
+				setA(current_index);
+			},3500);
+		}
+		
+	</script>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			/* 取消所有默认外边距和内边距 */
+		}
+		#img_box{
+			width: 520px;					/* 500+10*2 */
+			height: 333px;
+			
+			overflow: hidden;				/* 裁剪溢出的部分，使画面中只显示一个图片 */
+			
+			margin: 60px auto;				/* 居中(外边距) */
+			background-color: #5F9EA0;
+			padding: 10px 0px;				/* 上下内边距 */
+			position: relative;				/* 开启相对定位(忽略绝对定位的元素，其他的元素按规则摆放) */
+		}
+		#imgList{
+			list-style: none;				/* 取除项目符号 · */
+			/* width: 2040px;				   默认继承父元素(div)宽度，要想ul比父元素宽，需设置*/
+			/* 4*500px+20*4		通过JS自动设置 */
+			position: absolute;				/* 开启绝对定位(因为需要移动),不会因为其他元素而发生位置改变 */
+			left: 0px;						/* 设置ul偏移量，用于平移ul，实现图片切换的效果 */
+			/* -520*移动的张数，实现轮播 */
+		}
+		.imgList-class{
+			float: left;					/* 设置li块元素(每人占一行)向左浮动(相当于取消块元素属性) */
+			width: 500px;
+			height: 333px;
+			margin: 0px 10px;				/* 设置左右边外边距 */
+		}
+		#nav_div{
+			position: absolute;				/* 也开启绝对定位，后边的元素在上边显示 */
+			/* 设置位置 */
+			bottom: 20px;					/* 距div底部位置 */
+			/* left: 192px; */					/* 在父元素中居中，通过JS自动设置 */
+			/* 父元素宽度520,nav_div宽(18+16)*4=136 (520-136)/2=192 */
+			/* 下面两条直接居中 */
+			left: 50%;						/* 开段处居中 */
+			transform: translateX(-50%);	/* 沿X轴方向基于自身宽度平移-50% */
+		}
+		#nav_div a{
+			/* 设置导航按钮,设置id为nav_div下的所有a */
+			background-color: #FFFFFF;
+			width: 18px;
+			height: 5px;
+			border-radius: 10px;			/* 圆角 */
+			float: left;					/* 设置超连接向左浮动 */
+			margin: 0 8px;					/* 设置左右外边距 */
+			opacity: 0.8;					/* 设置透明度 */
+			filter: alpha(opacuty=80);			/* 兼容IE8透明 */
+		}
+		
+		/* 设置鼠标移入的效果(粉色) */
+		#nav_div a:hover{
+			background-color: violet;
+		}
+		
+		
+	</style>
+</html>

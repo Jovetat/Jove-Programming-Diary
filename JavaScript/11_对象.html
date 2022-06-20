@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//对象
+			/*1、内建对象
+			 *		由ES标准中定义的对象，在任何的ES的实现中都可以使用
+			 * 		eg:string、number……
+			 * 2、宿主对象
+			 * 		由JS的运行环境提供的对象，目前来讲主要指由浏览器提供的对象
+			 * 		eg:BOM,DOM…… console、document系统环境提供的对象
+			 * 3、自定义对象
+			 * 		开发人员自己创建的对象,object类
+			 */
+			
+			 var obj = new Object();			//new构造，在堆内存开辟一个新的空间
+			 //向对象中添加属性(对象.属性名=属性值)
+			 obj.name="张三";
+			 obj.age=25;
+			 //console.log(obj);
+			 
+			 //读取属性
+			 document.write(obj.name+obj.age);
+			 document.write(typeof obj.age);
+			 
+			 //修改属性
+			 //obj.name="起飞";
+			 
+			 //删除属性
+			 //delete.obj.age;
+			 
+			 //特殊属性名采用   对象["属性名"]=属性值		的方式
+			 //在	[]	中可以直接传递一个变量，根据变量值读取属性
+			 obj.school="海小";
+			 var str="school";
+			 document.write(obj[str]);
+			 //根据变量读取对应的属性
+			 
+			 //属性可以是任意的数据类型，也可以是一个对象
+			 var obj2 = new Object();
+			 obj2.address="新华";
+			 obj.test = obj2;
+			 document.write(obj.test.address);			 
+			 
+			 //in运算符(可以检查一个对象中是否含有指定的属性)
+			 //有则返回true，没有则返回false
+			 console.log("school" in obj);
+			 
+			 //在引用数据类型(object)中，对象保存到堆内存中，变量保存的是对象在堆内存中的地址！！！
+			 //特指对象与对象间的赋值,obj.name=obj3.address直接是自身对应内存属性赋值而不是改变指针
+			 var obj3=obj;								//obj将自身在堆的内存地址赋给obj3，所以二者任一改变，另一个都会改变
+			 obj.school="都会发生改变";					//不仅改变了obj，同时也改变了obj3
+			 console.log(obj.school+obj3.school);
+			 obj3.name="这是为什么呢";					//不仅改变了obj3，同时也改变了obj
+			 console.log(obj3.name+obj.name);
+			 obj.new_property="为其中一个添加新属性";
+			 console.log(obj3.new_property);			//另一个也会添加新属性
+			 //JS中的变量都是保存到栈内存中
+			 //基本数据类型直接在栈内存中存储
+			 //基本数据类型无此情况，相互独立
+			 
+			 //obj3=null,指向改变为null而不是将二者都清空
+			 //判断两个对象相同时，只有指向相同才为true，属性和属性值全部相同与此无关，比较的是对象的内存地址
+			 
+			 //使用对象的字面量来创建一个对象			 
+			 var people={};					//  {}   为字面量
+			 //可以在创建对象时，直接指定对象中的属性
+			 //属性名可加可不加""，如果一些特殊的名字必须加引号
+			 var peo={ name:"八戒" , age:20 , "123":789 };
+			 console.log(peo.name+peo.age+peo["123"]);
+			 
+			 //对象的属性也可以是一个函数
+			 //则这个函数为对象的方法
+			 var ren = new Object();
+			 ren.name="张飞";
+			 ren.sayname=function(){
+				 alert(ren.name);
+			 }
+			 ren.sayname();								//调用对象的方法
+			 var ren2 = {
+				 name:"张麻子",
+				 sayname:function(){
+					 alert(ren2.name);
+				 }
+			 }
+			 
+			 //枚举对象中的属性
+			 //使用for...in 语句
+			 for(var n in ren2)
+			 {
+				 alert(n+" : "+ren2[n]);								//输出的是属性名和属性值
+			 }
+			 
+		</script>
+	</body>
+</html>

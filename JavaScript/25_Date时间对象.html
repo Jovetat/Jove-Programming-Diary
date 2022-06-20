@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		
+		<script type="text/javascript">
+			
+			//Date对象(在JS中使用Date对象来表示一个时间)
+			
+			//如果直接使用构造函数创建Date对象，则会封装为当前代码执行的时间
+			var dt = new Date();
+			console.log(dt);										//Mon Jul 26 2021 15:45:46 GMT+0800 (中国标准时间)
+			
+			//创建一个指定的时间对象
+			//在构造函数中传递一个表示时间的字符串传作为参数
+			var dt_na = new Date("02/05/2000 03:20:25");			//Sat Feb 05 2000 03:20:25 GMT+0800 (中国标准时间)
+			//日期格式： 		月份/日/年  时:分:秒
+			console.log(dt_na);
+			
+								//Date方法
+			/* getDate();	返回当前对象的日期几号
+			 * getDay();	返回当前对象周几(返回0~6的值，0表示周日……)
+			 * getMonth();	返回对象月份-1(返回0~11的值，0表示一月)
+			 * getFullYear();	返回对象年份
+			 * getTime();	获取对象时间戳(时间戳指从格林威治标准时间的1970年1月1日0时0分0秒到对象时间花费的毫秒数)(1s=1000ms)
+			 */
+			
+			//获取当前的时间戳
+			time = Date.now();
+			
+		</script>
+		
+	</head>
+	<body>
+	</body>
+</html>
