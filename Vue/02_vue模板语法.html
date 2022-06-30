@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 模板语法</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+            Vue 模板语法有两大类：
+                插值语法
+                指令语法
+         -->
+        <div id="root">
+            <h1>1、插值语法</h1>
+            <h3>Hello，{{name.toUpperCase()}}</h3>
+            <hr>
+            <!-- 插值语法：解析标签体内容(起始与结束标签中间的内容) -->
+            <!-- {{插值表达式}}：双括号内写 js表达式
+                    区分 js表达式 和 js代码(语句)
+                        1、表达式：一个表达式会产生一个值，可以放在任何一个需要值的地方
+                            (1) 变量名 a，可以读取到 data 中的所有属性
+                            (2) 二元运算符 a+b
+                            (3) 函数返回值 demoFun(a)
+                            (4) 三元表达式 x === y ? a : b
+                        2、js代码(语句)
+                            (1) 判断语句 if(){}
+                            (2) for(){} while(){}
+             -->
+            <h1>2、指令语法</h1>
+            <a :href="link">点我是些好康的</a>
+            <a v-bind:href="school.link">|谁不是呢</a>
+            <hr>
+            <!-- 指令语法：解析标签(包括：标签属性、标签体内容、绑定事件)
+                    Vue 包含很多指令且都是 v-???，此处只是以 v-bind 距离
+            -->
+            <!-- 在标签属性前添加 v-bind: 或 : (简写) 动态绑定值
+                    指令语法会使标签属性内容看做 js表达式 执行
+            -->
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            new Vue({
+                el: '#root',
+                data: {
+                    name: 'Jove',
+                    link: 'https://www.bilibili.com/',
+                    school:{
+                        link: 'https://translate.google.cn/'
+                    }
+                }
+            })
+        </script>
+    
+    </body>
+</html>

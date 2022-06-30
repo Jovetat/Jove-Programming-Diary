@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>初识 Vue</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        <!-- 准备好一个容器 -->
+        <div id="root">
+            <h1>Hello，{{name.toUpperCase()}}{{greet}}</h1>
+            
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            /* 创建 Vue 实例 */
+            new Vue({
+                // 参数为一个配置对象
+                // el (element元素) 用于指定当前 Vue 实例为哪个容器服务，值通常为 css 选择器字符串 (值也可以是获取到的容器对象)
+                // 如果使用类选择器 .class 会操作该类的第一个容器
+                el: '#root',
+                // data 中用于存储数据，数据供 el 所指定的容器去使用(超出容器获取不到)，值暂时写成对象(后期为函数的形式)
+                // data 中数据发生改变，那么页面中用到该数据的地方也会自动更新
+                data: {
+                    name: 'Jove',
+                    greet: '老板'
+                }
+            })
+            /* 
+                容器与 vue 实例一一对应
+                    如果有多个实例对应一个容器，以第一个为主，后面的实例不会生效
+                    真实开发中只有一个 Vue实例，并且会配合组件一起使用
+            */
+
+            /* 
+                总结
+                    1、使 vue 工作必须创建 vue 实例，并且传入一个配置对象
+                    2、root 容器的代码仍然符合 html 规范，增加了特殊的 vue 语法
+                    3、root 容器里的代码被称为 【vue模板】
+            */
+        </script>
+    
+    </body>
+</html>
