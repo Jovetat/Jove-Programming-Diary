@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 计算属性</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <!-- TODO:当姓/名发生变化时，下面的姓名会跟随发生变化 -->
+        <!-- 1、通过 插值语法 实现 -->
+        <div id="root">
+            姓：<input type="text" v-model="firstName">姓长度限制为3<br>
+            名：<input type="text" v-model="lastName"><br>
+            姓名：<span>{{firstName.slice(0,3)}}-{{lastName}}</span> <!-- 姓长度限制为3，{{}}内不应(并非不能)写过于复杂的表达式 -->
+            <!-- 另一种写法：姓名：<span>{{firstName + '-' + lastName}}</span> -->
+            <!-- 这样写无法处理复杂表达式的情况 -->
+        </div><hr>
+        <!-- 2、通过 methods 实现 -->
+        <div id="root2">
+            姓：<input type="text" v-model="firstName">姓长度限制为3<br>
+            名：<input type="text" v-model="lastName"><br>
+            姓名：<span>{{ fullName() }}</span><!-- fullName 在初始化时就会被调用一次 -->
+            <!-- 任何一个 data 数据发生变化，vue 模板都会重新解析一次，如果 fullName 所依赖的数据发生变化，那么就会被重新调用
+                    (有几个使用到的就会被调用几次，无缓存机制，这也是计算属性相对此方法的优势)
+                    重新解析的过程中，遇到插值语法中包括函数且函数所依赖的 data 数据发生更改，就会重新调用此函数
+                    (这样写的效率与性能不好，所以介绍 vue 中的计算属性)
+            -->
+        </div><hr>
+        <!-- 3、通过 计算属性 实现 -->
+        <!-- 
+            计算属性：
+                1、定义：通过已有属性计算得来一个全新的属性
+                    (已有属性：vue管理的数据，否则不被管理的数据发生变化时计算属性不会变)
+                2、原理：数据代理，底层借助 Object.defineproperty 方法提供的 getter和setter
+                3、单独配置项： computed:{}    (与属性[data]分开放)
+                4、计算属性需配置为对象
+                    计算属性名:{
+                        getter：get(){}  get返回值 作为计算属性的值
+                            get 被调用的情况：
+                                (1) 初次读取计算属性时，get 会被调用
+                                    初次调用后计算属性后做了一次缓存，在之后调用的时候就会直接读取缓存
+                                (2) 计算属性所依赖的数据发生变化时，get 会被重新调用
+                                    (methods方法同样在依赖数据发生变化时调用，但不会做缓存，使用的地方都会调用一遍函数)
+                            get 函数中的 this 为 vm
+                        setter：set(value){}  无需直接修改计算属性可以省略set
+                            计算属性无法真正的改值，因为它是通过计算得来的，如果修改可以通过 set 修改其依赖的属性
+                            set 被调用的情况：
+                                当计算属性被直接修改时
+                    }
+                5、计算属性会直接挂载于 vm 上，所以视图可以通过计算属性名直接读取(不会出现在_data中)
+                6、计算属性要被修改，必须写 set函数 去响应修改，且 set 中要引起计算时依赖的数据发生改变
+                7、优势：与 methods实现相比，内部有缓存机制(复用)，效率更高，调试方便(vue开发者工具可以看到计算属性)
+
+                8、计算属性的简写
+                    大部分情况下计算属性作为展示，没有修改的需求，当不需要 setter 时就可以简写为：
+                    computed:{
+                        (1) function 函数直接当作 getter 使用
+                            fullname:function(){
+                                return this.firstname + this.lastname
+                            }
+                        (2) 然后可以简化为：
+                            fullname(){ return this.firstname + this.lastname }
+                            表面上写作成了函数，其实是对象的简化
+                    }
+         -->
+        <!-- 三者之间的区别
+            插值表达式{{}}内不应该写过于复杂的表达式
+            methods 方法在依赖数据发生变化时调用，但不会做缓存，使用的地方都会调用一遍函数
+            计算属性 方法在依赖数据发生变化时调用，并会做缓存，之后使用的地方直接读取缓存
+        -->
+        <div id="root3">
+            姓：<input type="text" v-model="firstName">姓长度限制为3<br>
+            名：<input type="text" v-model="lastName"><br>
+            姓名：<span>{{ fullname }}</span>
+        </div><hr>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            new Vue({
+                el: '#root',
+                data: {
+                    firstName: '张',
+                    lastName: '三',
+                }
+            })
+            new Vue({
+                el: '#root2',
+                data: {
+                    firstName: '张',
+                    lastName: '三',
+                },
+                methods: {
+                    fullName(){
+                        console.log('@---fullName')
+                        return this.firstName.slice(0,3) + '-' + this.lastName
+                    },
+                },
+            })
+            const vm = new Vue({
+                el: '#root3',
+                data: {
+                    firstName: '张',
+                    lastName: '三',
+                },
+                computed: {
+                    // 需要将计算的整个过程配置为对象
+                    fullname: {
+                        // 当 fullname 被读取时，get就会被调用，返回值就是 fullname 的值
+                        get(){
+                            console.log('get被调用')
+                            return this.firstName.slice(0,3) + '-' + this.lastName                            
+                        },
+                        // 当 fullname 被修改时，set就会被调用
+                        set(value){
+                            const arr = value.split('-')
+                            this.firstName = arr.shift()
+                            this.lastName = arr.join('')
+                        }
+                    }
+                },
+            })
+
+        </script>
+    
+    </body>
+</html>

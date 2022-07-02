@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Object.defineProperty方法</title>
+    </head>
+    <body>
+
+        <script type="text/javascript">
+            
+            let person = {
+                name: '张三',
+                sex: '男'
+            }
+            /* 
+                直接写属性，默认情况下
+                    可枚举
+                    可更改
+                    可删除
+            */
+
+            /* 通过 Object.defineProperty 的方式添加属性(添加属性的高级写法)
+                    Object.defineProperty(添加属性的对象，添加的属性名，配置对象{
+                        value: 属性值,
+                        enumerable: 设置属性是否可以枚举(遍历)，默认为 false
+                        writable: 设置属性是否可更改，默认为 false
+                        configurable: 设置属性是否可被删除，默认为 false
+                        // 当开启 get 与 set 时，以上属性描述无效
+                        get: function(){} 当添加的属性被读取时，get函数就会被调用，且返回值就是该属性的值
+                            简写 get(){}
+                        set: function(){} 当添加的属性被修改时，set函数就会被调用，且会收到修改的具体值
+                            简写 set(){}
+                    })
+                    默认情况下 不可枚举 不可更改 不可删除 需要在第三个配置属性中设置
+            */
+            let number = 25
+            // TODO：使 person 的 age 属性是始终等于 number
+            Object.defineProperty(person,'age',{
+                /* value: 18,
+                enumerable: true,
+                // 设置属性是否可以枚举，默认为 false
+                writable: true,
+                // 设置属性是否可更改，默认为 false
+                configurable: true,
+                // 设置属性是否可被删除，默认为 false */
+                get: function(){
+                    console.log('age 属性被读取')
+                    return number
+                },
+                // 当添加的属性被读取时，get函数(getter)就会被调用，且返回值就是该属性的值
+                set: function(value){
+                    console.log('有人修改了 age 属性，且值是',value)
+                    number = value
+                }
+            })
+            for(let dic in person){
+                console.log(person[dic])
+            }
+            console.log(person)
+
+        </script>
+    
+    </body>
+</html>

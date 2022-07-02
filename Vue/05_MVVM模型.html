@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>MVVM 模型</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <!-- 2、V 视图 -->
+        <div id="root">
+            <h1>学校名称：{{name}}</h1>             <!-- data 内的数据会成为 vm属性 -->
+            <h1>学校地址：{{address}}</h1>
+            <h1>测试1：{{231+321}}</h1>
+            <h1>测试2：{{$options}}</h1>            <!-- Vue实例 vm 的属性可读取 -->
+            <h1>测试3：{{$emit}}</h1>               <!-- vm 原型的属性可读取 -->
+
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            // 3、VM 视图模型
+            const vm = new Vue({
+                el: '#root',
+                data: {
+                    // 1、M 模型
+                    name: '男德学院',
+                    address: '山东菏泽',
+                }
+            })
+
+            /* 
+                MVVM 模型：
+                    1、M：模型(Model)：对应 data 中的数据
+                    2、V：视图(View)：模板(页面)
+                    3、VM：视图模型(ViewModel )：Vue实例对象
+                
+                附：
+                    data 中的所有属性最后成为了 vm 的属性
+                    vm 以及其原型在 Vue 模板中都可以直接使用
+            */
+            
+        </script>
+    
+    </body>
+</html>

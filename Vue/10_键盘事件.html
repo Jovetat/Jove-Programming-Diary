@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 键盘事件</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root">
+            <input type="text" placeholder="按下回车提示输入" @keyup.enter="showInfo">
+            <!-- 通过键盘修饰符直接判断是回车键的时候触发 -->
+            <!-- 常见键盘事件
+                keyup：按下后抬起时触发
+                keydown：按下后便触发
+            -->
+            <!--1、Vue 中常用的按键别名：
+                    (1) 回车 ==> enter
+                    (2) 删除 ==> delete (捕获"删除"和"退格"键)
+                    (3) 退出 ==> esc
+                    (4) 空格 ==> space
+                    (5) 换行 ==> tab
+                        本身自带将焦点切走的功能，在使用 keyup 的时候，还没有抬起按键元素就失去焦点了，导致事件无法被触发
+                        tab 监听事件使用 keydown
+                    (6) 上/下/左/右 ==> up/down/left/right
+                2、Vue 中未提供 别名 的按键，可以通过按键的 key 值(每个键本身自带的键名)去绑定 (console.log(event.key)输出 key 名)
+                    (有些键无 key 名，例如键盘额外的音量控制键)
+                    kebab-case(将原本的大驼峰命名改为短横线命名)
+                        eg:CapsLock 判断这个键需 @keyup.caps-lock
+                3、系统修饰键：ctrl、alt、shift、meta(win/command键)    (用法特殊)
+                    (1) 配合 keyup 使用，按下修饰键的同时再按下其他键，随后释放其他键，事件才被触发
+                        (不会像其他键一样抬起后就触发)
+                    (2) 配合 keydown 使用：正常触发事件
+                    (3) 系统修饰键后面可以连续使用键盘修饰符
+                            eg: @keyup.ctrl.y 按下ctrl且按下y并松开y时触发
+                4、使用 @keyup.keyCode 指定具体的键(不推荐，未来的某一天 keyCode 会从 web 标准中删除，尽管现在一些浏览器仍然支持它)
+                5、Vue.config.keyCodes.自定义键名 = 键码，在 Vue 初始化前修改整体配置，定义按键别名(不推荐，一般默认的就够用了)
+                6、js 方法：通过 event.keyCode/event.key 判断(不推荐，不方便)
+            -->
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            new Vue({
+                el: '#root',
+                data: {
+                    name: 'hello world',
+                    msg: 'Jove',
+                },
+                methods: {
+                    showInfo(event){
+                        // 通过 event.keyCode 按键编码判断按下的键
+                        /* console.log(event.keyCode)
+                        if(event.keyCode === 13){
+                            console.log(event.target.value)
+                        } */
+                        console.log(event.target.value)
+                    },
+                },
+            })
+        </script>
+    
+    </body>
+</html>

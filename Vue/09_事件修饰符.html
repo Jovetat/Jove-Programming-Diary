@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 事件修饰符</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        <div id="root">
+            <a href="http://www.bilibili.com" @click.prevent="showInfo">点击提示信息</a>
+            <!-- 通过 prevent 事件修饰符阻止链接跳转的默认行为 -->
+        </div>
+
+        <!-- 
+            Vue 中的事件修饰符：
+                1、prevent  阻止默认事件(行为)
+                    通过js：e.preventDefault();         阻止默认行为
+                2、stop     阻止事件冒泡
+                    通过js：e.stopPropagation();
+                3、once     事件只触发一次，一次性事件
+                4、capture  使用事件的捕获模式
+                    捕获模式：在捕获阶段便开始处理事件
+                        (默认模式，先向下捕获，然后再冒泡阶段向上逐个处理)
+                5、self     只有 event.target 是当前操作的元素时才触发事件
+                    eg：<div @click.self="demo"> <button @click="demo2">按钮</button> </div>
+                        当点击 button 时向上冒泡，但是 event.target 为 button，所以 div 的事件不会被触发
+                6、passive  事件的默认行为立即执行，无需等待事件回调函数执行完毕
+                    默认情况下某些事件发生时，首先会触发事件的回调函数，执行结束后再执行默认行为
+                    (不是所有事件都有影响，eg：wheel 会有影响，处理后再滚动，scroll就不会有影响，会直接滚动再处理事件)
+                    移动端 passive 使用较多
+                        补充 @scrool 与 @wheel
+                            whell 为鼠标滚轮的事件，只要鼠标滚轮动就会触发(拖动进度条、键盘↑↓等都不会触发)
+                            scrool 为滚动条移动事件(拖动进度条、键盘↑↓等会使滚动条位置变化都会触发事件)
+                                滚动条置底后向下滚动不会触发事件
+                                鼠标滚轮动一次触发多次此事件
+                *事件修饰符可连续使用(位置先后效果无影响)
+                    @事件名.事件修饰符1.事件修饰符2
+                        eg：@click.stop.prevent 先阻止冒泡然后取消默认事件
+                        (事件修饰符排序虽然效果上没有区别，但是执行上是有先后顺序的)
+         -->
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            new Vue({
+                el: '#root',
+                data: {
+                    name: 'aka touch',
+                },
+                methods: {
+                    showInfo(e){
+                        alert('燕子别走')      
+                    },
+                },
+            })
+        </script>
+    
+    </body>
+</html>

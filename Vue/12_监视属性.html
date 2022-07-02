@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 监视属性</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root">
+            <!-- TODO:通过按钮使文字来回切换 -->
+            <h2>今天天气{{info}}</h2>
+            <button @click="changeWeather">切换天气</button>
+            <!-- <button @click="isHot = !isHot">切换天气</button> -->
+            <!-- 绑定事件时 @xxx="yyy" yyy可以写一些简单的语句
+                    eg：@click="isHot = !isHot;另一条语句;……" 也可以正常运行
+                        语句内容包含 vm和其原型对象 身上没有的内容就会产生报错，eg alert()
+                            (如果非要在此处写 window 的方法，可以在 data 中将 window 挂载在 vm 上，但是请不要这样写)
+            -->
+            <!-- 当页面不显示属性和计算属性时，事件使属性发生变化时，vue开发者工具内数值不会变，但实际上数值已经发生变化了 -->
+            <hr>
+            <!-- TODO:检测 a 的变化(监视有深度的属性) -->
+            <h3>a的值是{{numbers.a}}</h3>
+            <button @click="numbers.a++">a++</button>
+            <h3>b的值是{{numbers.b}}</h3>
+            <button @click="numbers.b++">b++</button>
+        </div><hr>
+
+        <!-- 
+            监视属性 watch：
+                1、vue配置项：watch:{}
+                2、第一种写法，new Vue 时传入 watch配置
+                    watch:{
+                        被监视属性名:{
+                            handler(newValue,oldValue){
+                                (1) handler为被监视属性变化时的回调函数
+                                (2) 属性和计算属性都可以作为监视属性，监视属性必须存在才能进行监视(不会报错但无法监视)
+                                (3) 传递两个参数：
+                                    newValue：发生变化 后 被监视对象的值
+                                    oldValue：发生变化 前 被监视对象的值
+                            },
+                            immediate: 默认为 false，更改为 true 会在初始化时调用一次 handler，此时 oldValue值 为undefined
+                            …… 还有很多其他属性
+                        }
+                    }
+                3、监视的另一种写法：(方便在后续使用的过程中添加监视)
+                    vm.$watch('监视对象',配置对象{
+                        和原来正常的配置对象写法相同
+                        hanler(newValue,oldValue){}, ……
+                    })
+         -->
+        
+        <!-- 
+            深度监视 —— 监视多级结构中的单个属性的变化
+                '对象名.深度2属性名.……属性名':{        eg: 'numbers.a'
+                    handler(){}
+                }
+                通过这样的方式才可以监视到有深度的属性
+
+            监视多级结构中所有属性的变化
+                1、Vue 中的 watch 默认不检测对象内部值的改变(单层)
+                    直接写对该对象的监视，其属性发生变化时 handler 不会触发，只有对该对象的赋值变化时才会被监视
+                    (因为对象为引用类型，属性发生变化时引用地址未变，所以不会被监听到变化)
+                2、deep 配置项：默认为 false
+                    将 deep 配置为 true 时就可以监听到该对象内部值的变化(多层)
+                3、备注
+                    (1) Vue 自身可以监视对象内部值的改变，但是提供的 watch 默认不可以
+                    (2) 使用 watch 时根据数据的具体结构决定是否采用深度监视
+         -->
+        
+        <!-- 
+            监视属性的简写
+                1、当不需要其他配置项，只需要 handler 时可以简写
+                2、watch 配置内的简写：
+                    被监听属性名(newValue,oldValue){}
+                        与计算属性的简写大差不差
+                3、vm.$watch() 方法的简写:
+                    vm.$watch('被监听属性名',function(newValue,oldValue){ })
+                        函数写成箭头函数时会造成 this 执行有问题
+         -->
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            const vm = new Vue({
+                el: '#root',
+                data: {
+                    isHot: true,
+                    numbers: {
+                        a: 1,
+                        b: 1
+                    }
+                },
+                methods: {
+                    changeWeather(){
+                        this.isHot = !this.isHot
+                    },
+                },
+                computed:{
+                    info(){
+                        return this.isHot? '炎热':'凉爽'
+                    }
+                },                
+                watch:{
+                    isHot:{
+                        handler(newValue,oldValue){
+                            // isHot 发生改变时，handler 被调用
+                            console.log('isHot被修改了')
+                            console.log('newValue:' + newValue + '/oldValue:' + oldValue)
+                        }                  
+                    },
+                    // 深度监视
+                    'numbers.a':{
+                        handler(){ console.log('a发生变化') }
+                    },
+                    // 监视整个 numbers 的改变
+                    numbers:{
+                        deep: true,
+                        handler(){
+                            console.log('numbers属性发生变化')
+                        }
+                    }
+                }
+            })
+            // 后续添加监视
+            vm.$watch('info',{
+                handler(newValue,oldValue){
+                    console.log('newValue:' + newValue + '/oldValue:' + oldValue)
+                }
+            })
+
+        </script>
+    
+    </body>
+</html>

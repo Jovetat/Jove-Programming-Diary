@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title> el 与 data 的两种写法</title>
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root">
+            <h1>还回来吗?{{name}}</h1>
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            const v = new Vue({
+                // el: '#root',
+                /* data: {
+                    name: '燕子',
+                    msg: 'Jove',
+                } */
+                data() {
+                    console.log(this)
+                    return {
+                        name: '燕子'                        
+                    }
+                },
+            })
+
+            console.log(v)
+            v.$mount('#root')            // 将组件挂载于容器上，这样写会更加灵活
+            /* 
+                绑定容器的两种写法：
+                    1、 el      new Vue时配置 el 属性
+                        构建实例时指定容器挂载
+                    2、 实例对象.$mount()       先创建 Vue 实例，随后通过 vm.$mount() 指定 el 的值
+                        构建实例后在需要时挂载于指定容器
+            */
+           /* 
+                data 的两种写法：
+                1、对象式   data: {} 
+                2、函数式   data: function(){
+                    函数内 this 指向 Vue实例对象，如果是箭头函数 this 会指向全局对象 Window
+                        由 Vue 管理的函数，禁止使用剑头函数，一旦使用 this 就不再是 Vue 实例了
+                    return {}       必须要返回一个对象，包含需要的数据
+                }
+                    简写： data(){ return{} },
+                    学习到组件时，data 必须使用函数式，否则会报错
+           */
+
+        </script>
+    
+    </body>
+</html>
