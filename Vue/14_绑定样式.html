@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 绑定class和style样式</title>
+        <style>
+            .basic{
+                width: 800px;
+                height: 100px;
+                border: 2px solid #79e2c8;
+            }
+            .happy{
+                background-color: rgb(238, 157, 157);
+            }
+            .sad{
+                background-color: #465049;
+            }
+            .normal{
+                background-color: #4f6fb3;
+            }
+            .box1{
+                background-color: #f37b7b;
+            }
+            .box2{
+                font-size: 30px;
+                line-height: 40px;
+                color: aliceblue;
+            }
+            .box3{
+                border-radius: 30px;
+            }
+        </style>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root">
+            <!-- 绑定 class 样式 -->
+            <!-- TODO:动态更改样式 -->
+            <!-- 1、字符串写法 绑定 class 样式，适用于：样式的类名不确定，需要动态指定 -->
+            <div class="basic" :class="mood" @click="changeClass">class1:{{name}}</div><br><hr><br>
+
+            <!-- TODO:动态追加样式 -->
+            <!-- 2、数组写法 绑定 class 样式，适用于：要绑定的样式个数和类名都不确定 -->
+            <div class="basic" :class="boxArr">class2:{{name}}</div><br><hr><br>
+
+            <!-- TODO:动态使用某些固定样式 -->
+            <!-- 3、对象写法 绑定 class 样式，适用于：要绑定的样式个数和类名都确定，动态决定是否使用 -->
+            <div class="basic" :class="classObj">class3:{{name}}</div><br><hr><br>
+
+            <!-- 绑定 style 样式(比较少用) -->
+            <!-- 1、对象写法1：Vue 动态绑定 style 要求写作对象的形式，且属性名方式必须为小驼峰 -->
+            <div class="basic" :style="{fontSize: fsize + 'px'}">style1:{{name}}</div><br><hr><br>
+            <!-- 2、对象写法2：通过绑定动态对象实现与 1 相同逻辑下的相同效果，属性名方式必须为小驼峰 -->
+            <div class="basic" :style="styleObj">style2:{{name}}</div><br><hr><br>
+            <!-- 3、数组写法：通过数组绑定多个动态 style对象 -->
+            <div class="basic" :style="styleArr">style3:{{name}}</div><br><hr><br><!-- 或者直接写作 :style="[styleObj,styleObj2]" -->
+            <!-- 4、字符串写法：拼串实现动态 style -->
+            <div class="basic" :style="'font-size:' + fsize + 'px;'">style4:{{name}}</div><br><hr><br>
+        </div>
+
+        <!-- 
+            绑定样式总结：
+                1、class 样式
+                    写法    :class="xxx"    xxx可以是字符串、对象、数组
+                        字符串写法适用于：类名不确定，需动态获取
+                        数组写法适用于：要绑定多个样式，个数和类名都不确定
+                        对象写法适用于：要绑定多个样式，个数和类名都确定，动态决定是否使用
+                2、style 样式
+                    (1) 对象写法    :style="{fontSize: xxx}"    其中 xxx 是动态值(此对象同样为样式对象)
+                    (2) 数组写法    :style="[a,b]"     其中 a、b 是样式对象
+                        (style的样式对象属性需按照原先属性名的小驼峰写法，否则无法生效)
+         -->
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            new Vue({
+                el: '#root',
+                data: {
+                    name: 'hello world',
+                    mood: 'normal',
+                    boxArr: ['box1','box2','box3'],
+                    classObj: {
+                        box1: false,
+                        box2: false
+                    },
+                    fsize: 40,
+                    styleObj: {
+                        fontSize: '45px'
+                    },
+                    styleObj2: {
+                        color: 'aliceblue',
+                        backgroundColor: 'pink'
+                    },
+                    styleArr: [
+                        {   fontSize: '45px'    },
+                        {   color: 'aliceblue',backgroundColor: 'pink'  },
+                    ],
+                },
+                methods: {
+                    changeClass(){
+                        // 随机更改 div class (虽然可以亲自操纵dom来实现，但是请不要这样，一切交给 Vue)
+                        const divcs = ['happy','sad','normal']
+                        const rdm = Math.floor(Math.random()*3)
+                        this.mood = divcs[rdm]
+                    },
+                },
+            })
+        </script>
+    
+    </body>
+</html>

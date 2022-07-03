@@ -8,11 +8,13 @@
     </head>
     <body>
         
-        <!-- TODO：将之前计算属性的案例使用监视属性写一遍
-            (同样的功能计算属性和监视属性都可以实现，所以对比一下) -->
+        <!-- TODO：将之前计算属性的案例使用侦听属性写一遍
+            (同样的功能计算属性和侦听属性都可以实现，所以对比一下) -->
         <div id="root">
-            
-        </div>
+            姓：<input type="text" v-model="person.firstName"><br>
+            名：<input type="text" v-model="person.lastName"><br>
+            姓名：<span>{{fullname}}</span>
+        </div><hr>
 
         <script type="text/javascript">
             Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
@@ -20,10 +22,43 @@
             new Vue({
                 el: '#root',
                 data: {
-                    name: 'hello world',
-                    msg: 'Jove',
+                    person: {
+                        firstName: '张',
+                        lastName: '三',
+                    },
+                    fullname: '',
+                },
+                watch: {
+                    person:{
+                        immediate: true,
+                        deep: true,
+                        handler(newValue,oldValue){
+                            // 侦听属性可以完成异步任务，而计算属性完全依靠返回值导致无法异步
+                            setTimeout(()=>{
+                                /* 定时器的回调不受 vue 管理，所以可以写箭头函数
+                                    这里写普通函数 this 会指向 window，导致数据拿不到，而箭头函数的 this 指向是外部函数的 this 指向
+                                 */
+                                this.fullname = this.person.firstName+ '-' + this.person.lastName
+                            },1000)
+                        }
+                    }
                 }
             })
+
+            /* 
+                watch 与 computed 的区别：
+                    1、 computed 能完成的功能，watch 都可以完成
+                    2、当 watch 和 computed 都可以实现同一个功能时果断选 computed，这样写会更加简洁
+                    3、存在异步任务只能选 watch
+                        侦听属性可以完成异步任务，而计算属性完全依靠 return 返回值导致无法异步
+                        (返回值返回给了异步函数而不是计算属性的 getter，导致 getter 拿不到返回值无法产生变化，而 watch 不靠返回值)
+                Vue 中普通函数与箭头函数的使用：
+                    1、被 Vue 管理的函数最好写成普通函数，这样 this 的指向才是 vm或组件实例对象
+                    2、不被 Vue 所管理的函数(定时器的回调函数、ajax的回调函数等window挂载的方法)最好写成箭头函数
+                        这样函数内 this 指向就是 vm或组件实例对象(箭头函数 this 指向为外部函数 this 指向)
+                        如果写作普通函数 this 指向为 window
+            */
+
         </script>
     
     </body>

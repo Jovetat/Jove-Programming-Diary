@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 条件渲染</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root">
+            <h2>当前的n值是: {{n}}</h2>
+            <button @click="n++">n++</button>
+            <div v-if="n%3 === 0">Angular</div>
+            <div v-else-if="n%3 === 1">React</div>
+            <div v-else-if="n%3 === 2">Vue</div>
+            <template v-if="n === 1">
+                <h2>好耶</h2>
+                <h2>禁止好耶</h2>
+            </template>
+
+            <h2 v-show="isShow">v-show{{name}}</h2>
+            <h2 v-if="isShow">v-if{{name}}</h2>
+            <h2 v-else>v-else{{name}}</h2>
+            <!-- 
+                条件渲染
+                    1、v-show
+                        方法：  v-show="表达式"
+                        底层实现：在页面渲染后，通过 display:none 控制元素隐藏与否，页面中该元素可以获取到
+                    2、v-if、v-else-if、v-else
+                        方法： v-if/else-if="表达式"    v-else
+                        底层实现：表达式为 true 时才渲染，false 时会将该 DOM 元素直接移除
+                            (不断的在 dom 中添加和删除节点)
+                        if、else-if与else 之间不允许有任何元素出现打断 if-else 结构
+                    3、template 模板 (与小程序block效果相同)
+                        定义：模板占位符，帮助我们包裹元素，template不会被渲染，不存在与 dom 结构中
+                        注意事项：只能配合 v-if/else-if/else，不能配合 v-show 使用
+                    4、切换频率很高使用 v-show，不需要频繁的增删 DOM
+             -->
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            new Vue({
+                el: '#root',
+                data: {
+                    name: ' tow dog son',
+                    isShow: true,
+                    n: 0,
+                }
+            })
+            
+        </script>
+    
+    </body>
+</html>
