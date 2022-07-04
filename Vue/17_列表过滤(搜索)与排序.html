@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 列表过滤(搜索)</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root">
+                <!-- 列表过滤(搜索功能) -->
+            <!-- 1、通过 watch 实现列表过滤 -->
+            <input type="text" placeholder="请输入查询内容" v-model="keyWord"> watch 方法实现
+            <ul><li v-for="(item, index) in filPerson" :key="item.id"> {{item.name}} -- {{item.age}} -- {{item.sex}} </li></ul><hr>
+            <!-- 2、通过计算属性实现列表过滤(更推荐) -->
+            <input type="text" placeholder="请输入查询内容" v-model="keyWord2"> computed 方法实现
+            <ul><li v-for="(item, index) in comPerson" :key="item.id"> {{item.name}} -- {{item.age}} -- {{item.sex}} </li></ul>
+
+                <!-- 列表排序(可以对搜索结果排序) -->
+            <button @click="sortType = 1">年龄升序</button>
+            <button @click="sortType = -1">年龄降序</button>
+            <button @click="sortType = 0">原顺序</button>
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            new Vue({
+                el: '#root',
+                data: {
+                    keyWord: '',
+                    keyWord2: '',
+                    sortType: 0,
+                    /* 规定 0 为原顺序，1 升序，-1 降序 */
+                    persons: [
+                        { id:'001',name:'马冬梅',age:18,sex:'女' },
+                        { id:'002',name:'周冬雨',age:57,sex:'女' },
+                        { id:'003',name:'周杰伦',age:45,sex:'男' },
+                        { id:'004',name:'盖伦',age:6854,sex:'男' },
+                    ],
+                    filPerson: []
+                },
+                watch: {
+                    /* 1、通过 watch 实现列表过滤(搜索) */
+                    keyWord: {
+                        immediate: true,
+                        handler(newVal){
+                            this.filPerson = this.persons.filter((item)=>{
+                                return item.name.includes(newVal)
+                            })
+                        }
+                    }
+                },
+                computed: {
+                    /* 2、通过计算属性 computed 实现列表过滤(搜索) */
+                    comPerson(){
+                        return  this.persons.filter(item => item.name.includes(this.keyWord2)).sort((a,b)=>{
+                            /* 实现排序 */
+                            return this.sortType*(a.age-b.age)
+                        })
+                        // filter 内部是箭头函数的简写，所以可以获取到 keyWord2
+                        // (相当于 filter((item)=>{return item.name.includes(this.keyWord2)}))
+                    }
+                },
+            })
+        </script>
+    
+    </body>
+</html>
