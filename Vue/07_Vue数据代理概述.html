@@ -43,7 +43,9 @@
                         为每一个添加到 vm 上的属性，都指定一个 getter和setter
                         通过 getter/setter 数据代理的方式读写 _data 中对应的属性
                         vm._data 存储配置对象中的 data 数据
-                        _data 内 getter与setter 是 数据劫持 为实现响应式(更新页面)，并非数据代理
+                        _data 内 getter与setter 是 数据劫持 为实现响应式(更新页面)
+                    4、对 vm._data.数据 的操作等同于对 vm.数据的操作
+                        所以今后所有对 _data 的操作就直接对 vm上代理的数据操作吧
             */
             const vm = new Vue({
                 el: '#root',

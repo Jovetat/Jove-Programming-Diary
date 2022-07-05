@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 收集表单数据</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <!-- 收集表单数据 -->
+        <div id="root">
+            <!-- @submit 表单提交数据时会触发
+                表单提交之后默认会跳走刷新一下，阻止默认行为添加 prevent
+            -->
+            <form @submit.prevent="submitForm">
+                <!-- 1、输入框 -->
+                <label for="ANinput">账号：</label><!-- 通过 for 的指定可以实现点击元素内容将焦点转移到对应 input -->
+                <input type="text" id="ANinput" v-model.trim="userInfo.account"><br><br>
+                <!-- 去掉前后空格的事件修饰符 .trim -->
+                密码：<input type="password" v-model="userInfo.password"><br><br>
+                <!-- 通过事件修饰符规定输入年龄为数字
+                    通过原生的 type="number" 可以规定输入内容为数字，但存储的内容为字符串格式
+                    再通过 .number 的事件修饰符使存储数据为 number 格式，二者相互配合缺一不可
+                 -->
+                年龄：<input type="number" v-model.number="userInfo.age"><br><br>
+                <!-- 2、单选框
+                    v-model:value 只可以绑定 value 值 而单选 radio 没有 value 值，为实现收集数据所以添加 value 属性
+                    通过 input 的 name 属性可以指定一组单选框，实现单选
+                 -->
+                性别：男<input type="radio" name="sex" v-model="userInfo.sex" value="male">
+                女<input type="radio" name="sex" v-model="userInfo.sex" value="female"><br><br>
+                <!-- 3、多选框
+                    value 默认值为 checked(true/false)
+                    需要自定义 value，选择后会将 value内容 添加到绑定的数组
+                    必须将绑定的数据写成数组的形式
+                 -->
+                爱好：音乐<input type="checkbox" value="music" v-model="userInfo.hobby">
+                数学<input type="checkbox" value="math" v-model="userInfo.hobby">
+                游戏<input type="checkbox" value="game" v-model="userInfo.hobby"><br><br>
+                <!-- 4、单选下拉框
+                    直接通过 v-model 绑定数据
+                    会将 option 中 value 的值存储在绑定的数据中
+                 -->
+                所属校区：<select v-model="userInfo.city">
+                    <option value="">请选择校区</option>
+                    <option value="JiaLiDun">家里蹲</option>
+                    <option value="HangZhou">杭州</option>
+                    <option value="BeiJing">北京</option>
+                </select><br><br>
+                <!-- 5、多行输入
+                    直接通过 v-model 绑定数据
+                 -->
+                其他：<textarea v-model.lazy="userInfo.other"></textarea><br><br>
+                <!-- 6、复选框
+                    value 默认值为 checked(true/false)，直接 v-model 绑定
+                    不需要时时刻刻收集数据使用的时间修饰符
+                        .lazy   失去焦点的时候再返回给绑定的数据
+                 -->
+                <input type="checkbox" v-model="userInfo.isAgree"> 阅读并接受
+                <a href="http://www.bilibili.com">《用户协议》</a><br><br>
+                <!-- 点击按钮会引起表单的提交，默认会跳转页面 -->
+                <button>提交</button>
+            </form>
+
+            <!-- 
+                收集表单数据总结：
+                    1、<input type="text"> 默认 value值 为用户输入的值，v-model 收集就是 value 值
+                    2、<input type="radio"> 标签无 value值，所以需要给标签配置 value 值
+                    3、<input type="checkbox">
+                        (1) value 默认值为 checked(true/false)
+                        (2) 配置 input 的 value 属性：
+                            v-model 的初始值为 数组，收集的是 value 组成的数组
+                            v-model 的初始值为 非数组，收集的是 checked(true/false)
+                    4、v-model 的三个事件修饰符：
+                        lazy:   失去焦点时再收集绑定的数据
+                        number: 将输入的字符串转为有效的数字(收集到的为number格式)
+                        trim:   将输入的字符串首尾的空格过滤(字符串间的空格不会被过滤)
+             -->
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            new Vue({
+                el: '#root',
+                data: {
+                    userInfo: {
+                        account: '',
+                        password: '',
+                        age: '',
+                        sex: 'male',                    // 初始值会指定默认的选择，默认为男
+                        hobby: [],                      // 初始值会指定默认的勾选内容，如果初始值为空字符串会全选
+                        city: '',                       // 初始值会指定默认选择的内容
+                        other: '',
+                        isAgree: false,                 // 初始值会指定是否选择
+                    }
+                },
+                methods: {
+                    submitForm(){
+                        console.log(this.userInfo)
+                        console.log(JSON.stringify(this.userInfo))
+                    }
+                },
+            })
+        </script>
+    
+    </body>
+</html>
