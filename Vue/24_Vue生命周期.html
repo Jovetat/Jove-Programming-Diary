@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 生命周期</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root">
+            <!-- TODO：页面循环透明度的文字 -->
+            <h2 :style="{opacity}">Hello,Lady Rabbit</h2>
+            <!-- 属性和值名称相同可以直接简写，这也符合 js 的简写规则 -->
+            <h3>为什么有了 template 就不要我了</h3>
+            <button @click="addN">N={{n}}</button>
+            <button @click="destroyVM">点击销毁 vm</button>
+            
+            <!-- 
+                Vue 生命周期的八个钩子
+                    1、定义
+                        (1) 又名：生命周期回调函数、生命周期函数、生命周期钩子
+                        (2) 是 Vue 在关键时刻调用的一些特殊名称的函数(生命周期函数的名字不可更改)
+                        (3) 生命周期函数中，this 指向为 vm 或 组件实例对象
+                    2、生命周期流程
+                        (挂载流程的四个钩子)
+                        ==> 初始化生命周期、事件、但数据代理还未开始
+                        (1) beforeCreate(){}    *初始化数据监测、数据代理之前
+                            此时无法通过 vm 访问到 data 中的数据、methods 中的方法
+                        ==> 初始化数据监测、数据代理
+                        (2) created(){}         *初始化数据监测、数据代理完毕
+                            此时可以通过 vm 访问到 data 中的数据，methods 中配置的方法
+                        ==> Vue 开始解析模板，生成 虚拟DOM(内存中)，页面还不能显示解析好的内容
+                        (3) beforeMount(){}     *挂载之前
+                            a、此时页面呈现的是未经 Vue 编译的 DOM 结构
+                            b、此时对 DOM 的操作最终不会奏效
+                        ==> 将内存中的 虚拟DOM 转为 真实DOM 插入页面(会在 vm.$el 中存储一份真实的DOM节点)
+                        (4) mounted(){}         *挂载完毕【重要的钩子(初始化的事)】
+                            a、此时页面中呈现的是经过 Vue 编译的 DOM
+                                Vue 完成模板的解析，并把 初始的 真实 DOM 元素放入页面后(完成挂载)，调用 mounted
+                            b、此时对 DOM 的操作均有效(尽可能避免自己对 DOM 操作)
+                            c、一般在此处进行：
+                                开启定时器、发送网络请求、订阅消息、绑定自定义事件等 初始化操作
+                        (/挂载流程结束)
+                        (更新流程的两个钩子)
+                        ==> 当数据改变的时候
+                        (5) beforeUpdate(){}    *更新之前
+                            此时数据是新的，页面是旧的，即页面尚未和数据保持同步
+                        ==> 根据新数据，生成 新的虚拟DOM，随后与 旧的虚拟DOM 进行比较，最终完成页面更新(Model->View的更新)
+                        (6) updated(){}         *更新完毕
+                            此时数据是新的，页面也是新的，即页面和数据保持同步
+                        (/更新流程结束)
+                        (销毁流程的两个钩子)
+                        ==> 当 vm.$destroy() 被调用，vm 销毁的时候
+                            (vm.$destroy() 会完全销毁一个实例，清理它与其他组件实例的连接，解绑它的全部指令及事件监听器)
+                                [这里的事件指自定义事件，并非原生的DOM事件，原先@click绑定的事件还会在]
+                                [vm 对页面的渲染还在，不会变成初始模板的样子，除了页面基本内容外数据代理指令等等都会失效]
+                        (7) beforeDestroy(){}   *销毁之前【重要的钩子(收尾的事)】
+                            a、此时 vm 中所有的 data、methods、指令等都处于可用状态，马上要执行销毁过程
+                            b、一般在此阶段：
+                                关闭定时器、取消订阅消息、解绑自定义事件等收尾操作
+                                此时对数据的所有操作都不会触发更新了
+                        ==> 销毁侦听、子组件和自定义事件的监听器
+                        (8) destroyed(){}       *销毁完毕
+                        (/销毁流程结束)
+
+                template 模板
+                    1、定义：new Vue({ template:'存放字符串格式的模板' })
+                    2、vm 中配置了 template：就会放弃 html 中的模板优先使用 template 作为模板渲染页面
+                    3、规定：template 中只能有一个根节点，原先 html 会被全部替换，包括 div #root
+
+                ===> 详细流程请看图 24_Vue生命周期流程图
+             -->
+
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            const vm = new Vue({
+                el: '#root',
+                // template: '<div><h2 :style="{opacity}">Hello,Lady Rabbit</h2><h3>原先html模板将会失效</h3></div>',
+                // 配置 template 就会放弃原先 html 中的模板
+                data: {
+                    opacity: 1,
+                    n: 1,
+                },
+                methods: {
+                    changeOpacity(){
+                        /* 在 vm 身上挂载定时器 timer，便于其他函数内也能获取到，但是 vm 销毁时定时器仍在运行 */
+                        this.timer = setInterval(()=>{
+                            this.opacity = this.opacity <=0 ? 1 : this.opacity - 0.01
+                        },16)
+                    },
+                    clearTimer(){
+                        /* 清除定时器 */
+                        clearInterval(this.timer)
+                    },
+                    destroyVM(){
+                        this.$destroy()
+                    },
+                    addN(){
+                        console.log('vm消失而我依然还在')
+                        this.n ++                        
+                    }
+                },
+                beforeCreate() {
+                    console.log('beforeCreate，初始化vm生命周期、事件等、但数据代理还未开始')
+                    /* console.log(this)
+                    debugger; */
+                },
+                created() {
+                    console.log('created，初始化数据监测、数据代理完毕')
+                },
+                beforeMount() {
+                    console.log('beforeMount，Vue解析模板前')
+                },
+                // Vue 完成模板的解析，并把 初始的 真实 DOM 元素放入页面后(完成挂载)，调用 mounted
+                mounted() {
+                    // this.changeOpacity()     为展示数据更新的生命周期将第一个TODO的效果注释了
+                    console.log('mounted，页面初始化编译完成')
+                },
+                beforeUpdate() {
+                    console.log('beforeUpdate，数据更新后页面更新前')
+                },
+                updated() {
+                    console.log('updated，数据更新完毕')
+                },
+                beforeDestroy() {
+                    // 销毁前清除定时器,这样写在 vm 是‘他杀’的情况下仍能清除定时器
+                    // this.clearTimer()    --> clearInterval(this.timer)
+                    console.log('beforeDestroy，我要凉了')
+                },
+                destroyed() {
+                    console.log('destroyed，累了，毁灭了')
+                },
+            })
+
+            // 通过外部的定时器实现(不推荐，正式开发中也很少接收 vm)
+            /* setInterval(()=>{
+                vm.opacity = vm.opacity <=0 ? 1 : vm.opacity - 0.01
+            },16) */
+
+        </script>
+    
+    </body>
+</html>
