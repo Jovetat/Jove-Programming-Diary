@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 一个重要的内置关系</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root">
+            
+        </div>
+
+        <!-- 
+            1、一个重要的内置关系：
+                VueComponent.prototype.__proto__ === Vue.prototype
+                    prototype为函数输出显示原型对象的方法，__proto__为对象输出隐式原型对象的方法，二者都指向 原型对象
+            2、为什么要有这个关系
+                *让组件实例对象 (vc) 可以访问到 Vue原型上的属性、方法($watch、$once等)
+            
+            3、个人理解
+                (vc为组件实例对象简称[vc在外面不会这样称呼]，vm为Vue实例对象简称)
+                组件本就是特殊的 Vue 实例，所以：
+                    (1) 二者大部分内容是相同的，所以把相同的部分写入一个原型对象(以下为了方便把这个原型对象称为 '同一个妈')
+                    (1) 在 vc原型对象 定义了组件特殊的部分
+                        vc原型对象 存在的原因：
+                        a、每一个组件都需要一个独一无二的构造器 VueComponent，所以需要 '中介' 产出不同的 VueComponent
+                        b、vm 只有一个，而 vc 和 VueComponent 有很多
+                            vc 直接继承 '同一个妈'就会失去组件的复用，所有很需要这个 '中介'
+                    (2) 在 vm 定义了特殊的部分(eg:el等)
+                
+                    '同一个妈' 就成为了 vm的原型对象 和 vc原型对象的原型对象，也就是 '中介' 的原型对象
+
+            ===> 请看 28_一个重要的内置关系图解.jpg 便于理解
+         -->
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            const hello = Vue.extend({
+                template: '<h4>巨石神像弓箭征战是谁的从前</h4>',
+            })
+
+            const vm = new Vue({
+                el: '#root',
+                data: {}
+            })
+
+            console.log('hello.prototype.__proto__ === Vue.prototype :',hello.prototype.__proto__ === Vue.prototype)
+
+            // 定义一个构造函数
+            function Demo(){
+                this.a = 1
+                this.b = 2
+            }
+            // 创建一个 demo 的实例对象
+            const d = new Demo()
+
+            console.log(Demo.prototype)             // 显示原型属性(函数才拥有)
+            console.log(d.__proto__)                // 隐式原型属性(对象才拥有)
+            // 二者都指向 原型对象
+            console.log('Demo.prototype === d.__proto__ :' , Demo.prototype === d.__proto__)
+            // 通过 显示原型属性 操作原型对象，追加一个 x 属性
+            Demo.prototype.x = 99
+            console.log(d.x)                        // d 本身没有该属性就会顺着 __proto__ 查找
+
+        </script>
+    
+    </body>
+</html>

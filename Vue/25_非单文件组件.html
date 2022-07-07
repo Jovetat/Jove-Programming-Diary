@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 非单文件组件</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root">
+            <!-- 非单文件组件 -->
+            <!-- 3、使用组件:编写组件标签 -->
+            <lady></lady>
+            <hr>
+            <gentleman></gentleman>
+            <!-- 重复使用组件，组件间数据不会相互干扰 -->
+            <lady></lady>
+            
+            <!-- 
+                组件：
+                    1、定义：
+                        实现应用中 局部功能 代码和资源的集合
+                    2、作用：
+                        复用编码，简化项目编码，提高运行效率
+                    3、组件化：
+                        当应用中的功能都是多组件的方式来编写到，那么这个应用就是一个组件化的应用
+                    4、使用组件的三大步骤：
+                        定义组件(创建组件)、注册组件、使用组件(写组件标签)
+                    5、关于组件名：
+                        一个单词组成：
+                            全部小写：在开发者工具内看到对应的组件为首字母大写
+                            首字母大写：与开发者工具内看到对应的组件名称相同
+                        多个单词组成：
+                            'kebab-case'：在开发者工具内看到对应的组件为大驼峰命名 KebabCase
+                            CamlCase：需要 Vue 脚手架环境支持
+                        备注：
+                            组件名尽可能回避 HTML 中已有的元素名称
+                            可以使用 name 配置项指定组件在开发者工具中呈现的名字
+                    6、关于组件标签
+                        (1) <组件名></组件名>
+                        (2) <组件名/>   没有脚手架环境时，<组件名/> 会导致后续组件不能渲染
+
+                非单文件组件：
+                    1、创建组件
+                        const 组件变量 = Vue.extend({
+                            配置对象(options)与 new Vue options 的区别(其余部分几乎相同):
+                            (1) 不需要 el 配置项：最终所有的组件都要被 vm 管理，由 vm 决定所服务的容器
+                            (2) template: '组件结构' (也可以通过 `html`写成模板字符串的样式，更便于编辑)
+                                配置组件结构
+                            (3) data(){ return }    data 必须写成函数的形式
+                                避免组件复用时，数据存在引用关系而导致数据间相互影响，所以 Vue 规定写成函数的形式
+                            (4) 修改开发者工具中组件的名称：    name: '开发者工具中组件名称'
+                                这里规定的组件名称仍符合5、关于组件名中的规则
+                        })
+                        简写 const 组件变量 = {options}
+                    2、注册组件
+                        (1) 局部注册
+                            new Vue({
+                                components:{
+                                    组件名: 组件变量
+                                        组件变量最好与组件名名称一致(组件名是在 vm 内使用组件所赋予的名称，组件变量是存储定义组件的对象)
+                                }
+                            })
+                        (2) 全局注册
+                            Vue.component('组件名',组件变量)
+                    3、使用组件
+                            <组件名></组件名>       (编写组件标签)
+
+                模块：
+                    1、定义：
+                        向外提供特定功能的 js 程序 ，一般就是一个 js 文件
+                    2、作用：
+                        复用 js，简化 js 的编写，提高 js 运行效率
+                    3、模块化：
+                        当应用中的 js 都以模块来编写，那么这个应用就是一个模块化的应用
+             -->
+        </div>
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            // 1、创建 lady 组件
+            const lady = Vue.extend({
+                // 使用模板字符串的形式可以换行     `
+                name: 'baby',
+                template: `
+                    <div>
+                        <h2>可爱女人：{{ladyName}}</h2>
+                        <h2>在：{{ladyAddress}}</h2>
+                    </div>
+                `,
+                // 不需要 el 配置项，最终所有的组件都要被 vm 管理，由 vm 决定所服务的容器
+                data(){
+                    return {
+                        ladyName: 'Rabbit',
+                        ladyAddress: '山西',
+                    }
+                },
+            })
+            // 1、创建 gentleman 组件(简写的形式)
+            const gentleman = {
+                template: `
+                    <div>
+                        <h2>和一个笨蛋：{{gentlemanName}}</h2>
+                        <h2>在：{{gentlemanAddress}}</h2>
+                        <button @click="becomeStupid">点击变笨</button>
+                    </div>
+                `,
+                data(){
+                    return {
+                        gentlemanName: 'Carrot',
+                        gentlemanAddress: '草原',
+                    }
+                },
+                methods: {
+                    becomeStupid(){
+                        alert('❤')
+                    }
+                },
+            }
+            // 全局注册 lady 组件
+            Vue.component('lady',lady)
+
+            // 创建 vm
+            new Vue({
+                el: '#root',
+                // 2、注册组件(局部注册)
+                components:{
+                    gentleman,
+                    // 组件名与组件变量名称相同，可以将 gentleman:gentleman 简写成这种形式
+                },
+            })
+
+        </script>
+    
+    </body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>VueComponent 构造函数</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root"></div>
+
+        <!-- 
+            关于 VueComponent：
+                1、组件的本质是一个名为 VueComponent 的构造函数，由 Vue.extend 生成的
+                    (Vue.extend 的返回值是一个构造函数，虽然返回的构造函数同名，但是实质不同，都是实时定义构造函数然后再返回)
+
+                2、我们只需要写 <组件名/> 或 <组件名></组件名>，Vue 解析时会帮助创建 组件的实例对象(因为组件是构造函数，所以可以有实例对象)
+                    (即 Vue 帮助执行了 new VueCompontent(options) )
+
+                3、*每次调用 Vue.extend，返回的都是一个全新的 VueComponent 构造函数
+
+                4、*关于 this 指向：
+                    (1) 组件配置中：
+                        data函数、methods中函数、watch中的函数、computed中的函数，this均是 【VueComponent实例对象(vc)】
+                        (传入构造函数的 options ，所以 this 指向构造函数的实例对象 vc)
+                    (2) new Vue(options)配置中：
+                        data函数、methods中函数、watch中的函数、computed中的函数，this均是 【Vue实例对象(vm)】
+                
+                5、VueComponent 的实例对象
+                    (1) 简称 vc
+                    (2) 也可以称为 组件实例对象
+                6、Vue 的实例对象，简称 vm
+
+                7、vm.$children 内管理所有的 vc
+                    vm.$children 可以查看到组件的子组件
+                
+                8、组件是可以复用的 Vue 实例，且带有一个名字，所以它们与 new Vue 接收相同的选项(
+                    例如 data、computed、watch、methods 以及生命周期的钩子等 )，仅有的例外是像 el 这样根实例[vm]特有的选项
+         -->
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            const gentleman = Vue.extend({
+                template: `
+                    <div>
+                        <h2>一个笨蛋：{{gentlemanName}}</h2>
+                        <h2>在：{{gentlemanAddress}}</h2>
+                        <button @click="showName">点击提示名称</button>
+                    </div>
+                `,
+                data(){
+                    return {
+                        gentlemanName: 'Carrot',
+                        gentlemanAddress: '草原',
+                    }
+                },
+                methods: {
+                    showName(){
+                        console.log(this)
+                        alert(this.gentlemanName)
+                    }
+                },
+            })
+            console.log('gentleman',gentleman)          // VueComponent (options) { this._init(options); }
+            // 这里简写定义组件会输出一个对象，因为简写时 Vue 不会立刻接管组件对其初始化
+
+            const test = Vue.extend({
+                template: '<h4>如果在多一点点时间，请你不要再心不在焉</h4>',
+            })
+
+            const hello = Vue.extend({
+                template: '<div><h4>猜不到你给谁写，带着海风的明信片</h4><test></test></div>',
+                components: { test }
+            })
+            console.log('hello',hello)
+            console.log(hello === gentleman)            // false
+            // Vue.extend 返回的构造函数虽然同名但是实质不同
+
+            const vm = new Vue({
+                el: '#root',
+                template: '<div><gentleman></gentleman><hello></hello></div>',
+                el: '#root',
+                components: { gentleman,hello }
+            })
+            console.log(vm)
+            // vm 可以查看到组件的子组件
+            
+        </script>
+    
+    </body>
+</html>

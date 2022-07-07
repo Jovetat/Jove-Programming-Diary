@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue 组件的嵌套</title>
+        <!-- 引入 Vue  -->
+        <script type="text/javascript" src="./vuejs/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="root"></div>
+
+        <!-- 
+            组件的嵌套：
+                1、标准化开发会定义一个 app 组件，用于管理所有组件
+                2、组件嵌套只需在组件中注册组件并在 tempalte 中使用即可
+        -->
+
+        <script type="text/javascript">
+            Vue.config.productionTip = false        // 阻止 Vue 在启动时生成生产提示，先调整整体配置再使用 vue
+
+            // 定义子组件 lover
+            const lover = {
+                template: `
+                    <div>
+                        <h3>她：{{name}}</h3>
+                        <h3>在：{{address}}</h3>
+                    </div>
+                `,
+                data(){
+                    return {
+                        name: 'rabbit',
+                        address: 'West of the mountain',
+                    }
+                },
+            }
+            // 定义 gentleman 组件
+            const gentleman = {
+                template: `
+                    <div>
+                        <h2>一个笨蛋：{{gentlemanName}}</h2>
+                        <h2>在：{{gentlemanAddress}}</h2>
+                        <lover></lover>
+                    </div>
+                `,
+                data(){
+                    return {
+                        gentlemanName: 'Carrot',
+                        gentlemanAddress: '草原',
+                    }
+                },
+                // 注册子组件(局部)，需要在子组件定义后再注册
+                components: {
+                    lover
+                }
+            }
+            const hello = Vue.extend({
+                template: '<div><h4>能不能...交个朋友</h4></div>',
+            })
+            // 定义 app 组件，该组件用于管理所有组件内容
+            const app = Vue.extend({
+                template: `
+                    <div>
+                        <gentleman></gentleman>
+                        <hello></hello>
+                    </div>
+                `,
+                components: {
+                    gentleman,
+                    hello
+                }
+            })
+
+            new Vue({
+                template: '<app></app>',
+                el: '#root',
+                // 注册组件(局部)
+                components: { app }
+            })
+            
+        </script>
+    
+    </body>
+</html>
