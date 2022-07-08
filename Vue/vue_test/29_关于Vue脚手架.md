@@ -1,0 +1,41 @@
+
+# 关于 Vue 脚手架结构
+
+### 1、切换到创建项目的目录，然后使用命令创建项目
+    vue create xxx项目名
+### 2、启动项目
+    npm run serve
+        ctrl + c 终止运行
+        启动后保存项目会自动更新页面
+
+### 3、脚手架结构
+    1. .gitignore
+        git 的忽略文件(配置不需要被 git 管理的文件)
+    2. babel.config.js
+        babel 的控制文件(babel 用于 es6 转 es5)
+    3. package.json
+        包的说明书(只要符合 npm 规范就会有这两个文件)
+            package.json scripts 内的命令
+                serve：配置本地服务器
+                bulid：开发完成后进行编译
+                lint：将所有代码进行一次语法检查
+    4. package-lock.json
+        包版本控制文件
+    5. README.md
+        对项目的描述
+
+### 4、执行 npm run serve 运行文件顺序(脚手架结构2)
+    1. src
+        (1) main.js
+            整个项目的入口文件，执行完 npm run serve 后直接就会运行 main.js
+        (2) App.vue
+            用于管理所有组件
+        (3) assets
+            存放静态资源
+        (4) components
+            存放所有组件，除 App 这个汇总所有组件的组件
+    2. public
+        (1) index.html
+            整个应用的界面
+        (2) favicon.ico
+            网页标签图标

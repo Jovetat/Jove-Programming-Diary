@@ -9,7 +9,7 @@
 <script>
         // 2、组件交互相关的代码(数据、方法等等)
     export default {
-        name: 'Student',
+        name: 'StudentCom',
         data(){
             return {
                 name: '赵铁柱',

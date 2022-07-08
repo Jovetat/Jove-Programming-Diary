@@ -1,6 +1,7 @@
 <template>
     <div class="demo">
         <!-- 1、组件的结构 -->
+        <img src="../assets/logo.png" alt="logo">
         <h2>学校名称：{{name}}</h2>
         <h2>学校地址：{{address}}</h2>
         <button @click="showLove">点击变笨</button>
@@ -28,7 +29,7 @@
         将以上内容可以简写为：这届暴露组件的配置对象
      */
     export default {
-        name: 'School',
+        name: 'SchoolCom',
         data(){
             return {
                 name: '南德学院',
