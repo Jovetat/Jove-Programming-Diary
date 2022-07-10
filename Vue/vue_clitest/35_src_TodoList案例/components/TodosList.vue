@@ -6,6 +6,7 @@
             :todoObj="item"
             :checkTodo="checkTodo"
             :deleteTodoReceive="deleteTodoReceive"/>
+        <!-- 组件传参 :todoObj，传入选项对象 -->
     </ul>
 </template>
 

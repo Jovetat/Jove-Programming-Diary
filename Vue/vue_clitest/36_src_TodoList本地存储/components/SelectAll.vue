@@ -13,14 +13,14 @@
 <script>
     export default {
         name: 'SelectAll',
-        props: ['todos'],
+        props: ['todos','checkedAllReceive','clearDoneReceive'],
         computed: {
             isAll:{
                 get(){
                     return this.doneNum === this.todos.length && this.todos.length > 0
                 },
                 set(value){
-                    this.$emit('checkedAllReceive',value)
+                    this.checkedAllReceive(value)               // set 是调用 App 传来的全选函数
                 }
             },
             doneNum(){
@@ -32,7 +32,7 @@
         methods: {
             clearDone(){
                 if(confirm('确定删除全部完成项吗? : )')){
-                    this.$emit('clearDoneReceive')
+                    this.clearDoneReceive()
                 }
             }
         },

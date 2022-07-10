@@ -1,14 +1,14 @@
 <template>
     <div class="todo-container">
         <div class="todo-wrap">
-            <add-todo @addTodoReceive="addTodoReceive"/><!-- 将函数传给添加 todo 的组件去调用，从而返回数据 -->
+            <add-todo :addTodoReceive="addTodoReceive"/><!-- 将函数传给添加 todo 的组件去调用，从而返回数据 -->
             <todos-list :todos="todos"
                         :checkTodo="checkTodo"
                         :deleteTodoReceive="deleteTodoReceive"
                         />
             <select-all :todos="todos"
-                        @checkedAllReceive="checkedAllReceive"
-                        @clearDoneReceive="clearDoneReceive"
+                        :checkedAllReceive="checkedAllReceive"
+                        :clearDoneReceive="clearDoneReceive"
                         />
         </div>
     </div>
@@ -18,7 +18,6 @@
     /* 
         Todo-list 案例 (任务清单小案例)
             添加 本地存储
-                通过组件自定义事件传参
     */
     import AddTodo from './components/AddTodo.vue'
     import TodosList from './components/TodosList.vue'
@@ -28,6 +27,7 @@
         name: 'App',
         data() {
             return {
+                // 初始化时读取本地存储，如果返回值为 null 则返回空数组
                 todos: JSON.parse( localStorage.getItem('todos') ) || []
             }
         },

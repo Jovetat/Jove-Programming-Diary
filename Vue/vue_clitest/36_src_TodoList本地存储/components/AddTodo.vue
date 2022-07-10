@@ -19,10 +19,11 @@
                     title: e.target.value,
                     done: false
                 }
-                this.$emit('addTodoReceive',todoObj)
+                this.addTodoReceive(todoObj)
                 e.target.value = ''
             }
         },
+        props: ['addTodoReceive']
     }
 </script>
 

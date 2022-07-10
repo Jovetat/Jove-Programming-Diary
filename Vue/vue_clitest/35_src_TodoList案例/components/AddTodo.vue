@@ -19,10 +19,13 @@
                     title: e.target.value,
                     done: false
                 }
-                this.$emit('addTodoReceive',todoObj)
+                // 通过将 App 中的函数传递过来调用的方式达到数据传递的目的(通知 App 组件添加一个 todoObj对象)
+                this.addTodoReceive(todoObj)
+                // 清空输入
                 e.target.value = ''
             }
         },
+        props: ['addTodoReceive']
     }
 </script>
 

@@ -1,7 +1,9 @@
 <template>
     <div class="todo-footer" v-show="todos.length">
         <label>
+            <!-- <input type="checkbox" :checked="isAll" @change="checkAll"/> -->
             <input type="checkbox" v-model="isAll"/>
+            <!-- 使用其他逻辑完成 -->
         </label>
         <span>
             <span>已完成{{doneNum}}</span> / 全部 {{todos.length}}
@@ -13,26 +15,38 @@
 <script>
     export default {
         name: 'SelectAll',
-        props: ['todos'],
+        props: ['todos','checkedAllReceive','clearDoneReceive'],
         computed: {
             isAll:{
+                // 计算属性的计算属性(套娃)
                 get(){
                     return this.doneNum === this.todos.length && this.todos.length > 0
                 },
                 set(value){
-                    this.$emit('checkedAllReceive',value)
+                    this.checkedAllReceive(value)               // set 是调用 App 传来的全选函数
                 }
             },
             doneNum(){
+                /* let num = 0
+                this.todos.forEach( dic => {
+                    if(dic.done){
+                        num ++
+                    }
+                })
+                return num */
+                // es6 数组新方法 reduce 条件统计
                 return this.todos.reduce((pre,current)=>{
                     return current.done ? pre + 1 : pre
                 },0)
             }
         },
         methods: {
+            /* checkAll(e){
+                this.checkedAllReceive(e.target.checked)
+            }, */
             clearDone(){
                 if(confirm('确定删除全部完成项吗? : )')){
-                    this.$emit('clearDoneReceive')
+                    this.clearDoneReceive()
                 }
             }
         },
