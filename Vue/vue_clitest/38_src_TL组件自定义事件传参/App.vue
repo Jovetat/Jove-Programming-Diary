@@ -18,7 +18,7 @@
     /* 
         Todo-list 案例 (任务清单小案例)
             添加 本地存储
-                通过组件自定义事件传参
+                通过 组件自定义事件 传参
     */
     import AddTodo from './components/AddTodo.vue'
     import TodosList from './components/TodosList.vue'
