@@ -7,26 +7,28 @@
 </template>
 
 <script>
+    import pubsub from 'pubsub-js'
 
     export default {
         name: 'Song',
         data() {
             return {
-                lyric1: '彩虹怎么可能会 better than you',
-                lyric2: '夕阳照片下的你 super cute',
+                lyric1: '我站在时间的尽头',
+                lyric2: '回头看影子向我冲',
             }
         },
         methods: {
-            // 发送数据
             sendLyric(){
-                this.$bus.$emit('hello',this.lyric1)
-            }
+                // 发布消息
+                console.log('发布消息')
+                pubsub.publish('myLyric',this.lyric1)
+            },
         },
     }
 
     /* 
-        全局事件总线
-            详情请看 main.js
+        消息订阅与发布
+            详情请看 Singer.vue
     */
     
 </script>

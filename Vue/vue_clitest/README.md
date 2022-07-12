@@ -239,7 +239,7 @@
 
 ## 消息订阅与发布（pubsub）
 
-1.   一种组件间通信的方式，适用于<span style="color:red">任意组件间通信</span>。
+1. 一种组件间通信的方式，适用于<span style="color:red">任意组件间通信</span>。
 
 2. 使用步骤：
 

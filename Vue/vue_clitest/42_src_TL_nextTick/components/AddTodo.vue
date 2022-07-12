@@ -16,7 +16,7 @@
                 if( !e.target.value.trim() ) return alert('输入不能为空')
                 const todoObj = {
                     id: nanoid(),           // nanoid 生成21位的随机 id
-                    title: e.target.value,
+                    title: e.target.value.trim(),
                     done: false
                 }
                 this.$emit('addTodoReceive',todoObj)
