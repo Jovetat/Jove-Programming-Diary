@@ -3,7 +3,7 @@
         <button @click="isShow = !isShow">显示/隐藏</button>
         <transition name="hello" appear>
             <!-- appear 第一次渲染的时候触发出现动画 -->
-            <h1 v-show="isShow">当我离你远去那一天</h1>
+            <h1 v-show="isShow">灰色的梦睡在我身边</h1>
         </transition>
     </div>
 </template>

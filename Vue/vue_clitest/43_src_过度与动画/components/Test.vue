@@ -23,8 +23,6 @@
     }
 
     /* 
-        动画效果
-
         Vue 封装的过度与动画
 
             1. 作用：
@@ -43,7 +41,7 @@
                         transition 标签添加该属性，会使第一次渲染的时候触发出现动画 
 
                 2) 备注：若有多个元素节点需要过度，则需要使用：
-                    (可以单个元素节点内包含多个元素也使用 普通的transition[节点内过度都相同，节点不同过度请使用多节点 group])
+                    (单个元素节点内包含多个元素可以使用 普通的transition[节点内过度都相同，节点不同过度请使用多节点 group])
 
                     <transition-group>      每个元素都要指定 key 值
                 
@@ -52,14 +50,14 @@
                         未配置 name 样式名为 v-enter/leave-
 
                     (2) 规定过程的动画过度
-                        a、进入/离开过程中的动画样式
+                        a、进入/离开过程中的动画样式    Test
                             .v-enter-active{
                                 animation: 动画名 1s(动画时长);
                             }
                         b、配合关键帧
                             @keyframes 动画名{}
                     
-                    (3) 规定起点和终点的动画过度
+                    (3) 规定起点和终点的动画过度        Test2
                         a、元素 进入enter/离开leave 时的样式
 
                             .v-enter{}          元素进入的起点的样式
@@ -78,8 +76,25 @@
                     
             3. 原理
                 Vue 在过度动画实现的过程中，依次为元素加了三个样式的类名
-                    enter --> active --> to
-                    leave --> active --> to
+                       v-enter ---->  v-enter-to
+                       v-leave ---->  v-leave-to
+                    【-- v-enter/leave-active --】
+
+        集成第三方动画      animate.css     Test3
+            1. 安装
+                npm install animate.css
+            2. 引入
+                import 'animate.css'
+            3. 配置
+                <transition name="animate__animated animate__bounce">
+                (普通使用应将这两个类添加到元素 class，Vue框架下应添加到 transition 的 name 上)
+            4. 选择动画
+                在 transition 标签中
+                    (1) 添加进入动画
+                        enter-active-class="在官网选择动画并复制其对应名称"
+                    (2) 添加退出动画
+                        enter-active-class="在官网选择动画并复制其对应名称"
+            5. 官网：https://animate.style/
 
     */
 
