@@ -18,8 +18,12 @@
                 Vue 中有 2 种数据绑定的方式：
                     1、单向绑定 v-bind ：数据只能从 data 流向页面
                     2、双向绑定 v-model ：数据可以从 data 流向页面，还可以从也页面流向 data
-                        v-model 只能应用在表单类元素(输入类元素)上 eg：input、select
-                        v-model:value 可以简写为 v-model，因为 v-model 默认收集的就是 value值
+                        1) v-model 只能应用在表单类元素(输入类元素)上 eg：input、select
+                        2) v-model:value 可以简写为 v-model，因为 v-model 默认收集的就是 value值
+                        3) v-model 的三个事件修饰符：
+                            (1) lazy:   失去焦点时再收集绑定的数据
+                            (2) number: 将输入的字符串转为有效的数字(收集到的为number格式)
+                            (3) trim:   将输入的字符串首尾的空格过滤(字符串间的空格不会被过滤)
             -->
         </div>
 
