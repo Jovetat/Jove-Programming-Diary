@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Banner/>
         <div class="row">
             <div class="col-xs-2 col-xs-offset-2 list-group">
                 <!-- 借助 router-link 标签实现路由的切换 -->
@@ -19,15 +18,13 @@
     // 引入 bootstrap 样式
     import './assets/css/bootstrap.css'
 
-    import Banner from './components/Banner.vue'
 
     export default {
-        name: 'App',
-        components:{ Banner }
+        name: 'App'
     }
     /* 
-        路由 params 传参
-            详细请看 pages/Message.vue 文件
+        路由命名
+            详细请看 router/index.js 文件
     */
 
 </script>

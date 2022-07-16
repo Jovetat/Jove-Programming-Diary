@@ -34,6 +34,9 @@
             }
         },
         computed:{
+            /* song(){
+                return this.$store.state.song
+            } */
             // 映射 state 中的数据为计算属性(对象写法)
             // ...mapState({ sum:'sum',song:'song' })
             // 映射 state 中的数据为计算属性(数组写法)

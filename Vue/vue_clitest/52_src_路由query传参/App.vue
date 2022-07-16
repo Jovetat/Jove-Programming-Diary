@@ -26,7 +26,7 @@
         components:{ Banner }
     }
     /* 
-        路由 params 传参
+        路由 query 传参
             详细请看 pages/Message.vue 文件
     */
 
