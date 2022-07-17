@@ -64,21 +64,6 @@
 </template>
 
 <script>
-    import DefaultSlot1 from './components/DefaultSlot1.vue'
-    import NamedSlot2 from './components/NamedSlot2.vue'
-    import ScopeSlot3 from './components/ScopeSlot3.vue'
-
-    export default {
-        name: 'App',
-        data() {
-            return {
-                foods: ['烧卖','焖面','刀削','地三鲜'],
-                games: ['逆战','LOL','DOTA','罪恶都市','魔兽争霸'],
-                films: ['死亡诗社','熔炉','花束般恋爱','土拨鼠之日','教父']
-            }
-        },
-        components:{ DefaultSlot1,NamedSlot2,ScopeSlot3 }
-    }
 
     /* 
         slot 插槽
@@ -145,6 +130,21 @@
 
     */
 
+    import DefaultSlot1 from './components/DefaultSlot1.vue'
+    import NamedSlot2 from './components/NamedSlot2.vue'
+    import ScopeSlot3 from './components/ScopeSlot3.vue'
+
+    export default {
+        name: 'App',
+        data() {
+            return {
+                foods: ['烧卖','焖面','刀削','地三鲜'],
+                games: ['逆战','LOL','DOTA','罪恶都市','魔兽争霸'],
+                films: ['死亡诗社','熔炉','花束般恋爱','土拨鼠之日','教父']
+            }
+        },
+        components:{ DefaultSlot1,NamedSlot2,ScopeSlot3 }
+    }
 </script>
 
 <style lang="css">

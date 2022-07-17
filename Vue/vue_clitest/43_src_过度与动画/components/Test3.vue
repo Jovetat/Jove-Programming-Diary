@@ -11,6 +11,10 @@
 </template>
 
 <script>
+    /* 
+        关于 动画效果 详细请看 Test.vue
+    */
+
     // 引入第三方动画库 animate.css
     import 'animate.css'
 
@@ -22,11 +26,6 @@
             }
         },
     }
-
-    /* 
-        关于 动画效果 详细请看 Test.vue
-    */
-
 </script>
 
 <style scoped>

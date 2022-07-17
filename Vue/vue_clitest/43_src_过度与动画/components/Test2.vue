@@ -9,6 +9,10 @@
 </template>
 
 <script>
+    /* 
+        关于 动画效果 详细请看 Test.vue
+    */
+
     export default {
         name: 'Test2',
         data() {
@@ -17,11 +21,6 @@
             }
         },
     }
-
-    /* 
-        关于 动画效果 详细请看 Test.vue
-    */
-
 </script>
 
 <style scoped>

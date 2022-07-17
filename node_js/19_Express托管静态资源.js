@@ -12,6 +12,8 @@ const express = require('express')
 const app = express()
 // 快速的对外提供静态资源
 app.use(express.static('./file'))
+// app.use(express.static('../Vue/vue_clitest/dist'))
+
 /*  app.use() 函数，用来注册全局中间件 */
 // http://127.0.0.1/index.html 即可访问到对应文件内容 (http://127.0.0.1 默认访问index.html页面)
 app.listen(80,()=>{

@@ -9,6 +9,10 @@
 </template>
 
 <script>
+    /* 
+        组件传参 props
+            详细请看 student.vue 文件
+    */
     import Student from './components/Student.vue'
 
     export default {

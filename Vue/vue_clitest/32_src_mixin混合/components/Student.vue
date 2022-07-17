@@ -8,6 +8,11 @@
 </template>
 
 <script>
+    /* 
+        mixin 混合
+            详细请看 mixin.js 文件
+    */
+   
     // 引入一个混合
     import {hunhe,hunhe2} from '../mixin'
 

@@ -19,6 +19,7 @@
                 serve：配置本地服务器
                 bulid：开发完成后进行编译
                 lint：将所有代码进行一次语法检查
+                (通过 npm 和 调试按键都可实现)
     4. package-lock.json
         包版本控制文件
     5. README.md
@@ -39,3 +40,11 @@
             整个应用的界面
         (2) favicon.ico
             网页标签图标
+
+### 5、打包项目
+    (1) npm run build
+    (2) 项目目录下的 dist 文件就是打包好的文件
+    (3) 打包时只关注 public 和 src 文件夹中的内容和相关配置
+    (4) 打包后需服务器部署，无法直接运行
+        node_js 19 部署服务器
+        app.use(express.static('../Vue/vue_clitest/dist'))

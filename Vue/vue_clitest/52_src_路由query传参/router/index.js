@@ -14,12 +14,10 @@ import Detail from '../pages/Detail'
 export default new VueRouter({
     routes: [
         {
-            // 一级路由
             path: '/about',
             component: About
         },
         {
-            // 二级路由
             path: '/home',
             component: Home,
             children: [

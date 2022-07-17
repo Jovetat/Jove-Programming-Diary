@@ -19,6 +19,11 @@
 </template>
 
 <script>
+    /* 
+       路由的基本使用及嵌套
+           详细请看 router/index.js 文件
+    */
+
     // 引入 bootstrap 样式
     import './assets/css/bootstrap.css'
 
@@ -28,9 +33,5 @@
         name: 'App',
         components:{ Banner }
     }
-    /* 
-        路由的基本使用及嵌套
-            详细请看 router/index.js 文件
-     */
 
 </script>

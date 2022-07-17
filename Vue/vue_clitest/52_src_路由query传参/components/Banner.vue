@@ -5,11 +5,12 @@
 </template>
 
 <script>
-    export default {
-        name: 'Banner'
-    }
     /* 
         路由 query 传参
             详细请看 pages/Message.vue 文件
     */
+
+    export default {
+        name: 'Banner'
+    }
 </script>

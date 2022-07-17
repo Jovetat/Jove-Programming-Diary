@@ -17,6 +17,11 @@
 </template>
 
 <script>
+    /* 
+       路由的基本使用及嵌套
+           详细请看 router/index.js 文件
+    */
+
     export default {
         name: 'Home',
         mounted() {
@@ -27,8 +32,4 @@
             console.log('Home组件将被销毁')
         },
     }
-    /* 
-       路由的基本使用及嵌套
-           详细请看 router/index.js 文件
-    */
 </script>

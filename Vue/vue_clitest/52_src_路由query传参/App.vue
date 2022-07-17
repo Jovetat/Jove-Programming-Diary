@@ -16,6 +16,11 @@
 </template>
 
 <script>
+    /* 
+        路由 query 传参
+            详细请看 pages/Message.vue 文件
+    */
+
     // 引入 bootstrap 样式
     import './assets/css/bootstrap.css'
 
@@ -25,9 +30,4 @@
         name: 'App',
         components:{ Banner }
     }
-    /* 
-        路由 query 传参
-            详细请看 pages/Message.vue 文件
-    */
-
 </script>

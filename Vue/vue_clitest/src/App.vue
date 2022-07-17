@@ -1,33 +1,60 @@
 <template>
     <div>
-        <Banner/>
-        <div class="row">
-            <div class="col-xs-2 col-xs-offset-2 list-group">
-                <!-- 借助 router-link 标签实现路由的切换 -->
-                <router-link class="list-group-item" active-class="active" to="/about">About</router-link>
-                <router-link class="list-group-item" active-class="active" to="/home">Home</router-link>
-            </div>
-            <div class="col-xs-6 panel panel-body">
-                <!-- 指定组件的呈现位置 -->
-                <router-view></router-view>
-            </div>
+        <h2>Vue2 完结散花 *★,°*:.☆(￣▽￣)/$:*.°★* 。</h2>
+        <button>原始的按钮</button>
+        <input type="text"><hr>
+        <el-button type="primary" plain>Element UI</el-button>
+        <div class="block">
+            <span class="demonstration">日期选择</span>
+            <el-date-picker
+                v-model="value1"
+                type="date"
+                placeholder="选择日期">
+            </el-date-picker>
         </div>
     </div>
 </template>
 
 <script>
-    // 引入 bootstrap 样式
-    import './assets/css/bootstrap.css'
-
-    import Banner from './components/Banner.vue'
+    /* 
+        Element UI 使用
+            详细请看 59_Vue_UI组件库.md 文件
+    */
 
     export default {
         name: 'App',
-        components:{ Banner }
+        // 复制日期相关的代码
+        data() {
+            return {
+                pickerOptions: {
+                disabledDate(time) {
+                    return time.getTime() > Date.now();
+                },
+                shortcuts: [{
+                    text: '今天',
+                    onClick(picker) {
+                    picker.$emit('pick', new Date());
+                    }
+                }, {
+                    text: '昨天',
+                    onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24);
+                    picker.$emit('pick', date);
+                    }
+                }, {
+                    text: '一周前',
+                    onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', date);
+                    }
+                }]
+                },
+                value1: '',
+                value2: '',
+            }
+        },
     }
-    /* 
-        路由 params 传参
-            详细请看 pages/Message.vue 文件
-    */
 
 </script>

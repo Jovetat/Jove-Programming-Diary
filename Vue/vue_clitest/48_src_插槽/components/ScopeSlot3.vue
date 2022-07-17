@@ -8,6 +8,11 @@
 </template>
 
 <script>
+    /* 
+        作用域插槽
+            详细请看 App.vue
+    */
+   
     export default {
         name: 'ScopeSlot3',
         data() {
@@ -17,12 +22,6 @@
         },
         props: ['title']
     }
-
-    /* 
-        作用域插槽
-            详细请看 App.vue
-    */
-
 </script>
 
 <style lang="css">

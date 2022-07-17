@@ -7,11 +7,12 @@
 </template>
 
 <script>
-    export default {
-        name: 'News'
-    }
     /* 
         路由 query 传参
             详细请看 pages/Message.vue 文件
     */
+
+    export default {
+        name: 'News'
+    }
 </script>

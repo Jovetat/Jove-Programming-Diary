@@ -7,6 +7,11 @@
 </template>
 
 <script>
+    /* 
+        消息订阅与发布
+            详情请看 Singer.vue
+    */
+
     import pubsub from 'pubsub-js'
 
     export default {
@@ -25,12 +30,6 @@
             },
         },
     }
-
-    /* 
-        消息订阅与发布
-            详情请看 Singer.vue
-    */
-    
 </script>
 
 <style scoped>

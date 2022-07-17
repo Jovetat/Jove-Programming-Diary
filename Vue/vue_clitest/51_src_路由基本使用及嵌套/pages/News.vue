@@ -7,11 +7,12 @@
 </template>
 
 <script>
-    export default {
-        name: 'News'
-    }
     /* 
        路由的基本使用及嵌套
            详细请看 router/index.js 文件
     */
+
+    export default {
+        name: 'News'
+    }
 </script>

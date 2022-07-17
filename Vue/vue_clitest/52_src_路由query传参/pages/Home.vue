@@ -16,11 +16,12 @@
 </template>
 
 <script>
-    export default {
-        name: 'Home',
-    }
     /* 
         路由 query 传参
             详细请看 pages/Message.vue 文件
     */
+
+    export default {
+        name: 'Home',
+    }
 </script>

@@ -7,6 +7,10 @@
 </template>
 
 <script>
+    /* 
+       组件的自定义事件
+           详情请看 App 组件
+    */
 
     export default {
         name: 'Song',
@@ -23,12 +27,6 @@
             }
         },
     }
-
-    /* 
-       组件的自定义事件
-           详情请看 App 组件
-    */
-    
 </script>
 
 <style scoped>

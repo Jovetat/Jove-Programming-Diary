@@ -154,4 +154,29 @@ export default new VueRouter({
                             }"
                         >跳转</router-link>
 
+        7. 路由器的两种工作模式
+            1) hash 模式
+                0) 路由器默认的工作模式
+                1) 对于一个 url 来说，# 及其后面的内容就是 hash 值 (# 就称作 hash哈希)
+                2) hash 值不会随着 http 请求发给服务器
+                    (1) hash 前端页面用，不会带给服务器)
+                    (2) 所以不会出现 history 刷新出现 404 的问题
+                3) 优缺点：
+                    (1) 地址中永远带着 # 号，不美观
+                    (2) 兼容性较好
+                    (3) 将地址通过第三方手机 app 分享，若 app 校验严格，地址会被标记为不合法
+                    
+            2) history 模式
+                1) 优缺点
+                    (1) url 地址干净，美观
+                    (2) 兼容性相较 hash 模式略差
+                    (3) 应用部署上线时需要后端人员支持，解决刷新页面服务端 404 的问题
+                        (路由的跳转后刷新[就会发送网络请求]，url页面路径 会被服务器认为是对资源的请求导致 404)
+                        (Node.js connect-history-api-fallback 库可以解决此问题)
+                2) 开启方式，配置 mode 项
+                    const router =  new VueRouter({
+                        mode: 'history',
+                        routes: []
+                    })
+
 */

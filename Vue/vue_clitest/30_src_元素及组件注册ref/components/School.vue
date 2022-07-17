@@ -6,6 +6,11 @@
 </template>
 
 <script>
+    /* 
+        元素及组件注册
+            详细请看 App.vue 文件
+    */
+
     export default {
         name: 'School',
         data() {

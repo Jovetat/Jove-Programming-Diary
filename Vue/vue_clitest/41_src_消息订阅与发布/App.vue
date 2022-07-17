@@ -7,6 +7,11 @@
 </template>
 
 <script>
+    /* 
+        消息订阅与发布
+            详情请看 Singer.vue
+    */
+   
     import Singer from './components/Singer.vue'
     import Song from './components/Song.vue'
 
@@ -17,10 +22,4 @@
             Singer
         },
     }
-
-    /* 
-        消息订阅与发布
-            详情请看 Singer.vue
-    */
-
 </script>

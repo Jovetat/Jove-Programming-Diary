@@ -7,6 +7,11 @@
 </template>
 
 <script>
+    /* 
+        全局事件总线
+            详情请看 main.js
+    */
+   
     import Singer from './components/Singer.vue'
     import Song from './components/Song.vue'
 
@@ -17,10 +22,4 @@
             Singer
         },
     }
-
-    /* 
-        全局事件总线
-            详情请看 main.js
-    */
-
 </script>

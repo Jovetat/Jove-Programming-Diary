@@ -17,7 +17,6 @@
 </template>
 
 <script>
-
     /* 
         Vuex 与 map方法
             详情请看 vuex/store.js 文件

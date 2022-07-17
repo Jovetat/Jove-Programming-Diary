@@ -20,7 +20,6 @@
 </template>
 
 <script>
-
     /* 
         Vuex 模块化 + namespace命名空间
             详情请看 store/index.js 文件

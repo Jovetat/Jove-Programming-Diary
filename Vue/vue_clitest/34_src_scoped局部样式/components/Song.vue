@@ -6,6 +6,10 @@
 </template>
 
 <script>
+    /* 
+       scoped 局部样式
+            详情查看 Singer 组件
+    */
 
     export default {
         name: 'Song',
@@ -16,10 +20,6 @@
             }
         },
     }
-    /* 
-       scoped 局部样式
-            详情查看 Singer 组件
-    */
 </script>
 
 <style scoped>

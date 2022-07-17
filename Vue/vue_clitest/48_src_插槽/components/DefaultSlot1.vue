@@ -7,16 +7,15 @@
 </template>
 
 <script>
-    export default {
-        name: 'DefaultSlot1',
-        props: ['title']
-    }
-
     /* 
         默认插槽
             详细请看 App.vue
     */
-
+   
+    export default {
+        name: 'DefaultSlot1',
+        props: ['title']
+    }
 </script>
 
 <style lang="css">

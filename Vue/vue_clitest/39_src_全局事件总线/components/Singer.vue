@@ -6,6 +6,10 @@
 </template>
 
 <script>
+    /* 
+        全局事件总线
+            详情请看 main.js
+    */
 
     export default {
         name: 'Singer',
@@ -25,12 +29,6 @@
             this.$bus.$off('hello')
         },
     }
-
-    /* 
-        全局事件总线
-            详情请看 main.js
-    */
-
 </script>
 
 <style scoped>

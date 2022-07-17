@@ -7,6 +7,10 @@
 </template>
 
 <script>
+    /* 
+        全局事件总线
+            详情请看 main.js
+    */
 
     export default {
         name: 'Song',
@@ -23,12 +27,6 @@
             }
         },
     }
-
-    /* 
-        全局事件总线
-            详情请看 main.js
-    */
-    
 </script>
 
 <style scoped>

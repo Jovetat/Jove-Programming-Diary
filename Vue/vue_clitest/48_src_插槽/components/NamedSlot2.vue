@@ -9,16 +9,15 @@
 </template>
 
 <script>
-    export default {
-        name: 'NamedSlot2',
-        props: ['title']
-    }
-
     /* 
         具名插槽
             详细请看 App.vue
     */
-
+   
+    export default {
+        name: 'NamedSlot2',
+        props: ['title']
+    }
 </script>
 
 <style lang="css">
