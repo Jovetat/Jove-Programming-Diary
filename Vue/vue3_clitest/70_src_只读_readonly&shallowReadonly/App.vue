@@ -11,8 +11,11 @@
 	/* 
 		数据只读：readonly & shallowReadonly
 		
-			1. readonly: 让一个响应式数据变为只读的 (深只读)
-			2. shallowReadonly：让一个响应式数据变为只读的 (浅只读)
+			1. readonly
+				让一个响应式数据变为只读的 (深只读)
+				(返回的仍然为 proxy对象)
+			2. shallowReadonly
+				让一个响应式数据变为只读的 (浅只读)
 				(仅将第一层的数据改为只读的)
 			3. 应用场景: 不希望数据被修改时
 

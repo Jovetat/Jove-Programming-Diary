@@ -7,11 +7,13 @@ export default function(){
         y: 0
     })
 
+    // 实现鼠标打点相关的方法
     function savePoint(event){
         point.x = event.pageX
         point.y = event.pageY
     }
 
+    // 实现鼠标打点相关的生命周期钩子
     // 绑定获取鼠标事件
     onMounted(()=>{
         window.addEventListener('click',savePoint)
