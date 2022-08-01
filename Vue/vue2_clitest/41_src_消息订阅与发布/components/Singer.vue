@@ -6,27 +6,6 @@
 </template>
 
 <script>
-    import pubsub from 'pubsub-js'
-
-    export default {
-        name: 'Singer',
-        data() {
-            return {
-                name: '胡梦周',
-                works: '驰 Timelapse',
-            }
-        },
-        mounted() {
-            // 在挂载完毕后立刻开始订阅消息
-            this.pubId = pubsub.subscribe('myLyric',(msgName,data)=>{
-                console.log('myLyric 发布消息了，我在 singer 接收到了:',msgName,data)
-            })
-        },
-        beforeDestroy() {
-            // 在销毁组件前 解绑订阅
-            pubsub.unsubscribe(this.pubId)
-        },
-    }
 
     /* 
         消息订阅与发布(pubsub)
@@ -72,7 +51,7 @@
                 (5) 最好销毁前取消订阅
                     在 beforeDestroy(){} 钩子中
                         pubsub.unsubscribe(pid) 取消订阅
-            
+
             3. 对比 全局事件总线
                 都能实现任意组件间通信，使用模型完全相同
                     (1) 但 全局事件总线 完全利用 Vue 自带的的自定义事件，所以使用更多
@@ -80,6 +59,28 @@
                     (2) 而 全局事件总线 与 组件自定义事件 在 Vue 开发者工具内可以看到具体内容
 
     */
+
+    import pubsub from 'pubsub-js'
+
+    export default {
+        name: 'Singer',
+        data() {
+            return {
+                name: '胡梦周',
+                works: '驰 Timelapse',
+            }
+        },
+        mounted() {
+            // 在挂载完毕后立刻开始订阅消息
+            this.pubId = pubsub.subscribe('myLyric',(msgName,data)=>{
+                console.log('myLyric 发布消息了，我在 singer 接收到了:',msgName,data)
+            })
+        },
+        beforeDestroy() {
+            // 在销毁组件前 解绑订阅
+            pubsub.unsubscribe(this.pubId)
+        },
+    }
 
 </script>
 
