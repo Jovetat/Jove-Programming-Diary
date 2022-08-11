@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    /* 
+    /*
        路由的基本使用及嵌套
            详细请看 router/index.js 文件
     */
