@@ -3,7 +3,48 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
-		<button type="button" onclick="tryclick()">try</button>
+		<style>
+			.company-cluster-icon {
+				min-width: 90px !important;
+				width: 180px;
+				height: 180px;
+				border-radius: 50%;
+				word-break: keep-all;
+				padding: 5px;
+				line-height: 25px;
+				background: rgba(0, 174, 100, 0.5);
+				text-align: center;
+				font-size: 20px;
+
+				/* &:hover {
+					background: rgba(255, 0, 0, 0.5);
+				} */
+			}
+			.company-cluster-icon :nth-child(1){
+				display: none;
+			}
+			.company-cluster-icon :nth-child(2) :nth-child(1){
+				display: inline;
+			}
+			.company-cluster-icon :nth-child(2) :nth-child(2){
+				display: none;
+			}
+			.company-cluster-icon:hover{
+				background: rgba(255, 0, 0, 0.5);
+				border-radius: 4px;
+			}
+			.company-cluster-icon :hover{
+				display: flex;
+			}
+
+		</style>
+		<div class="company-cluster-icon">
+			<div>title</div>
+			<div>
+				<span>1250</span>
+				<span>家企业</span>
+			</div>
+		</div>
 	</head>
 	<body>
 		<script type="text/javascript">

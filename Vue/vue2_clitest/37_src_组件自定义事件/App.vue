@@ -5,10 +5,10 @@
         <Song :singerEvent="getLyric"/>
 
         <!-- 通过父组件给子组件绑定自定义事件，实现 子给父传递数据(通过 @/v-on) -->
-        <!-- <Singer v-on:singerEvent="getLyric"/> -->
+        <Singer v-on:singerEvent="getLyric"/>
 
         <!-- 通过父组件给子组件绑定自定义事件，实现 子给父传递数据(通过 ref) -->
-        <Singer ref="singervm" @click.native="show"/>
+        <!-- <Singer ref="singervm" @click.native="show"/> -->
         <hr>
     </div>
 </template>
@@ -47,7 +47,7 @@
         },
     }
 
-    /* 
+    /*
         组件自定义事件        (为方便表述，以下父组件简称为 f，子组件简称为 s)
         开发者工具 timeline component events 中会展示被调用的组件自定义事件
             1. 组件自定义事件的作用:
@@ -82,12 +82,12 @@
                         参数可接收多个(...params 接收其余参数放入数组)
                     }
                 }
-            
+
             5. s 向 f 发送数据原理
                 1) 为组件绑定自定义事件相当于为 s 的 vc 上添加了该事件
                 2) 通过 this.$emit() 触发事件并传递参数
                 3) 2 ~ 4 为 s 向 f 发送的过程
-            
+
             6. 解绑自定义事件
                 (1) 解绑 单个 自定义事件
                     this.$off('事件名')
@@ -97,18 +97,18 @@
                     this.$off()
                 (4) 销毁后组件的自定义事件也会全部失效
                     this.$destory()
-            
+
             7. 若想让自定义事件只能触发一次
                 1) v-on ( @ )       使用 once 修饰符
                 2) ref              this.$refs.sonvc.$once('事件名',this.回调fun) 方法
-            
+
             8. 组件上也可以绑定原生 DOM 事件 (@click……)
                 1) 如果直接写会被认做为组件自定义事件
                 2) 需要使用 native 修饰符
                     eg: @click.native="事件名"
                 3) 原理：
                     会将该事件交给组件的根元素绑定
-            
+
             9. f 向 s 组件通信
 
                 其他方式：
