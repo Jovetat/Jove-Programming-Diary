@@ -9,7 +9,27 @@
 		<script type="text/javascript">
 			function tryclick() {
 				console.log('try')
-				console.log('结果：' + singleNumber2([4,1,2,1,2]) )
+				console.log('结果：' + merge([1,2,3,0,0,0],3,[2,5,6],3) )
+			}
+
+			const merge = (nums1, m, nums2, n) => {
+				// 双指针
+				let mer = []
+				let f1 = 0, f2 = 0, pointer = 0
+				while( f1<m && f2<n ){
+					if( nums1[f1] <= nums2[f2] ){
+						mer[pointer] = nums1[f1]
+						f1++
+					}else{
+						mer[pointer] = nums2[f2]
+						f2++
+					}
+					pointer++
+				}
+				mer = f1 === m ? mer.concat(nums2.slice(f2,n)) : mer.concat(nums1.slice(f1,m))
+				mer.forEach((item,index)=>{
+					nums1[index] = item
+				})
 			}
 
 			var twoSum = function(nums, target) {
@@ -327,7 +347,7 @@
 				})
 				return fhalf.concat(shalf)
 			}
-			
+
 			var searchInsert = function(nums, target) {
 			    let left = -1
 			    let right = nums.length
@@ -337,7 +357,7 @@
 			    }
 			    return right
 			};
-			
+
 			var strStr = function(haystack, needle) {
 			    // 暴力破解
 				const nedl = needle.length
@@ -358,11 +378,11 @@
 				}
 				return -1
 			};
-			
+
 			var strStr2 = function(haystack, needle) {
 			    // KMP算法 N.28
 			};
-			
+
 			var diStringMatch = function(s) {
 			    let re = []
 				let be = 0
@@ -379,7 +399,7 @@
 				}
 				return re
 			};
-			
+
 			var maxSubArray = function(nums) {
 				// 暴力破解(时间复杂度为n^3所以超出时间限制)
 				let start = []
@@ -406,7 +426,7 @@
 				}
 				return Math.max(...re)
 			};
-			
+
 			var maxSubArray = function(nums) {
 				// 动态规划
 				let dp = [nums[0]]
@@ -417,7 +437,7 @@
 				}
 				return max
 			};
-			
+
 			var plusOne = function(digits) {
 				const di = digits.length - 1
 				digits[di]++
@@ -433,13 +453,13 @@
 				}
 				return digits
 			};
-			
+
 			var addBinary = function(a, b) {
 				let re = []
 				let jin = 0
 				for(let al=a.length-1,bl=b.length-1 ; al>=0 || bl>=0 ; al--,bl--){
 					let flag = al>=0 ? parseInt(a[al]) : 0
-					flag += bl>=0 ? parseInt(b[bl]) : 0 
+					flag += bl>=0 ? parseInt(b[bl]) : 0
 					flag += jin
 					jin = 0
 					re.unshift(flag%2)
@@ -450,7 +470,7 @@
 				}
 				return re.join('')
 			};
-			
+
 			var singleNumber = function(nums) {
 			    nums.sort()
 				for(let i=0 ; i<nums.length ; i+=2){
@@ -459,7 +479,7 @@
 					}
 				}
 			};
-			
+
 			var singleNumber2 = function(nums) {
 				console.log(nums)
 				// 异或（位运算）
@@ -471,7 +491,7 @@
 			    }
 			    return ans;
 			};
-		
+
 
 		</script>
 
