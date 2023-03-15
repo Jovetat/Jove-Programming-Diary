@@ -50,7 +50,7 @@
                 <!-- 传递多个参数 -->
                 <span>{{data.msg}}</span>
             </template>
-            
+
         </ScopeSlot3>
         <ScopeSlot3 title="游戏">
             <template scope="data">
@@ -65,7 +65,7 @@
 
 <script>
 
-    /* 
+    /*
         slot 插槽
 
             简介：
@@ -128,7 +128,7 @@
                         </子组件标签>
                     3) 其他都相同，只是增加了数据传递
                         也可以有 name，从而支持多个作用域插槽
-                
+
                 4. 向自身插槽发送的 虚拟DOM 可以通过 this.$slots 读取(无论有没有定义插槽都可以接收到)
 
     */
