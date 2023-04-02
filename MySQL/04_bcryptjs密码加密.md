@@ -28,3 +28,11 @@ userinfo.password = bcrype.hashSync(userinfo.password, 10)
 ```
 
 ` 返回值为加密好的密码`
+
+## 使用 bcryptjs 进行解密
+
+``` js
+bcrypet.compareSync(用户提交的密码，数据库中的密码)
+```
+
+` 返回值为判断密码是否一致的布尔值`
