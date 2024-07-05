@@ -163,7 +163,7 @@ app.use(directives);
     <a-button
       type="primary"
       class="btn"
-      v-throttle="{ handler: log2, delay: 1000 }"
+      v-throttle="handleClick"
     >
       防抖
     </a-button>
