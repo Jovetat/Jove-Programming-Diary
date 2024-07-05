@@ -108,3 +108,90 @@ export default {
 ```
 
 在这个示例中，我们不再传递时间间隔参数，而是直接将处理函数 `handleClick` 作为指令的值。这样，首次点击时会立即执行处理函数，之后的点击事件则会在指定的时间间隔内被节流。
+
+## 实战
+
+总结全局自定义指令的实现并解决您在 Vue 3 中遇到的问题。关键在于理解 Vue 3 的指令生命周期钩子名称变化，以及正确处理 `binding.value` 作为配置对象而不是单一函数。
+
+### 1. 全局自定义指令的实现
+
+首先，在 Vue 3 中定义全局自定义指令：
+
+```js
+// src/directives/index.js
+const throttleDirective = {
+  mounted(el, binding) {
+    let lastClickTime = 0
+    console.log(binding)
+    const throttleTimeout = 1000
+    el.addEventListener('click', () => {
+      const now = Date.now()
+      if (now - lastClickTime >= throttleTimeout) {
+        // 超过节流时间间隔，执行点击事件处理程序
+        binding.value()
+        lastClickTime = now
+      }
+    })
+  },
+}
+
+export default {
+  install(app) {
+    app.directive('throttle', throttleDirective)
+  },
+}
+```
+
+### 2. 在 `main.js` 中注册全局自定义指令
+
+确保在 `main.js` 中导入并注册这些指令：
+
+```js
+import directives from '@/directives'; // 导入自定义指令
+
+// 注册全局自定义指令
+app.use(directives);
+```
+
+### 3. 父组件中使用指令
+
+在父组件中使用指令时，需要传递包含 `handler` 和 `delay` 的对象：
+
+```vue
+<template>
+  <div>
+    <a-button
+      type="primary"
+      class="btn"
+      v-throttle="{ handler: log2, delay: 1000 }"
+    >
+      防抖
+    </a-button>
+  </div>
+</template>
+```
+
+## 总结
+
+1. **Vue 3 指令钩子**：使用 `mounted` 钩子代替 Vue 2 中的 `inserted` 钩子。
+
+2. **解构 `binding.value`**：在指令内部正确解构 `binding.value` 并设置默认值。
+
+3. 在本案例中直接将**click事件**传入`binding`，如果有其他参数，可以通过一个对象一起传入，在指令中解构
+
+   ``` js
+   <a-button  v-throttle="{ handler: handleClick, delay: 1000 }">
+       防抖
+   </a-button>
+   // 传入
+   const throttleDirective = {
+     mounted(el, binding) {
+       const { handler, delay = 1000 } = binding.value || {};
+       // 解构
+       el.addEventListener('click', (event) => {
+           handler(event);
+         }
+       });
+     }
+   };
+   ```
