@@ -90,3 +90,72 @@ export default useShopOrderStore
    - 通过 `addDynamicPropertiesAndMethods` 方法，将子类特定的状态和方法动态地添加到 Pinia 实例对象上。
 3. **子类继承与扩展**：
    - 子类继承 `BaseOrderStore`，并通过实现 `initState` 和 `initActions` 方法来扩展自身特定的状态和方法。
+
+## ❗APP端适配出现的问题
+
+此实现方式在web端没有问题，uniapp app出现了程序白屏的问题，与pinia实例化后再插入`action`和`state`有关
+
+```typescript
+const store = storeDefinition()
+this.addDynamicPropertiesAndMethods(store)
+return store
+```
+
+问题出现在这里
+
+### 解决方式，先插入后实例化
+
+1. **定义一个抽象类来复用共用部分状态**
+
+```typescript
+import { defineStore } from 'pinia'
+
+export default abstract class BaseOrderStore {
+  protected storeName: string
+  protected constructor(storeName: string) {
+    this.storeName = storeName
+  }
+  protected abstract initState(): any
+  protected abstract initActions(): any
+  init() {
+    const storeDefinition = {
+      state: () => ({
+        orderList: [],
+        ...this.initState(),
+      }),
+      actions: {
+        setOrderList(data: any[]) {
+          this.orderList = data
+        },
+        ...this.initActions(),
+      },
+    }
+    return defineStore(this.storeName, storeDefinition)
+  }
+}
+```
+
+2. **在子类中继承并构造 Pinia 对象，添加自身特定的状态和方法**
+
+```typescript
+import BaseOrderStore from './BaseOrderStore'
+class ShopOrderStore extends BaseOrderStore {
+  constructor() {
+    super('ShopOrderStore')
+  }
+  protected initState() {
+    return {
+      vipDeliveryInfo: [], // 会员配送地址
+    }
+  }
+  protected initActions() {
+    return {
+      async getVipDeliveryInfo() {},
+    }
+  }
+}
+
+const useShopOrderStore = new ShopOrderStore().init()
+export default useShopOrderStore
+```
+
