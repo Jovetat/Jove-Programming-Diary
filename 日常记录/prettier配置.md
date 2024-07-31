@@ -37,7 +37,7 @@
 "editor.defaultFormatter": "esbenp.prettier-vscode",
 "editor.formatOnSave": true
 },
-"prettier.configPath": ".prettierrc",
+"prettier.configPath": ".prettierrc", // 使用项目的配置(注释则使用vscode的配置)
 "prettier.arrowParens": "always",
 "prettier.bracketSpacing": true,
 "prettier.endOfLine": "lf",
@@ -80,3 +80,16 @@ dist
 ### 4. 重启 VSCode
 
 有时重启 VSCode 可以解决插件未正确加载的问题。重启 VSCode 后，保存文件时应自动格式化代码。
+
+## 项目中引入 prettier
+
+```
+yarn add prettier
+```
+
+## 全局代码风格化
+
+```
+yarn prettier --write
+```
+
