@@ -1,6 +1,7 @@
 # 表单封装
 
-封装基于`Antd`，如果使用其他组件库在`types.ts`替换，` searchForm.vue`更换**form**即可
+1. 封装基于`Antd`，如果使用其他组件库在`types.ts`替换，` searchForm.vue`更换**form**即可
+2. web 经常出现查询表单，因此封装一个基础模板
 
 ### searchForm.vue
 
