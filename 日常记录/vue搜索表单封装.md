@@ -16,7 +16,7 @@
             :span="item.span"
           >
             <a-form-item :label="item.label" :name="item.dataIndex">
-              <view :style="{ ...item.style }">
+              <view :style="{ ...item.style }" class="item">
                 <template v-if="item.type !== 'Slot'">
                   <formItem
                     :type="item.type"
@@ -139,6 +139,9 @@ export default defineComponent({
       display: flex;
       justify-content: flex-end;
     }
+  }
+  .item {
+    width: 100%;
   }
 }
 </style>
