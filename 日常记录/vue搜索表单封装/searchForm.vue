@@ -8,6 +8,9 @@
     <template #otherInfo="{ formData, item }">
       {{ formData.cardCatalogName }}
     </template>
+    <template #timeRange>
+      <timeRange ref="timeRangeRef" :change="timeChange" />
+    </template>
   </searchForm>
 </template>
 
@@ -16,9 +19,10 @@ import { defineComponent, ref } from 'vue'
 import searchForm from '@/components/Form/searchForm.vue'
 import { FormOption } from '@/components/Form/types'
 import { cardType } from './options'
+import timeRange from '@/components/Form/timeRange.vue'
 
 export default defineComponent({
-  components: { searchForm },
+  components: { searchForm, timeRange },
   setup() {
     const formData = ref()
     const formOptions: FormOption[] = [
@@ -42,13 +46,16 @@ export default defineComponent({
         span: 6,
       },
     ]
+    const timeRangeRef = ref<any>(null)
 
     const queryCallback = (res: object) => {
       console.log(res)
     }
-    const resetCallback = () => {}
+    const resetCallback = () => {
+      timeRangeRef.value.reset()
+    }
 
-    return { formData, formOptions, queryCallback, resetCallback }
+    return { formData, formOptions, timeRangeRef, queryCallback, resetCallback }
   },
 })
 </script>

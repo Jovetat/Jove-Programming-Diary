@@ -55,7 +55,6 @@
 import { defineComponent, ref, watch, PropType } from 'vue'
 import { FormOption } from './types'
 import formItem from './formItem.vue'
-import CityCascader from '@/components/CityCascader/index.vue'
 
 export default defineComponent({
   props: {
@@ -82,17 +81,13 @@ export default defineComponent({
       formOptions type 为 Slot 时为具名插槽，携带 formData 和 item
     */
   },
-  components: { formItem, CityCascader },
+  components: { formItem },
   setup(props, { emit }) {
     const formData = ref({ ...props.modelValue })
-    const isOutsideChange = ref<boolean>(false)
     // 双向绑定
     watch(
       formData,
       (newData) => {
-        if (isOutsideChange.value) {
-          return (isOutsideChange.value = false)
-        }
         updataValue(newData)
       },
       { deep: true },
@@ -100,10 +95,12 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (newVal) => {
-        formData.value = newVal
-        isOutsideChange.value = true
+        if (newVal !== formData.value) {
+          formData.value = newVal
+        }
       },
     )
+
     const updataValue = (data?: any) => {
       emit('update:modelValue', data || {})
     }
@@ -141,6 +138,7 @@ export default defineComponent({
     }
   }
   .item {
+    display: block;
     width: 100%;
   }
 }
@@ -175,14 +173,10 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const data = ref<any>(props.modelValue)
-    const isOutsideChange = ref<boolean>(false)
     // 双向绑定
     watch(
       data,
       (newData) => {
-        if (isOutsideChange.value) {
-          return (isOutsideChange.value = false)
-        }
         updataValue(newData)
       },
       { deep: true },
@@ -190,8 +184,9 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (newVal) => {
-        data.value = newVal
-        isOutsideChange.value = true
+        if (newVal !== data.value) {
+          data.value = newVal
+        }
       },
     )
     const com = computed(() => {
