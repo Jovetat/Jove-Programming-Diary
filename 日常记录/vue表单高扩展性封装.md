@@ -16,24 +16,24 @@
             :key="index"
             :span="item.span"
           >
-            <a-form-item :label="item.label" :name="item.dataIndex">
-              <view :style="{ ...item.style }" class="item">
-                <template v-if="item.type !== 'Slot'">
+            <template v-if="item.type !== 'Slot'">
+              <a-form-item :label="item.label" :name="item.dataIndex">
+                <view :style="{ ...item.style }" class="item">
                   <formItem
                     :type="item.type"
                     :comProps="item.comProps"
                     v-model="formData[item.dataIndex]"
                   />
-                </template>
-                <template v-else>
-                  <slot
-                    :name="item.dataIndex"
-                    :formData="formData"
-                    :item="item"
-                  ></slot>
-                </template>
-              </view>
-            </a-form-item>
+                </view>
+              </a-form-item>
+            </template>
+            <template v-else>
+              <slot
+                :name="item.dataIndex"
+                :formData="formData"
+                :item="item"
+              ></slot>
+            </template>
           </a-col>
         </a-row>
       </a-form>
@@ -85,6 +85,7 @@ export default defineComponent({
   components: { formItem },
   setup(props, { emit }) {
     const formData = computed(() => props.modelValue)
+
     const updataValue = (data?: any) => {
       emit('update:modelValue', data || {})
     }
@@ -106,7 +107,7 @@ export default defineComponent({
   display: flex;
   width: 100%;
   background-color: white;
-  padding: 15px;
+  padding: 15px 15px 0 15px;
   box-sizing: border-box;
   .left {
     display: block;
