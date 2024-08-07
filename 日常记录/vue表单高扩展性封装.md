@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, PropType } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
 import { FormOption } from './types'
 import formItem from './formItem.vue'
 
@@ -79,29 +79,12 @@ export default defineComponent({
     },
     /* 插槽
       underRight 为按钮下方插槽
-      formOptions type 为 Slot 时为具名插槽，携带 formData 和 item
+      formOptions type 为 Slot 时为具名插槽，携带 modelValue 和 item
     */
   },
   components: { formItem },
   setup(props, { emit }) {
-    const formData = ref({ ...props.modelValue })
-    // 双向绑定
-    watch(
-      formData,
-      (newData) => {
-        updataValue(newData)
-      },
-      { deep: true },
-    )
-    watch(
-      () => props.modelValue,
-      (newVal) => {
-        if (newVal !== formData.value) {
-          formData.value = newVal
-        }
-      },
-    )
-
+    const formData = computed(() => props.modelValue)
     const updataValue = (data?: any) => {
       emit('update:modelValue', data || {})
     }
@@ -165,7 +148,7 @@ export default defineComponent({
     },
     comProps: {
       type: Object,
-      default: {},
+      default: () => ({}),
     },
     modelValue: {
       type: Object as () => any,
@@ -185,7 +168,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (newVal) => {
-        if (newVal !== data.value) {
+        if (JSON.stringify(newVal) !== JSON.stringify(data.value)) {
           data.value = newVal
         }
       },
@@ -193,9 +176,8 @@ export default defineComponent({
     const com = computed(() => {
       return components[props.type] || null
     })
-
     const updataValue = (data?: any) => {
-      emit('update:modelValue', data || {})
+      emit('update:modelValue', data)
     }
 
     return { props, com, data }

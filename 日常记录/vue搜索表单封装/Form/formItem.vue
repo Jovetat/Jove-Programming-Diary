@@ -14,7 +14,7 @@ export default defineComponent({
     },
     comProps: {
       type: Object,
-      default: {},
+      default: () => ({}),
     },
     modelValue: {
       type: Object as () => any,
@@ -34,7 +34,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (newVal) => {
-        if (newVal !== data.value) {
+        if (JSON.stringify(newVal) !== JSON.stringify(data.value)) {
           data.value = newVal
         }
       },
@@ -42,9 +42,8 @@ export default defineComponent({
     const com = computed(() => {
       return components[props.type] || null
     })
-
     const updataValue = (data?: any) => {
-      emit('update:modelValue', data || {})
+      emit('update:modelValue', data)
     }
 
     return { props, com, data }
