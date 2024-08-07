@@ -86,7 +86,7 @@ export default defineComponent({
     }
     const reset = () => {
       updataValue()
-      props.resetCallback && props.resetCallback()
+      props.resetCallback && props.resetCallback(query)
     }
 
     return { props, formData, query, reset }
