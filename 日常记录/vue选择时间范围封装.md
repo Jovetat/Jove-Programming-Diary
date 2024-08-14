@@ -57,29 +57,33 @@ export default defineComponent({
       { deep: true },
     )
 
-    // 向外暴露充值数据
+    // 向外暴露重置表单
     const reset = () => {
       formData.value = {}
+    }
+    // 向外暴露设置表单数据
+    const set = (params: any) => {
+      formData.value = { ...params }
     }
     const disabledStartDate = (startValue: Moment) => {
       if (!startValue || !formData.value.endDate) {
         return false
       }
       const endMoment = moment(formData.value.endDate, 'YYYY-MM-DD')
-      const nextDay = endMoment.clone().add(1, 'days')
-      return startValue.valueOf() > nextDay.valueOf()
+      return startValue.valueOf() > endMoment.endOf('day').valueOf()
     }
     const disabledEndDate = (endValue: Moment) => {
       if (!endValue || !formData.value.startDate) {
         return false
       }
       const startMoment = moment(formData.value.startDate, 'YYYY-MM-DD')
-      return endValue.valueOf() < startMoment.valueOf()
+      return endValue.valueOf() < startMoment.startOf('day').valueOf()
     }
 
     return {
       formData,
       reset,
+      set,
       disabledStartDate,
       disabledEndDate,
     }
