@@ -86,14 +86,14 @@ export default defineComponent({
   setup(props, { emit }) {
     const formData = computed(() => props.modelValue)
 
-    const updataValue = (data?: any) => {
+    const updateValue = (data?: any) => {
       emit('update:modelValue', data || {})
     }
     const query = () => {
       props.queryCallback && props.queryCallback(formData.value)
     }
     const reset = () => {
-      updataValue()
+      updateValue()
       props.resetCallback && props.resetCallback(query)
     }
 
