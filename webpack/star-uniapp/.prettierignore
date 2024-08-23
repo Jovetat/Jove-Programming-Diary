@@ -1,0 +1,37 @@
+# 包
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 打包输出
+dist/
+unpackage/
+.output/
+
+# HBuilderX 相关
+.hbuilderx/
+
+# macOS 相关
+.DS_Store
+
+# 本地配置
+*.local
+
+# 服务器配置
+servers/
+
+# 日志
+logs/
+*.log
+
+# Gradle 相关
+.gradle/
+
+# SonarQube Scanner 相关
+.scannerwork/
+
+# 锁定文件
+yarn.lock

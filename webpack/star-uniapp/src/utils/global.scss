@@ -1,0 +1,17 @@
+// 公共样式
+.displayFlex {
+  display: flex;
+  align-items: center;
+}
+.nutinput {
+  width: 250px;
+  border-radius: 5px;
+  :deep(.nut-input) {
+    padding: 8px 20px !important;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+}
+.greenBorder {
+  border: 1px solid #76c8ac;
+}
