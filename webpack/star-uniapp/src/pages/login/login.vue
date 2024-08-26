@@ -4,29 +4,25 @@
       <view class="form">
         <nut-form ref="ruleForm" :model-value="formData" :rules="rules">
           <nut-form-item prop="code">
-            <view class="displayFlex">
-              <view class="nutinput greenBorder">
-                <nut-input
-                  v-model="formData.code"
-                  type="text"
-                  max-length="12"
-                  :clearable="true"
-                  placeholder="请输入账号"
-                />
-              </view>
+            <view class="nutinput greenBorder">
+              <nut-input
+                v-model="formData.code"
+                type="text"
+                max-length="12"
+                :clearable="true"
+                placeholder="请输入账号"
+              />
             </view>
           </nut-form-item>
           <nut-form-item prop="password">
-            <view class="displayFlex">
-              <view class="nutinput greenBorder">
-                <nut-input
-                  v-model="formData.password"
-                  max-length="15"
-                  type="password"
-                  :clearable="true"
-                  placeholder="请输入密码"
-                />
-              </view>
+            <view class="nutinput greenBorder">
+              <nut-input
+                v-model="formData.password"
+                max-length="15"
+                type="password"
+                :clearable="true"
+                placeholder="请输入密码"
+              />
             </view>
           </nut-form-item>
         </nut-form>
