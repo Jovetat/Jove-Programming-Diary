@@ -6,10 +6,10 @@ const baseUrlObj = {
   prod: 'http://yihe.yixingdianzi.com:8000',
 }
 const updateObj = {
-  dev: '571763077816389',
-  test: '569248867725381',
-  release: '569248773853253',
-  prod: '551563409580101',
+  dev: '',
+  test: '',
+  release: '',
+  prod: '',
 }
 const productionObj = {
   dev: '开发环境',

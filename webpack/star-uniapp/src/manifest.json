@@ -1,9 +1,9 @@
 {
   "name": "example-uniapp",
-  "appid": "",
+  "appid": "__UNI__474192C",
   "description": "",
-  "versionName": "1.0.00",
-  "versionCode": 1000,
+  "versionName": "1.0.01",
+  "versionCode": 1001,
   "transformPx": false,
   "app-plus": {
     "usingComponents": true,
@@ -24,22 +24,7 @@
     },
     "distribute": {
       "android": {
-        "permissions": [
-          "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
-          "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-          "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
-          "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
-          "<uses-permission android:name=\"android.permission.REQUEST_INSTALL_PACKAGES\"/>",
-          "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
-          "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-          "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
-          "<uses-permission android:name=\"android.permission.CAMERA\"/>",
-          "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
-          "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
-          "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-          "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
-          "<uses-feature android:name=\"android.hardware.camera\"/>"
-        ],
+        "permissions": [],
         "orientation": "landscape"
       },
       "ios": {},
@@ -48,7 +33,7 @@
           "umeng": {
             "appkey_ios": "",
             "channelid_ios": "",
-            "appkey_android": "66bb0217cac2a664de8bc573",
+            "appkey_android": "",
             "channelid_android": ""
           }
         }

@@ -12,7 +12,6 @@
                   max-length="12"
                   :clearable="true"
                   placeholder="请输入账号"
-                  cursor-spacing="30"
                 />
               </view>
             </view>
@@ -26,14 +25,12 @@
                   type="password"
                   :clearable="true"
                   placeholder="请输入密码"
-                  cursor-spacing="30"
                 />
               </view>
             </view>
           </nut-form-item>
         </nut-form>
       </view>
-
       <view class="btn-view">
         <nut-button
           type="primary"
@@ -84,9 +81,6 @@ onShow(() => {
       systemInfo.value = {
         appVersion: res?.appWgtVersion || res.appVersion,
       }
-      if (res.platform === 'android') {
-        plus.navigator.setFullscreen(false)
-      }
     },
   })
 })
@@ -109,28 +103,21 @@ const login = async () => {
 
 <style lang="scss" scoped>
 .page {
-  position: relative;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
 }
 .content {
+  height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: center;
-  text-align: center;
+  flex-direction: column;
   align-items: center;
 
   .form {
-    width: 400px;
-    margin-top: 20px;
-
-    &-header {
-      display: flex;
-      align-items: center;
-    }
-
-    &-body {
-      margin-left: 10px;
-    }
+    width: 80%;
+    margin-top: 20vh;
+    display: flex;
+    justify-content: center;
   }
   .btn-view {
     margin-top: 10px;
@@ -143,7 +130,7 @@ const login = async () => {
 
 .bottom {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
+  bottom: 12px;
+  right: 15px;
 }
 </style>

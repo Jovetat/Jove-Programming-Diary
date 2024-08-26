@@ -37,15 +37,9 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
       }),
     ],
     server: {
-      port: 3001,
+      port: 3002,
       open: true,
-      proxy: {
-        // 开发环境
-        '/': {
-          target: 'http://10.0.192.29:19000',
-          changeOrigin: true,
-        },
-      },
+      proxy: {},
     },
     css: {
       preprocessorOptions: {
