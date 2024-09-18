@@ -1,5 +1,6 @@
 import { baseUrl } from './config.ts'
-import { ERROR_CODES } from '@/types/errorCodes.js'
+import { ERROR_CODES } from '@/types/request/errorCodes.js'
+import { HTTP_ERROR_CODES } from '@/types/request/httpErrorCodes.js'
 
 export const SUCCESS_CODE_CONFIG = '000000'
 
@@ -17,7 +18,7 @@ export default {
   // 请求 返回promise
   request(options = {}) {
     options.url = this.common.baseUrl + options.url
-    options.timeout = 30000
+    options.timeout = 15000
     options.header = options.header || this.common.header
     options.header.sessionId = uni.getStorageSync('sessionId')
     options.method = options.method || this.common.method
@@ -51,14 +52,30 @@ export default {
             })
             errorCode.callback && errorCode.callback()
             reject(result.data)
+          } else {
+            uni.showToast({
+              title: '服务器异常',
+              icon: 'none',
+            })
           }
         },
         fail: (error) => {
-          uni.showToast({
-            title: '网络连接失败',
-            icon: 'none',
-          })
-          reject(error)
+          const statusCode = error.statusCode
+          const httpError = HTTP_ERROR_CODES.find(
+            (he) => he.code === statusCode,
+          )
+          if (httpError) {
+            uni.showToast({
+              title: httpError.message,
+              icon: 'none',
+            })
+            httpError.callback && httpError.callback()
+          } else {
+            uni.showToast({
+              title: '网络连接失败',
+              icon: 'none',
+            })
+          }
         },
       })
     })

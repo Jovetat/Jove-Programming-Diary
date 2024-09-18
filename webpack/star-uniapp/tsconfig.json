@@ -17,7 +17,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/utils/weixinPay/index.js",
-    "src/utils/android.ts"
+    "src/utils/tools/android.ts"
   ],
   "exclude": ["node_modules"]
 }

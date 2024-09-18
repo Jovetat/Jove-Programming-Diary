@@ -13,6 +13,13 @@
         "navigationBarTitleText": "首页",
         "navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/barcode/barcode",
+      "style": {
+        "navigationBarTextStyle": "white",
+        "navigationStyle": "custom"
+      }
     }
   ],
   "globalStyle": {

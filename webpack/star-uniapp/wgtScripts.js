@@ -4,17 +4,47 @@ const fs = require('fs')
 const archiver = require('archiver') // 用于压缩文件
 const path = require('path')
 const ftp = require('basic-ftp') // 用于建立 ftp 链接
+const inquirer = require('inquirer') // 用于用户选择
 
-// 获取项目根目录路径
-const projectRoot = path.resolve(__dirname)
-// 定义要执行的命令，打包 uniapp wgt 资源
-const ftpInfo = {
-  host: '116.196.73.177',
-  user: 'homeTest',
-  password: 'Aa123456',
-  secure: false, // 如果使用安全连接，设置为 true
+const branchObj = {
+  dev: {
+    ftpInfo: {
+      host: '116.196.73.177',
+      user: 'homeTest',
+      password: 'Aa123456',
+      secure: false, // 如果使用安全连接，设置为 true
+    },
+    ftpFilePath: '/apks/devApks/',
+  },
+  test: {
+    ftpInfo: {
+      host: '116.196.73.177',
+      user: 'homeTest',
+      password: 'Aa123456',
+      secure: false,
+    },
+    ftpFilePath: '/apks/testApks/',
+  },
+  release: {
+    ftpInfo: {
+      host: '116.196.73.177',
+      user: 'Retirement',
+      password: 'Aa123456',
+      secure: false,
+    },
+    ftpFilePath: '/releaseApks/',
+  },
+  prod: {
+    ftpInfo: {
+      host: '116.196.73.177',
+      user: 'Retirement',
+      password: 'Aa123456',
+      secure: false,
+    },
+    ftpFilePath: '/prodApks/',
+  },
 }
-const ftpFilePath = '/apks/devApks/'
+const projectRoot = path.resolve(__dirname) // 获取项目根目录路径
 
 // 获取版本号
 const getVersionName = () => {
@@ -61,7 +91,10 @@ const compress = (callback) => {
   archive.finalize()
 }
 
-const ftpServer = async (outputPath, outputName) => {
+// 上传服务器
+const ftpServer = async (outputPath, outputName, develop) => {
+  const ftpInfo = branchObj[develop].ftpInfo
+  const ftpFilePath = branchObj[develop].ftpFilePath
   const client = new ftp.Client()
   client.ftp.verbose = true // 开启详细日志
 
@@ -83,19 +116,37 @@ const ftpServer = async (outputPath, outputName) => {
   client.close() // 关闭连接
 }
 
+// 选择环境
+const selectEnvironment = () => {
+  return inquirer.default.prompt([
+    {
+      type: 'list',
+      name: 'environment',
+      message: '请选择要上传的环境:',
+      default: 'dev',
+      choices: ['no', 'dev', 'test', 'release', 'prod'],
+    },
+  ])
+}
+
 const build = () => {
-  const command = 'uni build -p app'
-  // 1. 执行命令
-  exec(command, { cwd: projectRoot }, (error, stdout, stderr) => {
-    // uniapp 打包完成的回调
-    if (error) {
-      console.error(`执行命令时出错: ${error}`)
-      return
-    }
-    // 2. 压缩 wgt 文件
-    compress((outputPath, outputName) => {
-      // 3. 上传服务器
-      ftpServer(outputPath, outputName)
+  selectEnvironment().then((answer) => {
+    const develop = answer.environment
+    const command = 'uni build -p app'
+    // 1. 执行命令
+    exec(command, { cwd: projectRoot }, (error, stdout, stderr) => {
+      // uniapp 打包完成的回调
+      if (error) {
+        console.error(`执行命令时出错: ${error}`)
+        return
+      }
+      // 2. 压缩 wgt 文件
+      compress((outputPath, outputName) => {
+        // 3. 上传服务器
+        if (develop !== 'no') {
+          ftpServer(outputPath, outputName, develop)
+        }
+      })
     })
   })
 }

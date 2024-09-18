@@ -24,10 +24,23 @@
     },
     "distribute": {
       "android": {
-        "permissions": [],
+        "permissions": [
+          "CAMERA",
+          "WRITE_EXTERNAL_STORAGE",
+          "READ_EXTERNAL_STORAGE"
+        ],
         "orientation": "landscape"
       },
-      "ios": {},
+      "ios": {
+        "permissions": {
+          "camera": {
+            "desc": "需要使用相机权限用于扫描二维码"
+          },
+          "photo": {
+            "desc": "需要访问照片库"
+          }
+        }
+      },
       "sdkConfigs": {
         "statics": {
           "umeng": {

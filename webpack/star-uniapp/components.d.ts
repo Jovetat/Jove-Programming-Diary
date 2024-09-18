@@ -9,9 +9,22 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BossTable: typeof import('./src/components/bossTable.vue')['default']
+    Demo: typeof import('./src/components/no-bad-table/demo.vue')['default']
+    Form: typeof import('./src/components/Form/index.vue')['default']
+    FormItem: typeof import('./src/components/Form/formItem.vue')['default']
+    Liusheng22Barcode: typeof import('./src/components/liusheng22-barcode/liusheng22-barcode.vue')['default']
+    Loading: typeof import('./src/components/no-bad-table/loading.vue')['default']
     NutButton: typeof import('nutui-uniapp/components/button/button.vue')['default']
     NutForm: typeof import('nutui-uniapp/components/form/form.vue')['default']
     NutFormItem: typeof import('nutui-uniapp/components/formitem/formitem.vue')['default']
     NutInput: typeof import('nutui-uniapp/components/input/input.vue')['default']
+    OrderTable: typeof import('./src/components/orderTable.vue')['default']
+    PhoneInput: typeof import('./src/components/phoneInput.vue')['default']
+    PopupPlus: typeof import('./src/components/popup-plus.vue')['default']
+    SearchForm: typeof import('./src/components/Form/searchForm.vue')['default']
+    Table: typeof import('./src/components/no-bad-table/table.vue')['default']
+    TimeRange: typeof import('./src/components/Form/timeRange.vue')['default']
+    TimeRangeModel: typeof import('./src/components/Form/timeRangeModel.vue')['default']
   }
 }

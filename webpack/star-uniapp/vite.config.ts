@@ -37,9 +37,11 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
       }),
     ],
     server: {
-      port: 3002,
+      port: 3003,
       open: true,
-      proxy: {},
+      proxy: {
+        '/app': {},
+      },
     },
     css: {
       preprocessorOptions: {
