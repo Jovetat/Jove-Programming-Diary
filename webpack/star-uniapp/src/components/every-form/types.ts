@@ -6,6 +6,8 @@ import Picker from 'nutui-uniapp/components/picker/picker.vue'
 import Rate from 'nutui-uniapp/components/rate/rate.vue'
 import InputNumber from 'nutui-uniapp/components/inputNumber/inputNumber.vue'
 import Switch from 'nutui-uniapp/components/switch/switch.vue'
+import Label from './label.vue'
+import SelectLabel from './selectLabel.vue'
 
 export const components: any = {
   Input,
@@ -16,6 +18,8 @@ export const components: any = {
   Rate,
   InputNumber,
   Switch,
+  Label,
+  SelectLabel,
   Slot: 'Slot', // 插槽
 } as const
 export type ComponentsType = keyof typeof components
