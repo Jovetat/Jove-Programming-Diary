@@ -2,35 +2,16 @@
   <view class="page">
     <view class="content">
       <view class="form">
-        <nut-form ref="ruleForm" :model-value="formData" :rules="rules">
-          <nut-form-item prop="code">
-            <view class="nutinput greenBorder">
-              <nut-input
-                v-model="formData.code"
-                type="text"
-                max-length="12"
-                :clearable="true"
-                placeholder="请输入账号"
-              />
-            </view>
-          </nut-form-item>
-          <nut-form-item prop="password">
-            <view class="nutinput greenBorder">
-              <nut-input
-                v-model="formData.password"
-                max-length="15"
-                type="password"
-                :clearable="true"
-                placeholder="请输入密码"
-              />
-            </view>
-          </nut-form-item>
-        </nut-form>
+        <every-form
+          ref="everyFormRef"
+          v-model="formData"
+          :formOptions="formOptions"
+          :formProps="formProps"
+        />
       </view>
       <view class="btn-view">
         <nut-button
           type="primary"
-          shape="square"
           class="btn"
           :loading="loginLoading"
           @click.stop="loginCheck"
@@ -56,17 +37,43 @@ import WrapVersionUpdate from '@/uni_modules/wrap-version-update/components/wrap
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import { update, versionUrl } from '@/utils/config'
+import everyForm from '@/components/every-form/index.vue'
+import type { FormOption } from '@/components/every-form/types'
 
+const formOptions: FormOption[] = [
+  {
+    type: 'Input',
+    dataIndex: 'code',
+    comProps: {
+      clearable: true,
+      type: 'text',
+      maxLength: 15,
+      placeholder: '请输入账号',
+    },
+    span: 24,
+  },
+  {
+    type: 'Input',
+    dataIndex: 'password',
+    comProps: {
+      clearable: true,
+      maxLength: 20,
+      type: 'password',
+      placeholder: '请输入密码',
+    },
+    span: 24,
+  },
+]
 const rules = {
   code: [{ required: true, message: '请输入账号' }],
   password: [{ required: true, message: '请输入密码' }],
 }
-const ruleForm = ref<any>(null)
+const formProps = { rules }
+const everyFormRef = ref<any>(null)
 const systemInfo = ref<any>(null)
 const isDev = ref<boolean>(false)
 const loginLoading = ref<boolean>(false)
 const formData = ref<any>({
-  serverUrl: '',
   code: '',
   password: '',
 })
@@ -82,7 +89,7 @@ onShow(() => {
 })
 
 const loginCheck = () => {
-  ruleForm.value.validate().then(({ valid, errors }: any) => {
+  everyFormRef.value.submit((valid: boolean, data: any) => {
     if (valid) {
       login()
     }
@@ -111,7 +118,7 @@ const login = async () => {
 
   .form {
     width: 80%;
-    margin-top: 20vh;
+    margin-top: 10vh;
     display: flex;
     justify-content: center;
   }

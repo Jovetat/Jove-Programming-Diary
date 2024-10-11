@@ -3,7 +3,7 @@
     <nut-form
       ref="formRef"
       v-bind="props.formProps"
-      :model="formData"
+      :model-value="formData"
       style="width: 100%"
     >
       <nut-row>
@@ -20,12 +20,13 @@
           ></slot>
           <nut-form-item v-else :prop="item.dataIndex">
             <view class="displayFlex item-block">
-              <view class="blackColor item-lable">{{ item.label }}:</view>
+              <view v-if="item.label" class="blackColor item-lable">
+                {{ item.label }}:
+              </view>
               <view
                 :style="{ ...item.style }"
-                class="item"
                 :class="[
-                  item.type === 'Input' ? 'nutinput-min greenBorder' : '',
+                  item.type === 'Input' ? 'nutinput greenBorder item' : 'item',
                 ]"
               >
                 <formItem
