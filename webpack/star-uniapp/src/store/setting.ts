@@ -16,7 +16,7 @@ export const settingStore = defineStore('setting', {
     async setSelectMenuId(value: number) {
       this.selectedMenuId = value
     },
-    initState() {
+    clearSettingState() {
       this.$reset()
     },
   },
