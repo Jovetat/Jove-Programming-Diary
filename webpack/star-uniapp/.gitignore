@@ -55,3 +55,5 @@ coverage/
 
 # Vue.js build output
 build/
+
+components.d.ts
