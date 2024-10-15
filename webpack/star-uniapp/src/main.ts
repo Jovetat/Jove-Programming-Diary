@@ -1,16 +1,12 @@
-/*
- * @Description:
- * @Author: shuliang
- * @Date: 2022-06-21 15:58:08
- * @LastEditTime: 2022-08-18 17:14:23
- * @LastEditors: shuliang
- */
 import { createSSRApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import directives from '@/directives'
 
 export function createApp() {
   const app = createSSRApp(App)
+  const pinia = createPinia()
+  app.use(pinia)
   app.use(directives)
   uni.getSystemInfo({
     success: function (e: any) {
