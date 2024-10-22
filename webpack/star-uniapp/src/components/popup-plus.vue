@@ -1,11 +1,12 @@
 <template>
-  <nut-popup :visible="props.isShow" :z-index="popupIndex" :custom-style="props.popupStyle" round
-    :close-on-click-overlay="false" class="popup">
-    <view v-if="props.clickCloseIcon" class="close-icon" @click="closePop">
-      <nut-icon name="failure" size="28px" custom-color="#76c8ac" />
+  <view v-if="props.isShow" class="popup-mask">
+    <view class="popup-content" :style="props.popupStyle" @click.stop>
+      <view v-if="props.clickCloseIcon" class="close-icon" @click="closePop">
+        <nut-icon name="failure" size="28px" custom-color="#76c8ac" />
+      </view>
+      <slot></slot>
     </view>
-    <slot></slot>
-  </nut-popup>
+  </view>
 </template>
 
 <script lang="ts">
@@ -16,7 +17,7 @@ export default defineComponent({
     isShow: {
       type: Boolean,
       required: true,
-    }, // 是否展示
+    }, // 指示弹出
     popupStyle: {
       type: Object,
       default: {},
@@ -24,13 +25,16 @@ export default defineComponent({
     clickCloseIcon: {
       type: Function,
     }, // 点击关闭按钮的回调
+    zIndex: {
+      type: Number,
+      default: 100,
+    },
   },
   setup(props) {
     const closePop = () => {
       props.clickCloseIcon && props.clickCloseIcon()
     }
-    const popupIndex = 999
-    return { props, closePop, popupIndex }
+    return { props, closePop }
   },
 })
 </script>
@@ -46,8 +50,23 @@ export default defineComponent({
   align-items: flex-end;
 }
 
-.popup {
+.popup-mask {
   position: fixed;
-  top: calc(50vh + 20px);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 10px 5px;
+  border-radius: 20px;
+  position: fixed;
 }
 </style>
