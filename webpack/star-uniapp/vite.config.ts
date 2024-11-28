@@ -5,6 +5,8 @@ import Components from '@uni-helper/vite-plugin-uni-components'
 import { NutResolver } from 'nutui-uniapp'
 import AutoImport from 'unplugin-auto-import/vite'
 
+const BASE_URL = 'http://10.0.192.29:19000'
+
 const pathResolve = (dir: string): any => {
   return resolve(__dirname, '.', dir)
 }
@@ -40,7 +42,18 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
       port: 3003,
       open: true,
       proxy: {
-        '/app': {},
+        '/app': {
+          target: `${BASE_URL}/app`,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/app/, ''),
+          configure: (proxy, options) => {
+            // 配置此项可在响应头中看到请求的真实地址
+            proxy.on('proxyRes', (proxyRes, req) => {
+              proxyRes.headers['x-real-url'] =
+                new URL(req.url || '', options.target as string)?.href || ''
+            })
+          },
+        },
       },
     },
     css: {
