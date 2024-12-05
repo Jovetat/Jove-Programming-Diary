@@ -1,17 +1,10 @@
-const throttleDirective = {
-  mounted(el, binding) {
-    const { handler, delay = 1500 } = binding.value || {}
-    let lastClickTime = 0
-    el.addEventListener('click', (event) => {
-      const now = Date.now()
-      if (now - lastClickTime >= delay) {
-        // 超过节流时间间隔，执行点击事件处理程序
-        handler(event)
-        lastClickTime = now
-      }
-    })
-  },
-}
+# UniApp 图片懒加载
+
+在 UniApp 中，`<image>` 组件的图片渲染策略是通过子元素div背景图 (`background-image`) 来进行处理，而不是直接修改 `src`。
+
+## 全局自定义指令
+
+```ts
 const lazyDirective = {
   mounted(el, binding) {
     const pic_src = binding.value
@@ -29,7 +22,8 @@ const lazyDirective = {
 
 export default {
   install(app) {
-    app.directive('throttle', throttleDirective)
     app.directive('lazy-load', lazyDirective)
   },
 }
+```
+
