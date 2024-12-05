@@ -27,3 +27,11 @@ export default {
 }
 ```
 
+## 使用方式
+
+```vue
+<image
+  v-lazy-load="https://fastly.picsum.photos/id/340/2000/3000.jpg?hmac=ld6APbTLoweLXmHjqJtxYobjFQBPv_8PwPAngEbdZNw"
+></image>
+```
+
