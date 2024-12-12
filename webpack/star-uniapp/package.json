@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build:wgt": "node wgtScripts.js",
+    "build:web": "node webScripts.mjs",
     "dev:app": "uni -p app",
     "dev:app-android": "uni -p app-android",
     "dev:app-ios": "uni -p app-ios",
