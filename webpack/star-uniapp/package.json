@@ -3,7 +3,7 @@
   "appid": "",
   "description": "",
   "scripts": {
-    "build:wgt": "node wgtScripts.js",
+    "build:wgt": "node wgtScripts.mjs",
     "build:web": "node webScripts.mjs",
     "dev:app": "uni -p app",
     "dev:app-android": "uni -p app-android",

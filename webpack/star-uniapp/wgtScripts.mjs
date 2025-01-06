@@ -1,10 +1,11 @@
-// 脚本执行命令  yarn run build:wgt
-const { exec } = require('child_process')
-const fs = require('fs')
-const archiver = require('archiver') // 用于压缩文件
-const path = require('path')
-const ftp = require('basic-ftp') // 用于建立 ftp 链接
-const inquirer = require('inquirer') // 用于用户选择
+import { exec } from 'child_process'
+import fs from 'fs'
+import archiver from 'archiver'
+import path from 'path'
+import { Client } from 'basic-ftp'
+import inquirer from 'inquirer'
+import { promisify } from 'util'
+import ora from 'ora'
 
 const branchObj = {
   dev: {
@@ -44,31 +45,36 @@ const branchObj = {
     ftpFilePath: '/prodApks/',
   },
 }
-const projectRoot = path.resolve(__dirname) // 获取项目根目录路径
+const projectRoot = path.resolve(path.dirname('')) // 获取项目根目录路径
+const execPromise = promisify(exec)
 
 // 获取版本号
 const getVersionName = () => {
   // 读取 manifest.json 中的版本号
-  const manifestPath = path.resolve(__dirname, 'src/manifest.json')
+  const manifestPath = path.resolve(projectRoot, 'src/manifest.json')
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
   return manifest.versionName
 }
+
 // 将资源文件打压缩包
 const compress = (callback) => {
   const versionName = getVersionName()
   console.log('版本号: ', versionName)
+
+  const compressSpinner = ora('正在打包压缩 wgt 文件...').start()
+
   // 定义要打包的目录和输出的压缩包文件名
-  const outputDirectory = path.resolve(__dirname, 'dist/build/app')
+  const outputDirectory = path.resolve(projectRoot, 'dist/build/app')
   const outputName = `star-site-${versionName}.wgt`
   const outputPath = `dist/${outputName}`
-  const outputZip = path.resolve(__dirname, outputPath)
+  const outputZip = path.resolve(projectRoot, outputPath)
   const output = fs.createWriteStream(outputZip)
   const archive = archiver('zip', {
     zlib: { level: 9 }, // 设置压缩级别
   })
   // 监听所有 archive 数据已写入完成事件
   output.on('close', () => {
-    console.log(`wgt已创建，总共 ${archive.pointer()} 字节`)
+    compressSpinner.succeed(`wgt 已创建，总共 ${archive.pointer()} 字节`)
     callback && callback(outputPath, outputName)
   })
   // 监听压缩过程中出现的警告（例如压缩过程中的可恢复错误）
@@ -95,21 +101,25 @@ const compress = (callback) => {
 const ftpServer = async (outputPath, outputName, develop) => {
   const ftpInfo = branchObj[develop].ftpInfo
   const ftpFilePath = branchObj[develop].ftpFilePath
-  const client = new ftp.Client()
+  const client = new Client()
   client.ftp.verbose = true // 开启详细日志
+
+  const uploadSpinner = ora('正在上传文件至 FTP 服务器...').start()
 
   try {
     // 连接到 FTP 服务器
     await client.access(ftpInfo)
     console.log('FTP 连接成功')
+
     // 指定本地文件路径和远程上传路径
-    const localFilePath = path.resolve(__dirname, outputPath)
+    const localFilePath = path.resolve(projectRoot, outputPath)
     const remoteFilePath = `${ftpFilePath}${outputName}`
 
     // 上传文件
     await client.uploadFrom(localFilePath, remoteFilePath)
-    console.log('文件上传成功')
+    uploadSpinner.succeed('文件上传成功')
   } catch (error) {
+    uploadSpinner.fail('文件上传失败: ' + error)
     console.error('文件上传失败:', error)
   }
 
@@ -118,7 +128,7 @@ const ftpServer = async (outputPath, outputName, develop) => {
 
 // 选择环境
 const selectEnvironment = () => {
-  return inquirer.default.prompt([
+  return inquirer.prompt([
     {
       type: 'list',
       name: 'environment',
@@ -129,25 +139,30 @@ const selectEnvironment = () => {
   ])
 }
 
-const build = () => {
-  selectEnvironment().then((answer) => {
-    const develop = answer.environment
-    const command = 'uni build -p app'
-    // 1. 执行命令
-    exec(command, { cwd: projectRoot }, (error, stdout, stderr) => {
-      // uniapp 打包完成的回调
-      if (error) {
-        console.error(`执行命令时出错: ${error}`)
-        return
+const build = async () => {
+  const answer = await selectEnvironment()
+  const develop = answer.environment
+  const command = 'uni build -p app'
+
+  // 显示打包 loading
+  const buildSpinner = ora('正在打包项目...').start()
+
+  // 1. 执行命令
+  try {
+    await execPromise(command, { cwd: projectRoot })
+    buildSpinner.succeed('项目打包完成')
+
+    // 2. 压缩 wgt 文件
+    compress((outputPath, outputName) => {
+      // 3. 上传服务器
+      if (develop !== 'no') {
+        ftpServer(outputPath, outputName, develop)
       }
-      // 2. 压缩 wgt 文件
-      compress((outputPath, outputName) => {
-        // 3. 上传服务器
-        if (develop !== 'no') {
-          ftpServer(outputPath, outputName, develop)
-        }
-      })
     })
-  })
+  } catch (error) {
+    buildSpinner.fail(`执行命令时出错: ${error}`)
+    console.error(`执行命令时出错: ${error}`)
+  }
 }
+
 build()
