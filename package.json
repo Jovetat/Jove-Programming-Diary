@@ -1,3 +1,8 @@
 {
-    "备注": "此文件单纯为了 Vuter 不再弹出无项目配置文件的提示"
+  "备注": "vitepress-docs项目配置",
+  "scripts": {
+    "docs:dev": "vitepress dev vitepress-docs",
+    "docs:build": "vitepress build vitepress-docs",
+    "docs:preview": "vitepress preview vitepress-docs"
+  }
 }
