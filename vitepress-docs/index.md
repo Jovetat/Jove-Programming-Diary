@@ -6,19 +6,17 @@ hero:
   name: 'Jove的学习日记'
   text: '日常记录，保持学习'
   tagline: 一个前端的记录与分享
+  image: ../public/background.png
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: 开发笔记
+      link: /docs/component/vue 双向绑定数据的时间范围组件
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 组件
+    details: uniapp&vue ui 库的二次开发与封装
+  - title: 函数
+    details: 常用函数与工具函数
+  - title: js 脚本
+    details: 快速部署、快速打包等效率脚本，导出 Excel 等功能脚本
 ---
