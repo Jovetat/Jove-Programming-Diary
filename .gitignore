@@ -24,3 +24,5 @@ yarn-error.log*
 Thumbs.db
 
 vitepress-docs/.vitepress/cache/
+
+.vscode
