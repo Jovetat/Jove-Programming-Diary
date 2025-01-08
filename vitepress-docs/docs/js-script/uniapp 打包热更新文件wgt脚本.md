@@ -19,7 +19,7 @@ yarn add ora
 }
 ```
 
-**wgtScripts.mjs**
+## wgtScripts.mjs
 
 ```js
 import { exec } from 'child_process'

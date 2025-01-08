@@ -6,7 +6,7 @@
 
 ## 实现步骤
 
-## 1. **定义一个抽象类来复用共用部分状态**
+### 1. **定义一个抽象类来复用共用部分状态**
 
 ```typescript
 import { defineStore } from 'pinia'
@@ -50,7 +50,7 @@ export default abstract class BaseOrderStore {
 }
 ```
 
-## 2. **在子类中继承并构造 Pinia 对象，添加自身特定的状态和方法**
+### 2. **在子类中继承并构造 Pinia 对象，添加自身特定的状态和方法**
 
 ```typescript
 import BaseOrderStore from './BaseOrderStore'

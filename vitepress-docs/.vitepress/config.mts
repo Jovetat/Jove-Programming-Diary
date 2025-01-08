@@ -8,6 +8,8 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '../public/logo.png',
+    outlineTitle: '文章目录',
+    outline: [2, 6], // 侧边栏显示的层级
     nav: [
       { text: '首页', link: '/' },
       {

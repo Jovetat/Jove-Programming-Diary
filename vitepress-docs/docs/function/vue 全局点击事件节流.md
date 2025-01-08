@@ -7,7 +7,7 @@
 2. 排除特定元素：
 
    `input` 输入框不受节流限制。
-   
+
    含有 `no-throttle` 属性的元素不受节流限制。
 
 ## 封装全局节流监听器
@@ -59,7 +59,7 @@ export const initGlobalThrottleClick = (delay: number = 1000) => {
 }
 ```
 
-## 2在项目入口文件中注册全局节流
+## 在项目入口文件中注册全局节流
 
 在 `main.ts` 中引入工具函数，调用初始化方法。
 
@@ -77,7 +77,7 @@ initGlobalThrottleClick(1000)
 app.mount('#app')
 ```
 
-##  示例代码
+## 示例代码
 
 ```html
 <template>
