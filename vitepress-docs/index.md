@@ -6,7 +6,7 @@ hero:
   name: 'Jove的学习日记'
   text: '日常记录，保持学习'
   tagline: 一个前端的记录与分享
-  image: ../public/background.png
+  image: /background.png
   actions:
     - theme: brand
       text: 开发笔记

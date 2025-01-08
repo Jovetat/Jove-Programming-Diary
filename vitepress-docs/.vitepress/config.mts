@@ -10,13 +10,13 @@ export default defineConfig({
       'link',
       {
         rel: 'icon',
-        href: '../public/logo.png',
+        href: '/logo.png',
       },
     ],
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: '../public/logo.png',
+    logo: '/logo.png',
     outlineTitle: '文章目录',
     outline: [2, 6], // 侧边栏显示的层级
     nav: [
