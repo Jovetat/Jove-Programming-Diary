@@ -5,6 +5,15 @@ import { set_sidebar } from '../utils/auto_sidebar'
 export default defineConfig({
   title: 'Jove docs',
   description: "Jove's daily learning record",
+  head: [
+    [
+      'link',
+      {
+        rel: 'icon',
+        href: '../public/logo.png',
+      },
+    ],
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '../public/logo.png',
