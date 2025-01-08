@@ -5,7 +5,6 @@ import { set_sidebar } from '../utils/auto_sidebar'
 export default defineConfig({
   title: 'Jove docs',
   description: "Jove's daily learning record",
-  base: './',
   head: [
     [
       'link',
