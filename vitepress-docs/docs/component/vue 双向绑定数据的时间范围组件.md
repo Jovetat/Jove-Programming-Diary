@@ -2,6 +2,12 @@
 
 说明: 通过 antd 二次开发(web 端)
 
+## 依赖
+
+```
+npm install moment @ant-design/icons-vue
+```
+
 ## 组件
 
 `timeRange.vue`
