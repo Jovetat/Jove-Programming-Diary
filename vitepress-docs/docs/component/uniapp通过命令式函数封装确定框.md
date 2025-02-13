@@ -181,7 +181,7 @@ export function configDialog(
 }
 ```
 
-### 生成组件`config`
+### 被生成组件`config`
 
 ```vue
 <template>
@@ -279,7 +279,7 @@ export default defineComponent({
     })
 
     const cancel = () => {
-      props.cancelCallback()
+      props.cancelCallback && props.cancelCallback()
       closePopup()
     }
 
@@ -293,7 +293,6 @@ export default defineComponent({
               padding: '10px',
             },
           },
-          confirmAgainRef,
           executeConfirmAction,
         )
         return
@@ -304,18 +303,16 @@ export default defineComponent({
     const executeConfirmAction = () => {
       if (options.value.isLoading) {
         loading.value = true
-        props.configCallback()
+        props.configCallback && props.configCallback()
       } else {
-        props.configCallback()
+        props.configCallback && props.configCallback()
         closePopup()
       }
     }
 
     const closePopup = () => {
       isShow.value = false
-      setTimeout(() => {
-        props.destroy()
-      }, 500) // 延迟销毁
+      props.destroy()
     }
 
     return {
@@ -338,5 +335,149 @@ export default defineComponent({
   white-space: pre-line;
 }
 </style>
+```
+
+## 优化
+
+### 前提条件
+**项目必须存在统一的 Layout 组件**
+所有页面需继承自同一个基础 Layout 组件
+
+###  优化核心思路
+
+1. 通过应用框架层`统一管理弹窗容器`
+2. 在全局布局文件中`预置挂载节点`
+3. 应用启动时注册全局引用
+4. 自动选择容器进行挂载
+
+
+### Layout 层设置
+
+```html
+<!-- /layouts/layout.vue -->
+<template>
+  <!-- 主内容 -->
+  <slot />
+  <!-- 弹窗挂载点 -->
+  <view ref="globalDialogContainer"></view>
+  <view ref="globalDialogContainer2"></view>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { setGlobalDialogRef } from '@/components/configModelFun'
+
+// 初始化全局容器
+const globalDialogContainer = ref(null)
+const globalDialogContainer2 = ref(null)
+
+onMounted(() => {
+  setGlobalDialogRef(globalDialogContainer, globalDialogContainer2)
+})
+</script>
+```
+
+### 核心代码变更对比
+
+| 变更点         | 旧版本                | 新版本                         |
+| :------------- | :-------------------- | :----------------------------- |
+| **函数参数**   | 需显式传递 `mountRef` | 移除 `mountRef` 参数           |
+| **挂载逻辑**   | 直接使用传入的 ref    | 根据弹窗类型选择全局容器       |
+| **初始化方式** | 无全局注册            | 通过 `setGlobalDialogRef` 注册 |
+
+ ### 调用简化
+
+**旧方式：**
+
+```ts
+configDialog(options, this.$refs.dialogRef, callback)
+```
+
+**新方式：**
+
+```ts
+configDialog(options, callback) // 无需传递 ref
+```
+
+### 更改后核心代码
+
+```ts
+import { createApp, defineComponent, h } from 'vue'
+import config from './config.vue'
+
+let globalModelRef: any = null
+let globalModelRef2: any = null
+
+export function setGlobalDialogRef(ref1: any, ref2: any) {
+  globalModelRef = ref1
+  globalModelRef2 = ref2
+}
+
+interface Options {
+  msg: string // 提示信息
+  isLoading?: boolean // 是否显示loading
+  confirmAgain?: string // 是否再次确认
+  configText?: string // 确认按钮文字
+  cancelText?: string // 取消按钮文字
+  style?: any // 自定义样式
+}
+
+/**
+ * @description 生成一个确认弹窗，支持异步加载状态和二次确认功能
+ * @param {Options | string} options - 弹窗配置对象，或者直接传入字符串作为 `msg` 提示信息
+ *   @property {string} msg - 必填，弹窗提示信息
+ *   @property {boolean} [isLoading=false] - 选填，点击确认后按钮是否进入 loading 状态，isLoading开启时，必须根据return主动关闭弹窗
+ *   @property {string} [confirmAgain=false] - 选填，是否需要二次确认，默认 false
+ *   @property {string} [configText='确定'] - 选填，确认按钮文字，默认“确定”
+ *   @property {string} [cancelText='取消'] - 选填，取消按钮文字，默认“取消”
+ *   @property {any} [style] - 选填，自定义弹窗样式
+ * @param {Function} [configCallback] - 选填，点击“确认”按钮时执行的回调函数
+ * @param {Function} [cancelCallback] - 选填，点击“取消”按钮时执行的回调函数
+ * @returns {Function} - 返回一个 `destroy` 方法，可手动调用以销毁弹窗
+ */
+export function configDialog(
+  options: Options | string,
+  configCallback?: Function,
+  cancelCallback?: Function,
+) {
+  const popupApp = createApp(
+    defineComponent({
+      render() {
+        return h(config, {
+          options,
+          configCallback,
+          cancelCallback,
+          destroy: this.destroy,
+        })
+      },
+      methods: {
+        destroy() {
+          destroyApp()
+        },
+      },
+    }),
+  )
+
+  const systemInfo = uni.getSystemInfoSync()
+  const isConfirmAgain = typeof options === 'object' && options.confirmAgain
+
+  if (systemInfo.uniPlatform === 'web') {
+    const div = document.createElement('div')
+    document.body.appendChild(div)
+    popupApp.mount(div)
+  } else {
+    // 使得二次确认和首次渲染在不同 ref 上
+    popupApp.mount(
+      isConfirmAgain ? globalModelRef.value : globalModelRef2.value,
+    )
+  }
+
+  // 销毁实例
+  const destroyApp = () => {
+    popupApp.unmount()
+  }
+
+  return destroyApp
+}
 ```
 
