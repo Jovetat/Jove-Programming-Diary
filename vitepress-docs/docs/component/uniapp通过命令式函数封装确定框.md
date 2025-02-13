@@ -122,6 +122,7 @@ interface Options {
   confirmAgain?: string // 是否再次确认
   configText?: string // 确认按钮文字
   cancelText?: string // 取消按钮文字
+  title?: string // 弹窗标题
   style?: any // 自定义样式
 }
 
@@ -133,6 +134,7 @@ interface Options {
  *   @property {string} [confirmAgain=false] - 选填，是否需要二次确认，默认 false
  *   @property {string} [configText='确定'] - 选填，确认按钮文字，默认“确定”
  *   @property {string} [cancelText='取消'] - 选填，取消按钮文字，默认“取消”
+ *   @property {string} [title=false] - 选填，弹窗标题，默认不显示标题
  *   @property {any} [style] - 选填，自定义弹窗样式
  * @param {any} mountRef - 需要挂载弹窗的目标 `ref`（需传入一个 `ref` 对象）
  * @param {Function} [configCallback] - 选填，点击“确认”按钮时执行的回调函数
@@ -186,6 +188,7 @@ export function configDialog(
 ```vue
 <template>
   <popupPlus :isShow="isShow" :popupStyle="options.style">
+    <view v-if="options.title" class="header">{{ options.title }}</view>
     <view class="content">{{ options.msg }}</view>
     <view class="bottom">
       <view class="btn-view" style="width: 70%">
@@ -221,6 +224,7 @@ interface Options {
   confirmAgain?: string // 是否再次确认
   configText?: string // 确认按钮文字
   cancelText?: string // 取消按钮文字
+  title?: string // 弹窗标题
   style?: any // 自定义样式
 }
 
@@ -265,6 +269,7 @@ export default defineComponent({
           confirmAgain: '',
           configText: '确定',
           cancelText: '取消',
+          title: '',
           style: popupStyle,
         }
       }
@@ -274,6 +279,7 @@ export default defineComponent({
         confirmAgain: props.options.confirmAgain ?? '',
         configText: props.options.configText ?? '确定',
         cancelText: props.options.cancelText ?? '取消',
+        title: props.options.title ?? '',
         style: props.options.style ?? popupStyle,
       }
     })
@@ -328,6 +334,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+  white-space: pre-line;
+}
 .content {
   padding: 20px 10px 30px 10px;
   text-align: center;
@@ -419,6 +433,7 @@ interface Options {
   confirmAgain?: string // 是否再次确认
   configText?: string // 确认按钮文字
   cancelText?: string // 取消按钮文字
+  title?: string // 弹窗标题
   style?: any // 自定义样式
 }
 
@@ -430,6 +445,7 @@ interface Options {
  *   @property {string} [confirmAgain=false] - 选填，是否需要二次确认，默认 false
  *   @property {string} [configText='确定'] - 选填，确认按钮文字，默认“确定”
  *   @property {string} [cancelText='取消'] - 选填，取消按钮文字，默认“取消”
+ *   @property {string} [title=false] - 选填，弹窗标题，默认不显示标题
  *   @property {any} [style] - 选填，自定义弹窗样式
  * @param {Function} [configCallback] - 选填，点击“确认”按钮时执行的回调函数
  * @param {Function} [cancelCallback] - 选填，点击“取消”按钮时执行的回调函数
