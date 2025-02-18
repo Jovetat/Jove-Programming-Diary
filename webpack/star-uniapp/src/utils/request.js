@@ -1,6 +1,6 @@
 import { baseUrl } from './config.ts'
-import { ERROR_CODES } from '@/types/request/errorCodes.js'
-import { HTTP_ERROR_CODES } from '@/types/request/httpErrorCodes.js'
+import { ERROR_CODES } from '@/types/request/errorCodes.ts'
+import { HTTP_ERROR_CODES } from '@/types/request/httpErrorCodes.ts'
 
 export const SUCCESS_CODE_CONFIG = '000000'
 
