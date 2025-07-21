@@ -1,5 +1,6 @@
 import Input from 'nutui-uniapp/components/input/input.vue'
 import CheckboxGroup from './every-checkGroup.vue'
+import RadioGroup from './radioGroup.vue'
 import DatePicker from 'nutui-uniapp/components/datePicker/datePicker.vue'
 import Radio from 'nutui-uniapp/components/radio/radio.vue'
 import Picker from 'nutui-uniapp/components/picker/picker.vue'
@@ -12,6 +13,7 @@ import SelectLabel from './selectLabel.vue'
 export const components: any = {
   Input,
   CheckboxGroup,
+  RadioGroup,
   DatePicker,
   Radio,
   Picker,
@@ -38,4 +40,11 @@ export interface FormOption {
 export interface CheckboxOption {
   label: string // 文本
   value: string // 值
+  comProps?: object // checkbox项透传属性
+}
+
+export interface RadioOption {
+  label: string // 文本
+  value: string // 值
+  comProps?: object // radio项透传属性
 }
