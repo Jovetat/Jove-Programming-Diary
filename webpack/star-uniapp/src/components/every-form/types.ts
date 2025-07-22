@@ -7,6 +7,7 @@ import Picker from 'nutui-uniapp/components/picker/picker.vue'
 import Rate from 'nutui-uniapp/components/rate/rate.vue'
 import InputNumber from 'nutui-uniapp/components/inputNumber/inputNumber.vue'
 import Switch from 'nutui-uniapp/components/switch/switch.vue'
+import Uploader from 'nutui-uniapp/components/uploader/uploader.vue'
 import Label from './label.vue'
 import SelectLabel from './selectLabel.vue'
 
@@ -17,6 +18,7 @@ export const components: any = {
   DatePicker,
   Radio,
   Picker,
+  Uploader,
   Rate,
   InputNumber,
   Switch,
