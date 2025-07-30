@@ -10,6 +10,7 @@ import Switch from 'nutui-uniapp/components/switch/switch.vue'
 import Uploader from 'nutui-uniapp/components/uploader/uploader.vue'
 import Label from './label.vue'
 import SelectLabel from './selectLabel.vue'
+import ImageUploader from './imageUploader.vue'
 
 export const components: any = {
   Input,
@@ -24,6 +25,7 @@ export const components: any = {
   Switch,
   Label,
   SelectLabel,
+  ImageUploader,
   Slot: 'Slot', // 插槽
 } as const
 export type ComponentsType = keyof typeof components
