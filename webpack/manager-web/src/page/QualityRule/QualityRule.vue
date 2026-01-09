@@ -1,5 +1,5 @@
 <template>
-  <div />
+  <div>质检规则信息</div>
 </template>
 
 <script setup lang="ts"></script>

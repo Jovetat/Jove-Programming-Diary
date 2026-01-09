@@ -10,6 +10,16 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {
@@ -31,6 +41,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         format: 'es',
+      },
+    },
+    terserOptions: {
+      compress: {
+        //生产环境时移除console&debugger
+        drop_console: true,
+        drop_debugger: true,
       },
     },
   },

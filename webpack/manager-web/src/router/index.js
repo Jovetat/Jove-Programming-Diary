@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/quality-rule',
     name: 'QualityRule',
-    component: () => import('@/page/QualityRule.vue'),
+    component: () => import('@/page/QualityRule/QualityRule.vue'),
   },
 ];
 
