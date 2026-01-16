@@ -1,0 +1,245 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.segments-container {
+    max-height: 400px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.segment {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.segment:hover {
+    background-color: #e9ecef;
+}
+
+.segment.active {
+    background-color: #d1e7ff;
+}
+
+.segment-time {
+    font-size: 0.85em;
+    color: #6c757d;
+    font-family: 'Courier New', monospace;
+    min-width: 80px;
+}
+
+.segment-role {
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}
+
+.segment-role.customer_service {
+    color: #0d6efd; /* Blue for 坐席 */
+}
+
+.segment-role.visitor {
+    color: #dc3545; /* Red for 客户 */
+}
+
+.segment-text {
+    flex: 1;
+    line-height: 1.4;
+}
+
+/* Audio player styling */
+audio {
+    outline: none;
+    width: 100%;
+}
+
+audio::-webkit-media-controls-panel {
+    background-color: #f8f9fa;
+}
+
+/* Scrollbar styling */
+.segments-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.segments-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.segments-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.segments-container::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Classification results */
+.classification-result p {
+    margin-bottom: 0.25rem;
+}
+
+/* Evaluation tab styles */
+#evalResultContainer {
+    margin-top: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+/* Transcript segment styles */
+.segment {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.segment:hover {
+    background-color: #e9ecef;
+}
+
+.time {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    min-width: 70px;
+    margin-right: 15px;
+    color: #6c757d;
+}
+
+.role {
+    font-weight: bold;
+    min-width: 50px;
+    margin-right: 15px;
+}
+
+.agent {
+    color: #0d6efd;
+}
+
+.customer {
+    color: #dc3545;
+}
+
+.text {
+    flex: 1;
+}
+
+.classification-result {
+    font-size: 1.1em;
+}
+
+/* File Browser Tab Styles */
+#fileTable {
+    font-size: 0.95em;
+}
+
+#fileTable th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#fileTable th.sortable {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 25px;
+}
+
+#fileTable th.sortable:hover {
+    background-color: #e9ecef;
+}
+
+#fileTable th .sort-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.3;
+}
+
+#fileTable th .sort-icon::after {
+    content: '⇅';
+    font-size: 0.8em;
+}
+
+#fileTable th.sort-asc .sort-icon::after {
+    content: '↑';
+    opacity: 1;
+}
+
+#fileTable th.sort-desc .sort-icon::after {
+    content: '↓';
+    opacity: 1;
+}
+
+#fileTable td {
+    vertical-align: middle;
+}
+
+#fileTable .btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+#fileStatistics {
+    margin-bottom: 20px;
+}
+
+#fileStatistics h6 {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.month-stat {
+    margin-bottom: 8px;
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.month-stat strong {
+    color: #0d6efd;
+}
+
+.total-stat {
+    font-weight: bold;
+    padding: 8px 10px;
+    background-color: #d1ecf1;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination .page-link {
+    cursor: pointer;
+}

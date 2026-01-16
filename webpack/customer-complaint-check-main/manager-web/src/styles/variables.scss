@@ -1,0 +1,64 @@
+// ==================== 主题色 ====================
+$primary-color: #2d8cf0; // 主题蓝色
+$success-color: #52c41a;
+$warning-color: #faad14;
+$error-color: #f5222d;
+$info-color: #2d8cf0;
+
+// ==================== 文本颜色 ====================
+$text-color-primary: #333; // 主要文本、标题
+$text-color-secondary: #666; // 次要文本
+$text-color-tertiary: #999; // 辅助文本、提示文字
+$text-color-dark: #2c3e50; // 深色文本（标签）
+$text-color-light: #9ea7b4; // 浅灰色文本（版权信息）
+$text-color-white: #fff; // 白色文本
+$text-color-error: red; // 错误提示、必填标记
+
+// ==================== 背景颜色 ====================
+$bg-color-white: #fff; // 白色背景（内容区、卡片）
+$bg-color-light: #f5f7f9; // 浅灰背景（页面底色）
+$bg-color-black: #000; // 黑色背景（Loading 遮罩）
+$bg-color-mask: rgba(0, 0, 0, 0.8); // 遮罩背景
+
+// ==================== 边框颜色 ====================
+$border-color-base: #d7dde4; // 边框色
+$border-color-light-alt: #e9eaec; // 浅边框色
+$border-color-dashed: #ddd; // 虚线边框
+
+// ==================== 字体大小 ====================
+$font-size-12: 12px; // 表格内容、字段值、小号文本
+$font-size-13: 13px; // 表格数据（最常用的表格字号）
+$font-size-14: 14px; // 正文内容、详情描述、按钮文字
+$font-size-16: 16px; // 标题、卡片标题、页面标题、Tab 标签
+$font-size-20: 20px; // 图标尺寸（菜单图标）
+
+// ==================== 圆角 ====================
+$border-radius-3: 3px; // 小圆角（头部区域）
+$border-radius-4: 4px; // 标准圆角（卡片、按钮、输入框、容器）
+$border-radius-6: 6px; // 中等圆角（卡片、联系人行）
+$border-radius-10: 10px; // 滚动条圆角
+
+// ==================== 内边距 (Padding) ====================
+$padding-8: 8px; // 小内边距（按钮、卡片内容）
+$padding-10: 10px; // 标准小内边距（内容区、卡片）
+$padding-15: 15px; // 中等内边距（内容区、表格容器、区块）
+$padding-20: 20px; // 大内边距（页面容器、表单区域、按钮）
+
+// ==================== 外边距 (Margin) ====================
+$margin-5: 5px; // 极小外边距
+$margin-8: 8px; // 小外边距（元素间距、按钮间距）
+$margin-10: 10px; // 标准外边距（列表项、下拉菜单）
+$margin-15: 15px; // 中等外边距（内容区、导航）
+$margin-16: 16px; // 表格分页外边距（上方）
+$margin-20: 20px; // 大外边距（区块间距、页面内边距）
+
+// ==================== 通用间距 (Spacing) ====================
+$spacing-xs: 8px;
+$spacing-sm: 10px;
+$spacing-md: 15px;
+$spacing-lg: 20px;
+$spacing-xl: 32px;
+
+// ==================== 阴影 ====================
+$box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15);
+$box-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.03);
