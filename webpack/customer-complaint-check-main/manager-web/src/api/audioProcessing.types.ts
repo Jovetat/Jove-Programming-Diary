@@ -34,21 +34,6 @@ export interface AudioProcessRequest {
   audio_url: string;
 }
 
-export interface TagOptions {
-  complaint: Record<string, string[]>;
-  appeal: Record<string, string[]>;
-  solution: Record<string, string[]>;
-  reconciliation: Record<string, string[]>;
-  appeal_second_third_intent_map: Record<string, string[]>;
-  solution_second_third_intent_map: Record<string, string[]>;
-  complaint_second_third_intent_map: Record<string, string[]>;
-}
-
-export interface TagOptionsResponse {
-  success: boolean;
-  options: TagOptions;
-}
-
 export interface ProcessAudioForCorrectionResponse {
   success: boolean;
   dialogue_segments: DialogueSegment[];

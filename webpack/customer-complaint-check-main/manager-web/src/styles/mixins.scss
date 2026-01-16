@@ -1,7 +1,274 @@
-// SCSS mixins 文件
-// 可以在这里定义全局 mixins,例如:
-// @mixin flex-center {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
+@import './variables.scss';
+
+// ==================== Flexbox 布局 ====================
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// ==================== 文本处理 ====================
+@mixin text-ellipsis($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@mixin text-gradient($start-color, $end-color, $angle: 90deg) {
+  background: linear-gradient($angle, $start-color, $end-color);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// ==================== 阴影效果 ====================
+@mixin shadow-sm {
+  box-shadow: 0 1px 2px 0 $shadow-light, 0 1px 3px 0 $shadow-medium;
+}
+
+@mixin shadow-md {
+  box-shadow: 0 4px 6px -1px $shadow-medium, 0 2px 4px -1px $shadow-light;
+}
+
+@mixin shadow-lg {
+  box-shadow: 0 10px 15px -3px $shadow-medium, 0 4px 6px -2px $shadow-light;
+}
+
+@mixin shadow-xl {
+  box-shadow: 0 20px 25px -5px $shadow-medium, 0 10px 10px -5px $shadow-light;
+}
+
+@mixin shadow-inner {
+  box-shadow: inset 0 2px 4px 0 $shadow-medium;
+}
+
+// ==================== 悬停效果 ====================
+@mixin hover-lift {
+  transition: transform $duration-base $ease-out, box-shadow $duration-base $ease-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    @include shadow-lg;
+  }
+
+  &:active {
+    transform: translateY(0);
+    @include shadow-md;
+  }
+}
+
+@mixin hover-scale($scale: 1.05) {
+  transition: transform $duration-base $ease-out;
+
+  &:hover {
+    transform: scale($scale);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@mixin hover-glow($color: $primary-color) {
+  transition: box-shadow $duration-base $ease-out;
+
+  &:hover {
+    box-shadow: 0 0 20px rgba($color, 0.4);
+  }
+}
+
+// ==================== 渐变背景 ====================
+@mixin gradient-primary {
+  background: linear-gradient(135deg, $primary-color 0%, $primary-hover 100%);
+}
+
+@mixin gradient-success {
+  background: linear-gradient(135deg, $success-color 0%, #73d13d 100%);
+}
+
+@mixin gradient-warning {
+  background: linear-gradient(135deg, $warning-color 0%, #ffc53d 100%);
+}
+
+@mixin gradient-error {
+  background: linear-gradient(135deg, $error-color 0%, #ff7875 100%);
+}
+
+// ==================== 玻璃态效果 ====================
+@mixin glass-effect($blur: 10px, $opacity: 0.8) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@mixin glass-dark($blur: 10px, $opacity: 0.7) {
+  background: rgba(0, 0, 0, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// ==================== 响应式断点 ====================
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: $breakpoint-xs) { @content; }
+  } @else if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  } @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  } @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  } @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  } @else if $breakpoint == xxl {
+    @media (min-width: $breakpoint-xxl) { @content; }
+  }
+}
+
+// ==================== 滚动条样式 ====================
+@mixin custom-scrollbar($width: 8px, $track-color: $bg-tertiary, $thumb-color: $border-color) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+    border-radius: $radius-sm;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $radius-sm;
+
+    &:hover {
+      background: darken($thumb-color, 10%);
+    }
+  }
+}
+
+// ==================== 动画关键帧 ====================
+@mixin fade-in($duration: $duration-base) {
+  animation: fadeIn $duration $ease-out;
+}
+
+@mixin slide-in-up($duration: $duration-base) {
+  animation: slideInUp $duration $ease-out;
+}
+
+@mixin slide-in-down($duration: $duration-base) {
+  animation: slideInDown $duration $ease-out;
+}
+
+@mixin slide-in-left($duration: $duration-base) {
+  animation: slideInLeft $duration $ease-out;
+}
+
+@mixin slide-in-right($duration: $duration-base) {
+  animation: slideInRight $duration $ease-out;
+}
+
+@mixin scale-in($duration: $duration-base) {
+  animation: scaleIn $duration $ease-bounce;
+}
+
+@mixin rotate-in($duration: $duration-base) {
+  animation: rotateIn $duration $ease-out;
+}
+
+// ==================== 加载动画 ====================
+@mixin pulse($duration: 2s) {
+  animation: pulse $duration $ease-in-out infinite;
+}
+
+@mixin shimmer {
+  background: linear-gradient(90deg, $bg-tertiary 25%, $bg-secondary 50%, $bg-tertiary 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+// ==================== 卡片样式 ====================
+@mixin card-base {
+  background: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  @include shadow-sm;
+  transition: all $duration-base $ease-out;
+}
+
+@mixin card-hover {
+  @include card-base;
+
+  &:hover {
+    @include shadow-md;
+    transform: translateY(-2px);
+  }
+}
+
+// ==================== 按钮效果 ====================
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-weight: $font-weight-medium;
+  transition: all $duration-base $ease-out;
+  cursor: pointer;
+  user-select: none;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ==================== 输入框效果 ====================
+@mixin input-focus($color: $primary-color) {
+  transition: all $duration-base $ease-out;
+
+  &:focus {
+    outline: none;
+    border-color: $color;
+    box-shadow: 0 0 0 2px rgba($color, 0.1);
+  }
+}

@@ -4,7 +4,6 @@ import type {
   DialogueSegment,
   ClassificationResult,
   ReconciliationResult,
-  TagOptions,
 } from '@/api/audioProcessing.types';
 
 export const useAudioProcessingStore = defineStore('audioProcessing', () => {
@@ -15,7 +14,6 @@ export const useAudioProcessingStore = defineStore('audioProcessing', () => {
   const appealResult = ref<ClassificationResult | null>(null);
   const solutionResult = ref<ClassificationResult | null>(null);
   const reconciliationResult = ref<ReconciliationResult | null>(null);
-  const tagOptions = ref<TagOptions | null>(null);
   const loading = ref<boolean>(false);
   const error = ref<string>('');
   const activeSegmentIndex = ref<number>(-1);
@@ -38,10 +36,6 @@ export const useAudioProcessingStore = defineStore('audioProcessing', () => {
     appealResult.value = data.appeal;
     solutionResult.value = data.solution;
     reconciliationResult.value = data.reconciliation;
-  }
-
-  function setTagOptions(options: TagOptions) {
-    tagOptions.value = options;
   }
 
   function setLoading(value: boolean) {
@@ -76,13 +70,11 @@ export const useAudioProcessingStore = defineStore('audioProcessing', () => {
     appealResult,
     solutionResult,
     reconciliationResult,
-    tagOptions,
     loading,
     error,
     activeSegmentIndex,
     setAudioUrl,
     setProcessingResults,
-    setTagOptions,
     setLoading,
     setError,
     setActiveSegmentIndex,

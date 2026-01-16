@@ -1,0 +1,337 @@
+@import './variables.scss';
+@import './mixins.scss';
+@import './animations.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: $font-family;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+  color: $text-primary;
+  background-color: $bg-secondary;
+  @include custom-scrollbar;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $duration-base $ease-out;
+
+  &:hover {
+    color: $primary-hover;
+  }
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: $text-primary;
+}
+
+h1 {
+  font-size: $font-size-xxxl;
+}
+
+h2 {
+  font-size: $font-size-xxl;
+}
+
+h3 {
+  font-size: $font-size-xl;
+}
+
+h4 {
+  font-size: $font-size-lg;
+}
+
+h5 {
+  font-size: $font-size-base;
+}
+
+h6 {
+  font-size: $font-size-sm;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+
+  @include respond-to(sm) {
+    max-width: $container-sm;
+  }
+
+  @include respond-to(md) {
+    max-width: $container-md;
+  }
+
+  @include respond-to(lg) {
+    max-width: $container-lg;
+  }
+
+  @include respond-to(xl) {
+    max-width: $container-xl;
+  }
+
+  @include respond-to(xxl) {
+    max-width: $container-xxl;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-primary {
+  color: $primary-color;
+}
+
+.text-success {
+  color: $success-color;
+}
+
+.text-warning {
+  color: $warning-color;
+}
+
+.text-error {
+  color: $error-color;
+}
+
+.text-secondary {
+  color: $text-secondary;
+}
+
+.text-tertiary {
+  color: $text-tertiary;
+}
+
+.bg-primary {
+  background-color: $bg-primary;
+}
+
+.bg-secondary {
+  background-color: $bg-secondary;
+}
+
+.bg-tertiary {
+  background-color: $bg-tertiary;
+}
+
+.shadow-sm {
+  @include shadow-sm;
+}
+
+.shadow-md {
+  @include shadow-md;
+}
+
+.shadow-lg {
+  @include shadow-lg;
+}
+
+.card {
+  @include card-base;
+}
+
+.card-hover {
+  @include card-hover;
+}
+
+.glass {
+  @include glass-effect;
+}
+
+.glass-dark {
+  @include glass-dark;
+}
+
+.gradient-primary {
+  @include gradient-primary;
+}
+
+.gradient-success {
+  @include gradient-success;
+}
+
+.gradient-warning {
+  @include gradient-warning;
+}
+
+.gradient-error {
+  @include gradient-error;
+}
+
+.hover-lift {
+  @include hover-lift;
+}
+
+.hover-scale {
+  @include hover-scale;
+}
+
+.hover-glow {
+  @include hover-glow;
+}
+
+.ellipsis {
+  @include text-ellipsis(1);
+}
+
+.ellipsis-2 {
+  @include text-ellipsis(2);
+}
+
+.ellipsis-3 {
+  @include text-ellipsis(3);
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+.flex-start {
+  @include flex-start;
+}
+
+.flex-end {
+  @include flex-end;
+}
+
+.flex-column {
+  @include flex-column;
+}
+
+.flex-column-center {
+  @include flex-column-center;
+}
+
+.loading-spinner {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  border: 3px solid $border-light;
+  border-top-color: $primary-color;
+  border-radius: $radius-round;
+  animation: spin 1s linear infinite;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    $bg-tertiary 25%,
+    $bg-secondary 50%,
+    $bg-tertiary 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton 1.5s ease-in-out infinite;
+  border-radius: $radius-sm;
+}
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: $radius-round;
+    background: rgba($primary-color, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  &:active::after {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@for $i from 1 through 10 {
+  .mt-#{$i} {
+    margin-top: #{$i * 4}px;
+  }
+  .mb-#{$i} {
+    margin-bottom: #{$i * 4}px;
+  }
+  .ml-#{$i} {
+    margin-left: #{$i * 4}px;
+  }
+  .mr-#{$i} {
+    margin-right: #{$i * 4}px;
+  }
+  .pt-#{$i} {
+    padding-top: #{$i * 4}px;
+  }
+  .pb-#{$i} {
+    padding-bottom: #{$i * 4}px;
+  }
+  .pl-#{$i} {
+    padding-left: #{$i * 4}px;
+  }
+  .pr-#{$i} {
+    padding-right: #{$i * 4}px;
+  }
+}

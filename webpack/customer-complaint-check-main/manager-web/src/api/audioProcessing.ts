@@ -1,7 +1,6 @@
 import request from '@/utils/request';
 import type {
   AudioProcessResponse,
-  TagOptionsResponse,
   ProcessAudioForCorrectionResponse,
 } from './audioProcessing.types';
 
@@ -34,12 +33,6 @@ export const audioProcessingApi = {
     return request.post<ProcessAudioForCorrectionResponse>({
       api: '/process_audio_for_correction',
       data: { audio_url: audioUrl },
-    });
-  },
-
-  getTagOptions(): Promise<TagOptionsResponse> {
-    return request.get<TagOptionsResponse>({
-      api: '/tag_options',
     });
   },
 };
