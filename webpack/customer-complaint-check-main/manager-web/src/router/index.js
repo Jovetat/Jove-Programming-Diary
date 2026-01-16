@@ -2,9 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
-    path: '/quality-rule',
-    name: 'QualityRule',
-    component: () => import('@/page/QualityRule/QualityRule.vue'),
+    path: '/',
+    redirect: '/audio-processing',
+  },
+  {
+    path: '/audio-processing',
+    name: 'AudioProcessing',
+    component: () => import('@/page/AudioProcessing/AudioProcessing.vue'),
   },
 ];
 
