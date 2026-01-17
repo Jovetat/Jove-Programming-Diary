@@ -44,7 +44,7 @@
               type="primary"
               html-type="submit"
               :loading="loading"
-              :disabled="fileList.length === 0"
+              :disabled="!fileList || fileList.length === 0"
             >
               处理音频文件
             </a-button>
