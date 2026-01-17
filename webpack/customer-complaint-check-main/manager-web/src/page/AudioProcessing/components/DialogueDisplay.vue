@@ -28,6 +28,9 @@
                 >
               </div>
               <span class="bubble-role">{{ getRoleDisplayName(segment.role) }}</span>
+              <span class="bubble-emotion" :class="getEmotionClass(segment.emotion)">
+                {{ getEmotionDisplay(segment.emotion) }}
+              </span>
               <span class="bubble-time">{{ formatTime(segment.start) }}</span>
             </div>
             <div class="bubble-text">{{ segment.text }}</div>
@@ -78,6 +81,26 @@ const visibleSegments = computed(() => {
 
 const getRoleDisplayName = (role: string) => {
   return role === 'customer_service' ? '客服' : '客户'
+}
+
+const getEmotionDisplay = (emotion?: string) => {
+  if (!emotion || emotion === '正常') {
+    return '😊 正常'
+  }
+  if (emotion === '愤怒') {
+    return '😠 愤怒'
+  }
+  return '😊 正常'
+}
+
+const getEmotionClass = (emotion?: string) => {
+  if (!emotion || emotion === '正常') {
+    return 'emotion-normal'
+  }
+  if (emotion === '愤怒') {
+    return 'emotion-angry'
+  }
+  return 'emotion-normal'
 }
 
 const formatTime = (time: string | number): string => {
@@ -320,6 +343,30 @@ watch(
   font-size: $font-size-xs;
   font-weight: $font-weight-semibold;
   flex-shrink: 0;
+}
+
+.bubble-emotion {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: $radius-sm;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.emotion-normal {
+    background: rgba(100, 255, 150, 0.15);
+    color: rgba(150, 255, 180, 1);
+    border: 1px solid rgba(100, 255, 150, 0.3);
+  }
+
+  &.emotion-angry {
+    background: rgba(255, 100, 100, 0.15);
+    color: rgba(255, 150, 150, 1);
+    border: 1px solid rgba(255, 100, 100, 0.3);
+  }
 }
 
 .bubble-time {

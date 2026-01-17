@@ -3,6 +3,7 @@ export interface DialogueSegment {
   text: string;
   start: string;
   end: string;
+  emotion?: string;
 }
 
 export interface ClassificationResult {
