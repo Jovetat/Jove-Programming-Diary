@@ -2,7 +2,7 @@
   <div class="audio-player-container">
     <audio
       ref="audioRef"
-      :src="audioUrl"
+      :src="proxiedAudioUrl"
       @timeupdate="handleTimeUpdate"
       @loadedmetadata="handleLoadedMetadata"
       @ended="handleEnded"
@@ -30,8 +30,12 @@
         </div>
       </div>
 
-      <!-- 中间：进度条 -->
+      <!-- 中间：波形和进度条 -->
       <div class="progress-section">
+        <!-- 实时音频可视化 -->
+        <canvas ref="canvasRef" class="audio-visualizer" />
+
+        <!-- 进度条 -->
         <div
           ref="progressBarRef"
           class="progress-bar"
@@ -101,7 +105,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { getProxiedAudioUrl } from '@/utils/audioUtils'
 
 interface Props {
   audioUrl?: string
@@ -116,6 +121,16 @@ const emit = defineEmits<Emits>()
 
 const audioRef = ref<HTMLAudioElement | null>(null)
 const progressBarRef = ref<HTMLElement | null>(null)
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+
+// Web Audio API相关
+let audioContext: AudioContext | null = null
+let analyser: AnalyserNode | null = null
+let source: MediaElementAudioSourceNode | null = null
+let animationId: number | null = null
+
+// 处理后的音频URL(开发环境使用代理)
+const proxiedAudioUrl = computed(() => getProxiedAudioUrl(props.audioUrl || ''))
 
 const isPlaying = ref(false)
 const currentTime = ref(0)
@@ -240,26 +255,46 @@ const handleMouseUp = () => {
   isDragging.value = false
 }
 
-onMounted(() => {
+onMounted(async () => {
   document.addEventListener('mousemove', handleMouseMove)
   document.addEventListener('mouseup', handleMouseUp)
   document.addEventListener('click', handleClickOutside)
+
+  // 初始化音频可视化
+  await nextTick()
+  if (canvasRef.value && audioRef.value) {
+    initAudioVisualizer()
+  }
 })
 
 onUnmounted(() => {
   document.removeEventListener('mousemove', handleMouseMove)
   document.removeEventListener('mouseup', handleMouseUp)
   document.removeEventListener('click', handleClickOutside)
+
+  // 清理音频可视化
+  if (animationId) {
+    cancelAnimationFrame(animationId)
+  }
+  if (audioContext) {
+    audioContext.close()
+  }
 })
 
 watch(
-  () => props.audioUrl,
-  (newUrl) => {
+  () => proxiedAudioUrl.value,
+  async (newUrl) => {
     if (audioRef.value && newUrl) {
       audioRef.value.src = newUrl
       audioRef.value.load()
       currentTime.value = 0
       isPlaying.value = false
+
+      // 重新初始化音频可视化
+      await nextTick()
+      if (canvasRef.value && audioRef.value) {
+        initAudioVisualizer()
+      }
     }
   },
   { immediate: true }
@@ -276,6 +311,86 @@ const play = () => {
   if (audioRef.value) {
     audioRef.value.play()
   }
+}
+
+const initAudioVisualizer = () => {
+  if (!canvasRef.value || !audioRef.value) return
+
+  try {
+    // 创建AudioContext
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    }
+
+    // 创建分析器节点
+    if (!analyser) {
+      analyser = audioContext.createAnalyser()
+      analyser.fftSize = 256 // 频谱分辨率
+      analyser.smoothingTimeConstant = 0.8 // 平滑度
+    }
+
+    // 连接音频源(只连接一次)
+    if (!source && audioRef.value) {
+      source = audioContext.createMediaElementSource(audioRef.value)
+      source.connect(analyser)
+      analyser.connect(audioContext.destination)
+    }
+
+    // 开始绘制
+    drawVisualizer()
+  } catch (error) {
+    console.error('音频可视化初始化失败:', error)
+  }
+}
+
+const drawVisualizer = () => {
+  if (!canvasRef.value || !analyser) return
+
+  const canvas = canvasRef.value
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
+  // 设置canvas尺寸
+  const dpr = window.devicePixelRatio || 1
+  const rect = canvas.getBoundingClientRect()
+  canvas.width = rect.width * dpr
+  canvas.height = rect.height * dpr
+  ctx.scale(dpr, dpr)
+
+  const bufferLength = analyser.frequencyBinCount
+  const dataArray = new Uint8Array(bufferLength)
+
+  const draw = () => {
+    animationId = requestAnimationFrame(draw)
+
+    if (!analyser || !ctx) return
+
+    // 获取频域数据
+    analyser.getByteFrequencyData(dataArray)
+
+    // 清空画布
+    ctx.clearRect(0, 0, rect.width, rect.height)
+
+    // 绘制频谱条
+    const barWidth = rect.width / bufferLength * 2.5
+    let x = 0
+
+    for (let i = 0; i < bufferLength; i++) {
+      const barHeight = (dataArray[i] / 255) * rect.height * 0.8
+
+      // 渐变色
+      const gradient = ctx.createLinearGradient(0, rect.height - barHeight, 0, rect.height)
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)')
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0.3)')
+
+      ctx.fillStyle = gradient
+      ctx.fillRect(x, rect.height - barHeight, barWidth - 1, barHeight)
+
+      x += barWidth
+    }
+  }
+
+  draw()
 }
 
 defineExpose({
@@ -377,10 +492,21 @@ defineExpose({
   color: rgba(255, 255, 255, 0.6);
 }
 
-// 中间进度条
+// 中间波形和进度条
 .progress-section {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.audio-visualizer {
+  width: 100%;
+  height: 40px;
+  border-radius: $radius-sm;
+  background: rgba(255, 255, 255, 0.03);
+  display: block;
 }
 
 .progress-bar {

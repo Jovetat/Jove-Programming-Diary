@@ -6,10 +6,10 @@ interface EnvConfig {
 
 const envConfigs: Record<EnvType, EnvConfig> = {
   test: {
-    baseURL: 'http://localhost:5001',
+    baseURL: '/api',
   },
   online: {
-    baseURL: 'http://localhost:5001',
+    baseURL: 'http://10.4.16.154:5000',
   },
 };
 

@@ -61,8 +61,27 @@ export function validateAudioUrl(url: string): boolean {
     new URL(url);
     return true;
   } catch {
-    return url.startsWith('file://');
+    return false;
   }
+}
+
+/**
+ * 转换音频URL,开发环境使用代理避免CORS问题
+ * @param url 原始音频URL
+ * @returns 处理后的URL
+ */
+export function getProxiedAudioUrl(url: string): string {
+  if (!url) return url;
+
+  // 开发环境且是kefu.tjzimu.com的URL,使用代理
+  if (import.meta.env.DEV && url.includes('kefu.tjzimu.com')) {
+    // 提取路径部分
+    const urlObj = new URL(url);
+    return `/audio-proxy${urlObj.pathname}`;
+  }
+
+  // 生产环境或其他URL直接返回
+  return url;
 }
 
 export function getRoleDisplayName(role: 'customer_service' | 'visitor'): string {
