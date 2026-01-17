@@ -2,6 +2,14 @@
   <div class="analysis-panel">
     <div class="panel-header">
       <h3 class="panel-title">AI 分析结果</h3>
+      <button
+        v-if="allSectionsVisible"
+        class="generate-ticket-btn"
+        @click="showTicketModal = true"
+      >
+        <span class="btn-icon">📝</span>
+        <span>一键生成工单</span>
+      </button>
     </div>
 
     <div ref="panelContentRef" class="panel-content">
@@ -117,11 +125,73 @@
         </div>
       </transition-group>
     </div>
+
+    <!-- 工单生成Modal -->
+    <n-modal
+      v-model:show="showTicketModal"
+      preset="card"
+      title="生成工单"
+      class="ticket-modal"
+      :style="{ width: '600px' }"
+      :segmented="{
+        content: 'soft',
+        footer: 'soft'
+      }"
+    >
+      <n-form
+        :model="displayForm"
+        label-placement="left"
+        label-width="100"
+        require-mark-placement="right-hanging"
+        class="ticket-form"
+      >
+        <n-form-item label="诉点信息" path="complaintInfo">
+          <n-input
+            v-model:value="displayForm.complaintInfo"
+            placeholder="请输入诉点信息"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+
+        <n-form-item label="诉求信息" path="appealInfo">
+          <n-input
+            v-model:value="displayForm.appealInfo"
+            placeholder="请输入诉求信息"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+
+        <n-form-item label="解决方案" path="solutionInfo">
+          <n-input
+            v-model:value="displayForm.solutionInfo"
+            placeholder="请输入解决方案"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+
+        <n-form-item label="案件信息" path="caseInfo">
+          <n-input
+            v-model:value="displayForm.caseInfo"
+            placeholder="请输入案件信息"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+      </n-form>
+
+      <template #footer>
+        <div class="modal-footer">
+          <n-button @click="showTicketModal = false">取消</n-button>
+          <n-button type="primary" @click="handleSubmitTicket">确定</n-button>
+        </div>
+      </template>
+    </n-modal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, computed, nextTick, onUnmounted } from 'vue'
+import { NModal, NForm, NFormItem, NInput, NButton } from 'naive-ui'
+import { useMessage } from '@/plugins/naive'
 import type {
   ClassificationResult,
   ReconciliationResult,
@@ -136,10 +206,42 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const message = useMessage()
 const panelContentRef = ref<HTMLElement | null>(null)
 const visibleSections = ref(0)
 const maxSections = 4
 let timer: ReturnType<typeof setTimeout> | null = null
+
+// 工单Modal相关
+const showTicketModal = ref(false)
+const ticketForm = ref({
+  complaintInfo: '',
+  appealInfo: '',
+  solutionInfo: '',
+  caseInfo: ''
+})
+
+// 用于显示的表单数据（打字机效果）
+const displayForm = ref({
+  complaintInfo: '',
+  appealInfo: '',
+  solutionInfo: '',
+  caseInfo: ''
+})
+
+// 打字机效果定时器
+let typewriterTimers: ReturnType<typeof setTimeout>[] = []
+
+// 清除所有打字机定时器
+const clearTypewriterTimers = () => {
+  typewriterTimers.forEach(timer => clearTimeout(timer))
+  typewriterTimers = []
+}
+
+// 是否所有section都已显示
+const allSectionsVisible = computed(() => {
+  return visibleSections.value >= maxSections && hasData.value
+})
 
 // 判断是否正在计算（还有更多section要显示）
 const isCalculating = computed(() => {
@@ -159,9 +261,9 @@ const clearTimer = () => {
   }
 }
 
-// 生成8-15秒的随机延迟
+// 生成6-12秒的随机延迟
 const getRandomDelay = () => {
-  return Math.floor(Math.random() * (15000 - 8000 + 1)) + 8000
+  return Math.floor(Math.random() * (12000 - 6000 + 1)) + 6000
 }
 
 // 启动渐进式显示
@@ -218,6 +320,7 @@ watch(
 // 组件卸载时清理定时器
 onUnmounted(() => {
   clearTimer()
+  clearTypewriterTimers()
 })
 
 const getStatusClass = (status?: string) => {
@@ -233,6 +336,121 @@ const getStatusEmoji = (status?: string) => {
   if (status.includes('未解决') || status.includes('拒绝')) return '❌'
   return '⚠️'
 }
+
+// 格式化分析结果为工单内容
+const formatTicketData = () => {
+  // 诉点信息：读取 complaint 的 third_level 和 intent
+  let complaintInfo = ''
+  if (props.complaint) {
+    const parts = []
+    if (props.complaint.third_level) parts.push(props.complaint.third_level)
+    if (props.complaint.intent) parts.push(props.complaint.intent)
+    complaintInfo = parts.join(' - ')
+  }
+
+  // 诉求信息：读取 appeal 的 third_level 和 intent
+  let appealInfo = ''
+  if (props.appeal) {
+    const parts = []
+    if (props.appeal.third_level) parts.push(props.appeal.third_level)
+    if (props.appeal.intent) parts.push(props.appeal.intent)
+    appealInfo = parts.join(' - ')
+  }
+
+  // 解决方案：读取 solution 的 third_level 和 intent
+  let solutionInfo = ''
+  if (props.solution) {
+    const parts = []
+    if (props.solution.third_level) parts.push(props.solution.third_level)
+    if (props.solution.intent) parts.push(props.solution.intent)
+    solutionInfo = parts.join(' - ')
+  }
+
+  // 案件信息：读取 reconciliation 的 status
+  let caseInfo = ''
+  if (props.reconciliation) {
+    caseInfo = props.reconciliation.status || ''
+  }
+
+  return {
+    complaintInfo,
+    appealInfo,
+    solutionInfo,
+    caseInfo
+  }
+}
+
+// 打字机效果：逐字显示文本
+const typewriterEffect = (fieldName: keyof typeof displayForm.value, text: string, delay = 0) => {
+  return new Promise<void>((resolve) => {
+    const timer = setTimeout(() => {
+      if (!text) {
+        displayForm.value[fieldName] = ''
+        resolve()
+        return
+      }
+
+      let currentIndex = 0
+      const speed = 60 // 每个字符显示间隔（毫秒）
+
+      const typeNextChar = () => {
+        if (currentIndex <= text.length) {
+          displayForm.value[fieldName] = text.substring(0, currentIndex)
+          currentIndex++
+
+          if (currentIndex <= text.length) {
+            const charTimer = setTimeout(typeNextChar, speed)
+            typewriterTimers.push(charTimer)
+          } else {
+            resolve()
+          }
+        }
+      }
+
+      typeNextChar()
+    }, delay)
+
+    typewriterTimers.push(timer)
+  })
+}
+
+// 提交工单
+const handleSubmitTicket = () => {
+  message.success('工单生成成功！')
+  showTicketModal.value = false
+}
+
+// 监听Modal显示状态，自动填充表单数据
+watch(showTicketModal, async (show) => {
+  if (show) {
+    // 清除之前的定时器
+    clearTypewriterTimers()
+
+    // 重置显示表单
+    displayForm.value = {
+      complaintInfo: '',
+      appealInfo: '',
+      solutionInfo: '',
+      caseInfo: ''
+    }
+
+    // 获取格式化的数据
+    const formData = formatTicketData()
+    ticketForm.value = formData
+
+    // 等待Modal完全显示
+    await nextTick()
+
+    // 依次执行打字机效果，每个字段延迟开始
+    await typewriterEffect('complaintInfo', formData.complaintInfo, 200)
+    await typewriterEffect('appealInfo', formData.appealInfo, 100)
+    await typewriterEffect('solutionInfo', formData.solutionInfo, 100)
+    await typewriterEffect('caseInfo', formData.caseInfo, 100)
+  } else {
+    // Modal关闭时清除定时器
+    clearTypewriterTimers()
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -246,6 +464,9 @@ const getStatusEmoji = (status?: string) => {
 }
 
 .panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: $spacing-lg $spacing-xl;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.03);
@@ -257,6 +478,39 @@ const getStatusEmoji = (status?: string) => {
   font-weight: $font-weight-medium;
   color: #ffffff;
   letter-spacing: 0.5px;
+}
+
+.generate-ticket-btn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid rgba(100, 150, 255, 0.3);
+  border-radius: $radius-md;
+  background: linear-gradient(135deg, rgba(100, 150, 255, 0.1) 0%, rgba(100, 150, 255, 0.05) 100%);
+  color: rgba(150, 200, 255, 1);
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  .btn-icon {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(100, 150, 255, 0.2) 0%, rgba(100, 150, 255, 0.1) 100%);
+    border-color: rgba(100, 150, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(100, 150, 255, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 .panel-content {
@@ -483,6 +737,73 @@ const getStatusEmoji = (status?: string) => {
   }
   50% {
     opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Modal样式微调
+:deep(.ticket-modal) {
+  .n-card {
+    backdrop-filter: blur(20px);
+  }
+
+  .n-card-header {
+    .n-card-header__main {
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .ticket-form {
+    .n-form-item {
+      margin-bottom: $spacing-lg;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .n-form-item-label {
+        padding-right: $spacing-md;
+      }
+    }
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-md;
+  padding: 0;
+  margin-top: $spacing-lg;
+
+  :deep(.n-button) {
+    min-width: 80px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &.n-button--primary {
+      box-shadow: 0 2px 8px rgba(100, 150, 255, 0.2);
+
+      &:hover {
+        box-shadow: 0 4px 16px rgba(100, 150, 255, 0.4);
+      }
+    }
   }
 }
 </style>
