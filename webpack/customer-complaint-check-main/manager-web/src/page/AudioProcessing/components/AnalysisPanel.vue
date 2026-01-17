@@ -145,6 +145,54 @@
         require-mark-placement="right-hanging"
         class="ticket-form"
       >
+        <n-form-item label="客户姓名" path="customerName">
+          <n-input
+            v-model:value="displayForm.customerName"
+            placeholder="请输入客户姓名"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+
+        <n-form-item label="客服UID" path="serviceUid">
+          <n-input
+            v-model:value="displayForm.serviceUid"
+            placeholder="请输入客服UID"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+
+        <n-form-item label="产品类型" path="productType">
+          <n-input
+            v-model:value="displayForm.productType"
+            placeholder="请输入产品类型"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+
+        <n-form-item label="案件来源" path="caseSource">
+          <n-input
+            v-model:value="displayForm.caseSource"
+            placeholder="请输入案件来源"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+
+        <n-form-item label="案件性质" path="caseNature">
+          <n-input
+            v-model:value="displayForm.caseNature"
+            placeholder="请输入案件性质"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+
+        <n-form-item label="注册手机号" path="registeredPhone">
+          <n-input
+            v-model:value="displayForm.registeredPhone"
+            placeholder="请输入注册手机号"
+            :input-props="{ class: 'dark-input' }"
+          />
+        </n-form-item>
+
         <n-form-item label="诉点信息" path="complaintInfo">
           <n-input
             v-model:value="displayForm.complaintInfo"
@@ -178,12 +226,12 @@
         </n-form-item>
       </n-form>
 
-      <template #footer>
+      <!-- <template #footer> -->
         <div class="modal-footer">
           <n-button @click="showTicketModal = false">取消</n-button>
           <n-button type="primary" @click="handleSubmitTicket">确定</n-button>
         </div>
-      </template>
+      <!-- </template> -->
     </n-modal>
   </div>
 </template>
@@ -215,6 +263,12 @@ let timer: ReturnType<typeof setTimeout> | null = null
 // 工单Modal相关
 const showTicketModal = ref(false)
 const ticketForm = ref({
+  customerName: '王志刚',
+  serviceUid: '1900007626',
+  productType: '享花卡',
+  caseSource: '特殊-客户上门',
+  caseNature: '常规咨询/办理',
+  registeredPhone: '18367862892',
   complaintInfo: '',
   appealInfo: '',
   solutionInfo: '',
@@ -223,6 +277,12 @@ const ticketForm = ref({
 
 // 用于显示的表单数据（打字机效果）
 const displayForm = ref({
+  customerName: '',
+  serviceUid: '',
+  productType: '',
+  caseSource: '',
+  caseNature: '',
+  registeredPhone: '',
   complaintInfo: '',
   appealInfo: '',
   solutionInfo: '',
@@ -366,13 +426,16 @@ const formatTicketData = () => {
     solutionInfo = parts.join(' - ')
   }
 
-  // 案件信息：读取 reconciliation 的 status
-  let caseInfo = ''
-  if (props.reconciliation) {
-    caseInfo = props.reconciliation.status || ''
-  }
+  // 案件信息：写死的数据
+  const caseInfo = '本案件为一位客户因家庭突发状况（家人生病住院）导致财务困难，致电客服中心申请对逾期账单办理最低还款，但因系统评估不通过且无其他适用政策，申请未能成功。'
 
   return {
+    customerName: '王志刚',
+    serviceUid: '1900007626',
+    productType: '享花卡',
+    caseSource: '特殊-客户上门',
+    caseNature: '常规咨询/办理',
+    registeredPhone: '18367862892',
     complaintInfo,
     appealInfo,
     solutionInfo,
@@ -428,6 +491,12 @@ watch(showTicketModal, async (show) => {
 
     // 重置显示表单
     displayForm.value = {
+      customerName: '',
+      serviceUid: '',
+      productType: '',
+      caseSource: '',
+      caseNature: '',
+      registeredPhone: '',
       complaintInfo: '',
       appealInfo: '',
       solutionInfo: '',
@@ -442,10 +511,16 @@ watch(showTicketModal, async (show) => {
     await nextTick()
 
     // 依次执行打字机效果，每个字段延迟开始
-    await typewriterEffect('complaintInfo', formData.complaintInfo, 200)
-    await typewriterEffect('appealInfo', formData.appealInfo, 100)
-    await typewriterEffect('solutionInfo', formData.solutionInfo, 100)
-    await typewriterEffect('caseInfo', formData.caseInfo, 100)
+    await typewriterEffect('customerName', formData.customerName, 200)
+    await typewriterEffect('serviceUid', formData.serviceUid, 50)
+    await typewriterEffect('productType', formData.productType, 50)
+    await typewriterEffect('caseSource', formData.caseSource, 50)
+    await typewriterEffect('caseNature', formData.caseNature, 50)
+    await typewriterEffect('registeredPhone', formData.registeredPhone, 50)
+    await typewriterEffect('complaintInfo', formData.complaintInfo, 100)
+    await typewriterEffect('appealInfo', formData.appealInfo, 50)
+    await typewriterEffect('solutionInfo', formData.solutionInfo, 50)
+    await typewriterEffect('caseInfo', formData.caseInfo, 50)
   } else {
     // Modal关闭时清除定时器
     clearTypewriterTimers()
@@ -758,21 +833,39 @@ watch(showTicketModal, async (show) => {
   }
 
   .n-card-header {
+    padding: $spacing-md $spacing-lg !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+
     .n-card-header__main {
       letter-spacing: 0.5px;
+      font-size: $font-size-base;
     }
+  }
+
+  .n-card__content {
+    // padding: $spacing-lg !important;
+  }
+
+  .n-card__footer {
+    padding: $spacing-md $spacing-lg $spacing-lg !important;
+    border-top: none !important;
   }
 
   .ticket-form {
     .n-form-item {
-      margin-bottom: $spacing-lg;
+      margin-bottom: 8px;
 
       &:last-child {
         margin-bottom: 0;
       }
 
       .n-form-item-label {
-        padding-right: $spacing-md;
+        padding-right: $spacing-sm;
+        font-size: $font-size-xs;
+      }
+
+      .n-input {
+        font-size: $font-size-xs;
       }
     }
   }
@@ -781,12 +874,15 @@ watch(showTicketModal, async (show) => {
 .modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: $spacing-md;
+  gap: $spacing-sm;
   padding: 0;
-  margin-top: $spacing-lg;
+  // margin-top: $spacing-md;
 
   :deep(.n-button) {
-    min-width: 80px;
+    min-width: 70px;
+    height: 32px;
+    padding: 0 $spacing-md;
+    font-size: $font-size-xs;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
