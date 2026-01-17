@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useAudioProcessingStore } from '@/stores/audioProcessing'
 import { audioProcessingApi } from '@/api/audioProcessing'
 import { findActiveSegment } from '@/utils/audioUtils'
@@ -101,6 +101,27 @@ const audioPlayerRef = ref<InstanceType<typeof AudioPlayer> | null>(null)
 const hasResults = computed(() => {
   return store.dialogueSegments.length > 0 || store.asrText
 })
+
+// 监听播放器引用和结果状态，自动播放音频
+watch(
+  [audioPlayerRef, hasResults],
+  async ([playerRef, results]) => {
+    if (results && store.audioUrl && playerRef) {
+      // 等待 DOM 更新和音频播放器加载
+      await nextTick()
+      setTimeout(() => {
+        if (audioPlayerRef.value) {
+          try {
+            audioPlayerRef.value.play()
+          } catch (error) {
+            console.warn('自动播放失败:', error)
+          }
+        }
+      }, 800) // 延迟800ms确保播放器完全加载
+    }
+  },
+  { immediate: true }
+)
 
 const handleReset = () => {
   store.clearResults()

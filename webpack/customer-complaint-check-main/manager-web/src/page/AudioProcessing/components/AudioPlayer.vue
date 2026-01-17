@@ -45,8 +45,28 @@
         </div>
       </div>
 
-      <!-- 右侧：音量控制 -->
+      <!-- 右侧：倍速和音量控制 -->
       <div class="volume-controls">
+        <!-- 倍速控制 -->
+        <div class="speed-control">
+          <button class="control-button speed-button" @click="toggleSpeedMenu">
+            <span class="speed-text">{{ playbackRate }}x</span>
+          </button>
+          <transition name="speed-menu">
+            <div v-if="showSpeedMenu" class="speed-menu">
+              <button
+                v-for="speed in speedOptions"
+                :key="speed"
+                class="speed-option"
+                :class="{ active: playbackRate === speed }"
+                @click="setPlaybackRate(speed)"
+              >
+                {{ speed }}x
+              </button>
+            </div>
+          </transition>
+        </div>
+
         <button class="control-button volume-button" @click="toggleMute">
           <svg v-if="!isMuted && volume > 0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
@@ -103,6 +123,8 @@ const duration = ref(0)
 const volume = ref(1)
 const isMuted = ref(false)
 const isDragging = ref(false)
+const playbackRate = ref(1.25)
+const showSpeedMenu = ref(false)
 
 const progressPercent = computed(() => {
   if (duration.value === 0) return 0
@@ -119,6 +141,7 @@ const handleTimeUpdate = () => {
 const handleLoadedMetadata = () => {
   if (audioRef.value) {
     duration.value = audioRef.value.duration || 0
+    audioRef.value.playbackRate = playbackRate.value
   }
 }
 
@@ -168,6 +191,27 @@ const toggleMute = () => {
   }
 }
 
+const speedOptions = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0]
+
+const toggleSpeedMenu = () => {
+  showSpeedMenu.value = !showSpeedMenu.value
+}
+
+const setPlaybackRate = (rate: number) => {
+  playbackRate.value = rate
+  if (audioRef.value) {
+    audioRef.value.playbackRate = rate
+  }
+  showSpeedMenu.value = false
+}
+
+const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target as HTMLElement
+  if (!target.closest('.speed-control')) {
+    showSpeedMenu.value = false
+  }
+}
+
 const formatTime = (time: number): string => {
   if (!time || isNaN(time)) return '00:00'
 
@@ -199,11 +243,13 @@ const handleMouseUp = () => {
 onMounted(() => {
   document.addEventListener('mousemove', handleMouseMove)
   document.addEventListener('mouseup', handleMouseUp)
+  document.addEventListener('click', handleClickOutside)
 })
 
 onUnmounted(() => {
   document.removeEventListener('mousemove', handleMouseMove)
   document.removeEventListener('mouseup', handleMouseUp)
+  document.removeEventListener('click', handleClickOutside)
 })
 
 watch(
@@ -380,12 +426,80 @@ defineExpose({
   opacity: 1;
 }
 
-// 右侧音量控制
+// 右侧倍速和音量控制
 .volume-controls {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
   flex-shrink: 0;
+}
+
+// 倍速控制
+.speed-control {
+  position: relative;
+}
+
+.speed-button {
+  width: 60px;
+  height: 40px;
+  padding: 0;
+
+  .speed-text {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.speed-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 20, 30, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: $radius-md;
+  padding: $spacing-xs;
+  min-width: 80px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.speed-option {
+  display: block;
+  width: 100%;
+  padding: $spacing-xs $spacing-sm;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: $font-size-sm;
+  text-align: center;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.speed-menu-enter-active,
+.speed-menu-leave-active {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.speed-menu-enter-from,
+.speed-menu-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(4px);
 }
 
 .volume-button {
@@ -455,7 +569,15 @@ audio {
   }
 
   .volume-controls {
+    gap: $spacing-xs;
+  }
+
+  .volume-slider-wrapper {
     display: none;
+  }
+
+  .speed-button {
+    width: 50px;
   }
 
   .time-info {
