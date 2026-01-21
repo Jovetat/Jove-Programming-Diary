@@ -13,6 +13,12 @@
           }"
           @click="handleSegmentClick(segment)"
         >
+          <div
+            v-if="segment.overlaps && segment.role === 'customer_service'"
+            class="overlap-indicator"
+          >
+            抢话
+          </div>
           <div class="dialogue-bubble">
             <div class="bubble-header">
               <div class="bubble-avatar">
@@ -20,15 +26,16 @@
                   v-if="segment.role === 'visitor'"
                   :src="userAvatar"
                   alt="客户头像"
-                >
-                <img
-                  v-else
-                  :src="serviceAvatar"
-                  alt="客服头像"
-                >
+                />
+                <img v-else :src="serviceAvatar" alt="客服头像" />
               </div>
-              <span class="bubble-role">{{ getRoleDisplayName(segment.role) }}</span>
-              <span class="bubble-emotion" :class="getEmotionClass(segment.emotion)">
+              <span class="bubble-role">{{
+                getRoleDisplayName(segment.role)
+              }}</span>
+              <span
+                class="bubble-emotion"
+                :class="getEmotionClass(segment.emotion)"
+              >
                 {{ getEmotionDisplay(segment.emotion) }}
               </span>
               <span class="bubble-time">{{ formatTime(segment.start) }}</span>
@@ -40,7 +47,9 @@
 
       <div v-if="visibleSegments.length === 0" class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          <path
+            d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+          />
         </svg>
         <p>暂无对话内容</p>
       </div>
@@ -49,94 +58,94 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick, computed } from 'vue'
-import type { DialogueSegment } from '@/api/audioProcessing.types'
-import userAvatar from '@/assets/user.png'
-import serviceAvatar from '@/assets/service.png'
+import { ref, watch, nextTick, computed } from 'vue';
+import type { DialogueSegment } from '@/api/audioProcessing.types';
+import userAvatar from '@/assets/user.png';
+import serviceAvatar from '@/assets/service.png';
 
 interface Props {
-  segments: DialogueSegment[]
-  activeIndex?: number
+  segments: DialogueSegment[];
+  activeIndex?: number;
 }
 
 interface Emits {
-  (e: 'segment-click', segment: DialogueSegment): void
+  (e: 'segment-click', segment: DialogueSegment): void;
 }
 
-const props = defineProps<Props>()
-const emit = defineEmits<Emits>()
+const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
 
-const containerRef = ref<HTMLElement | null>(null)
+const containerRef = ref<HTMLElement | null>(null);
 
 // 追踪已经显示过的最大索引（用于保留已显示的内容）
-const maxVisibleIndex = ref(-1)
+const maxVisibleIndex = ref(-1);
 
 // 只显示已播放过的对话（基于最大显示索引）
 const visibleSegments = computed(() => {
   if (maxVisibleIndex.value < 0) {
-    return []
+    return [];
   }
-  return props.segments.slice(0, maxVisibleIndex.value + 1)
-})
+  return props.segments.slice(0, maxVisibleIndex.value + 1);
+});
 
 const getRoleDisplayName = (role: string) => {
-  return role === 'customer_service' ? '客服' : '客户'
-}
+  return role === 'customer_service' ? '客服' : '客户';
+};
 
 const getEmotionDisplay = (emotion?: string) => {
   if (!emotion || emotion === '正常') {
-    return '😊 正常'
+    return '😊 正常';
   }
   if (emotion === '愤怒') {
-    return '😠 愤怒'
+    return '😠 愤怒';
   }
-  return '😊 正常'
-}
+  return '😊 正常';
+};
 
 const getEmotionClass = (emotion?: string) => {
   if (!emotion || emotion === '正常') {
-    return 'emotion-normal'
+    return 'emotion-normal';
   }
   if (emotion === '愤怒') {
-    return 'emotion-angry'
+    return 'emotion-angry';
   }
-  return 'emotion-normal'
-}
+  return 'emotion-normal';
+};
 
 const formatTime = (time: string | number): string => {
-  const seconds = typeof time === 'string' ? parseFloat(time) / 1000 : time
-  if (!seconds || isNaN(seconds)) return '00:00'
+  const seconds = typeof time === 'string' ? parseFloat(time) / 1000 : time;
+  if (!seconds || isNaN(seconds)) return '00:00';
 
-  const minutes = Math.floor(seconds / 60)
-  const secs = Math.floor(seconds % 60)
-  return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
-}
+  const minutes = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+};
 
 const handleSegmentClick = (segment: DialogueSegment) => {
-  emit('segment-click', segment)
-}
+  emit('segment-click', segment);
+};
 
 // 监听 segments 变化，重置最大显示索引
 watch(
   () => props.segments,
   () => {
-    maxVisibleIndex.value = -1
-  }
-)
+    maxVisibleIndex.value = -1;
+  },
+);
 
 // 更新最大显示索引并自动滚动
 watch(
   () => props.activeIndex,
   async (newIndex, oldIndex) => {
-    if (newIndex === undefined || newIndex < 0 || !containerRef.value) return
+    if (newIndex === undefined || newIndex < 0 || !containerRef.value) return;
 
     // 更新最大显示索引（只增不减）
-    const isNewContent = newIndex > maxVisibleIndex.value
+    const isNewContent = newIndex > maxVisibleIndex.value;
     if (isNewContent) {
-      maxVisibleIndex.value = newIndex
+      maxVisibleIndex.value = newIndex;
 
       // 只在播放到新内容时才自动滚动到底部
-      await nextTick()
+      await nextTick();
       // 等待动画开始后再滚动
       setTimeout(() => {
         if (containerRef.value) {
@@ -144,24 +153,24 @@ watch(
           containerRef.value.scrollTo({
             top: containerRef.value.scrollHeight,
             behavior: 'smooth',
-          })
+          });
         }
-      }, 50)
+      }, 50);
     } else if (oldIndex !== undefined && newIndex < oldIndex) {
       // 用户点击跳转到前面的内容，滚动到对应位置
-      await nextTick()
-      const items = containerRef.value.querySelectorAll('.dialogue-item')
-      const targetElement = items[newIndex] as HTMLElement
+      await nextTick();
+      const items = containerRef.value.querySelectorAll('.dialogue-item');
+      const targetElement = items[newIndex] as HTMLElement;
       if (targetElement) {
         targetElement.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
-        })
+        });
       }
     }
   },
-  { immediate: false }
-)
+  { immediate: false },
+);
 </script>
 
 <style scoped lang="scss">
@@ -206,6 +215,8 @@ watch(
 
 .dialogue-item {
   display: flex;
+  align-items: center;
+  gap: $spacing-xs;
   padding: $spacing-xs $spacing-md;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -221,6 +232,30 @@ watch(
     .dialogue-bubble {
       box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
     }
+  }
+
+  .overlap-indicator {
+    font-size: 11px;
+    font-weight: $font-weight-medium;
+    color: rgba(255, 100, 100, 1);
+    background: rgba(255, 100, 100, 0.15);
+    border: 1px solid rgba(255, 100, 100, 0.4);
+    padding: 2px 6px;
+    border-radius: $radius-sm;
+    white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1.2;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover .overlap-indicator {
+    background: rgba(255, 100, 100, 0.2);
+    border-color: rgba(255, 100, 100, 0.5);
+  }
+
+  &.active .overlap-indicator {
+    background: rgba(255, 100, 100, 0.25);
+    border-color: rgba(255, 100, 100, 0.6);
   }
 
   // 客服在左侧
