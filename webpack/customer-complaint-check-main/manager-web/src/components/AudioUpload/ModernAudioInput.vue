@@ -24,8 +24,12 @@
         @click="activeTab = 'url'"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+          <path
+            d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+          />
+          <path
+            d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+          />
         </svg>
         <span>音频URL</span>
       </button>
@@ -49,7 +53,9 @@
             <span v-if="!loading" class="button-content">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <polyline points="9 11 12 14 22 4" />
-                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                <path
+                  d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
+                />
               </svg>
               开始分析
             </span>
@@ -63,9 +69,18 @@
         <div v-else key="url" class="tab-panel">
           <div class="url-input-wrapper">
             <div class="url-input-container">
-              <svg class="url-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              <svg
+                class="url-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                />
+                <path
+                  d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                />
               </svg>
               <input
                 v-model="audioUrl"
@@ -74,7 +89,7 @@
                 placeholder="请输入音频文件的URL地址..."
                 :disabled="loading"
                 @keyup.enter="handleUrlSubmit"
-              >
+              />
               <button
                 v-if="audioUrl"
                 class="clear-button"
@@ -109,7 +124,9 @@
             <span v-if="!loading" class="button-content">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <polyline points="9 11 12 14 22 4" />
-                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                <path
+                  d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
+                />
               </svg>
               开始分析
             </span>
@@ -125,49 +142,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import UploadZone from './UploadZone.vue'
+import { ref } from 'vue';
+import UploadZone from './UploadZone.vue';
 
 interface Props {
-  loading?: boolean
+  loading?: boolean;
 }
 
 interface Emits {
-  (e: 'process-url', url: string): void
-  (e: 'process-file', file: File): void
+  (e: 'process-url', url: string): void;
+  (e: 'process-file', file: File): void;
 }
 
-defineProps<Props>()
-const emit = defineEmits<Emits>()
+defineProps<Props>();
+const emit = defineEmits<Emits>();
 
-const activeTab = ref<'file' | 'url'>('file')
-const audioUrl = ref('')
-const selectedFile = ref<File | null>(null)
+const activeTab = ref<'file' | 'url'>('file');
+const audioUrl = ref('');
+const selectedFile = ref<File | null>(null);
 
 const urlExamples = [
-  'https://kefu.tjzimu.com/report/call/play/video/ims_109/record/LHPJR/2025/09/05/7955813670024575317.mp3',
   'https://kefu.tjzimu.com/report/call/play/video/ims_109/record/LHPJR/2025/09/02/7955809478488707802.mp3',
-]
+  'https://kefu.tjzimu.com/report/call/play/video/ims_109/record/LHPJR/2025/09/05/7955813670024575317.mp3',
+];
 
 const handleFileSelected = (file: File) => {
-  selectedFile.value = file
-}
+  selectedFile.value = file;
+};
 
 const handleFileRemoved = () => {
-  selectedFile.value = null
-}
+  selectedFile.value = null;
+};
 
 const handleFileSubmit = () => {
   if (selectedFile.value) {
-    emit('process-file', selectedFile.value)
+    emit('process-file', selectedFile.value);
   }
-}
+};
 
 const handleUrlSubmit = () => {
   if (audioUrl.value.trim()) {
-    emit('process-url', audioUrl.value.trim())
+    emit('process-url', audioUrl.value.trim());
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -193,7 +210,9 @@ const handleUrlSubmit = () => {
   color: #ffffff;
   margin: 0;
   letter-spacing: 4px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 .input-tabs {
@@ -412,5 +431,4 @@ const handleUrlSubmit = () => {
   border-radius: $radius-round;
   animation: spin 0.8s linear infinite;
 }
-
 </style>
