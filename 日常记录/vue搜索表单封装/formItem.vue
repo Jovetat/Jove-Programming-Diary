@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue'
-import { components, ComponentsType } from './types'
+import { defineComponent, computed, PropType } from 'vue';
+import { components, ComponentsType } from './types';
 
 export default defineComponent({
   props: {
@@ -17,22 +17,32 @@ export default defineComponent({
       default: () => ({}),
     },
     modelValue: {
-      required: true,
+      type: [
+        String,
+        Number,
+        Boolean,
+        Array,
+        Object,
+        undefined,
+      ] as PropType<any>,
+      required: false,
+      default: undefined,
     }, // 双向绑定表单数据
   },
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     const computedData = computed<any>({
       get: () => props.modelValue,
-      set: (value: string) => {
-        emit('update:modelValue', value)
+      set: (value: any) => {
+        emit('update:modelValue', value);
       },
-    })
+    });
 
     const com = computed(() => {
-      return components[props.type] || null
-    })
+      return components[props.type] || null;
+    });
 
-    return { props, com, computedData }
+    return { props, com, computedData };
   },
-})
+});
 </script>
