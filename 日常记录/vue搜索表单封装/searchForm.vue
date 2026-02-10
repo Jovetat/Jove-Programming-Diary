@@ -169,6 +169,7 @@ export default defineComponent({
     display: block;
     width: 160px;
     .btn-view {
+      gap: 10px;
       width: 100%;
       display: flex;
       justify-content: flex-end;

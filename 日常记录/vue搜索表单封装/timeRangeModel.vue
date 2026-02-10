@@ -57,11 +57,13 @@ export default defineComponent({
   props: {
     startDate: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
     endDate: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
     startProp: {
       type: String,
