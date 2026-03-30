@@ -1,0 +1,17 @@
+# 构建输出目录
+dist/
+
+# 依赖目录
+node_modules/
+
+# 静态资源
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.woff
+*.woff2
+*.ttf
+*.eot

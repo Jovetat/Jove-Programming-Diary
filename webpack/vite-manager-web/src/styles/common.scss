@@ -1,0 +1,44 @@
+// 全局通用样式类
+
+// 操作链接样式
+.action-link {
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 12px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &.detail {
+    color: #1890ff;
+
+    &:hover {
+      color: #40a9ff;
+    }
+  }
+
+  &.edit {
+    color: #52c41a;
+
+    &:hover {
+      color: #73d13d;
+    }
+  }
+
+  &.copy {
+    color: #fa8c16;
+
+    &:hover {
+      color: #ffa940;
+    }
+  }
+
+  &.delete {
+    color: #ff4d4f;
+
+    &:hover {
+      color: #ff7875;
+    }
+  }
+}
