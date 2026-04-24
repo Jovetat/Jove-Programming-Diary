@@ -1,0 +1,9 @@
+# 主配置文件 - 通用配置
+spring:
+  application:
+    name: springBootDemo
+  # 默认激活的环境配置，可通过启动参数覆盖：--spring.profiles.active=dev
+  profiles:
+    active: dev
+    # 支持多环境配置，用逗号分隔
+    # active: dev,test
