@@ -3,3 +3,11 @@ server:
   port: 8080
   servlet:
     context-path: /api
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springBootDemoDB?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 36741673
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
