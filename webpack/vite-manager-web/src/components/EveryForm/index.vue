@@ -116,11 +116,22 @@ export default defineComponent({
         })
         .catch((error: any) => {
           console.log('form validate error', error);
+          // 如果 errorFields 为空数组,说明实际上验证通过了,只是 outOfDate 问题
+          if (error.errorFields && error.errorFields.length === 0) {
+            const data = {
+              ...formData.value,
+            };
+            return { success: true, data };
+          }
           return { success: false, data: null };
         });
     };
 
-    return { props, formData, formRef, timeRangeData, submit };
+    const clearValidate = () => {
+      formRef.value?.clearValidate();
+    };
+
+    return { props, formData, formRef, timeRangeData, submit, clearValidate };
   },
 });
 </script>
@@ -130,7 +141,6 @@ export default defineComponent({
   display: flex;
   width: 100%;
   background-color: white;
-  padding: 15px 15px 0 15px;
   box-sizing: border-box;
   .item {
     display: block;
